@@ -4,6 +4,18 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 
+<%
+    String username = null;
+    if (session != null) {
+        username = (String) session.getAttribute("username");
+    }
+    
+    if (username != null) {
+        response.sendRedirect(request.getContextPath() + "/userhomepage");
+        return;
+    }
+%>
+
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
@@ -20,14 +32,14 @@
             <div class="text">
                Login Form
             </div>
-            <form action="#">
+            <form id="loginForm">
                <div class="data">
-                  <label>Email or Phone</label>
-                  <input type="text" required>
+                  <label>Username</label>
+                  <input id="username" type="text" name="username" required>
                </div>
                <div class="data">
                   <label>Password</label>
-                  <input type="password" required>
+                  <input id="password" type="password" name="passowrd" required>
                </div>
                <div class="forgot-pass">
                   <a href="#">Forgot Password?</a>
@@ -42,5 +54,7 @@
             </form>
          </div>
       </div>
+      
+      <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>
