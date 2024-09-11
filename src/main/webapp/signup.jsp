@@ -4,18 +4,6 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 
-<%
-    String username = null;
-    if (session != null) {
-        username = (String) session.getAttribute("username");
-    }
-    
-    if (username != null) {
-        response.sendRedirect(request.getContextPath() + "/userhomepage");
-        return;
-    }
-%>
-
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
@@ -26,46 +14,46 @@
    <body>
       <div class="center">
          <input type="checkbox" id="show">
-         <label for="show" class="show-btn">Login now!</label>
+         <label for="show" class="show-btn">Signup</label>
          <div class="container">
             <label for="show" class="close-btn fas fa-times" title="close"></label>
             <div class="text">
                Login Form
             </div>
-            <form id="loginForm">
+            <form action="#" id="form">
                <div class="form-group">
-                  <label>Username</label>
-                  <input id="username" type="text" name="username" rules="required" class="form-control">
-              	  <span class="form-message"></span>
+                  <label>Email</label>
+                  <input type="text" name="email" rules="required|email" class="form-control">
+                  <span class="form-message"></span>
                </div>
                <div class="form-group">
                   <label>Password</label>
-                  <input id="password" type="password" name="passowrd" rules="required|min:6" class="form-control">
-              	  <span class="form-message"></span>
+                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <span class="form-message"></span>
                </div>
-               <div class="forgot-pass">
-                  <a href="#">Forgot Password?</a>
+               <div class="form-group">
+                  <label>Verify password</label>
+                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <span class="form-message"></span>
                </div>
                <div class="btn">
                   <div class="inner"></div>
-                  <button type="submit">login</button>
+                  <button type="submit">signup</button>
                </div>
                <div class="signup-link">
-                  Not a member? <a href="<c:url value='/signup.jsp'/>">Signup now</a>
+                  <a href="<c:url value='/login.jsp'/>">Back to login</a>
                </div>
             </form>
          </div>
       </div>
-      <!-- Link to the validator.js file -->
+       <!-- Link to the validator.js file -->
       <script src="<c:url value='/assets/js/validator.js'/>"></script>
 
       <!-- Initialize the Validator -->
       <script>
          document.addEventListener("DOMContentLoaded", function() {
-            Validator('#loginForm');
+            Validator('#form');
          });
       </script>
-      
-      <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>

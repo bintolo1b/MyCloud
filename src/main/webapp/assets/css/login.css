@@ -1,46 +1,61 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
+
+* {
   margin: 0;
   padding: 0;
   outline: none;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-body{
+
+html {
+  color: #333;
+  font-size: 62.5%;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
   height: 100vh;
   width: 100%;
   background: linear-gradient(115deg, #56d8e4 10%, #9f01ea 90%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.show-btn{
+
+.show-btn {
   background: #fff;
-  padding: 10px 20px;
-  font-size: 20px;
+  padding: 1rem 2rem;
+  font-size: 2rem;
   font-weight: 500;
   color: #3498db;
   cursor: pointer;
-  border-radius: 2px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
 }
-.show-btn, .container{
+
+.show-btn, .container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
   display: none;
 }
-.container{
+
+.container {
   display: none;
   background: #fff;
-  width: 410px;
-  padding: 30px;
-  border-radius: 2px;
+  width: 41rem;
+  padding: 3rem;
+  border-radius: 0.5rem;
   animation: fadeIn linear 0.5s;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
 }
-#show:checked ~ .container{
+
+#show:checked ~ .container {
   display: block;
 }
 
@@ -50,59 +65,89 @@ input[type="checkbox"]{
 
 .container .close-btn{
   position: absolute;
-  right: 20px;
-  top: 15px;
-  font-size: 18px;
+  right: 2rem;
+  top: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
 }
-.container .close-btn:hover{
+
+.container .close-btn:hover {
   color: #3498db;
 }
-.container .text{
-  font-size: 35px;
+
+.container .text {
+  font-size: 3.5rem;
   font-weight: 600;
   text-align: center;
 }
-.container form{
-  margin-top: -20px;
+
+.container form {
+  margin-top: -2rem;
 }
-.container form .data{
-  height: 45px;
+
+.container form .form-group {
+  height: 4.5rem;
   width: 100%;
-  margin: 40px 0;
+  margin: 4.6rem 0;
 }
-form .data label{
-  font-size: 18px;
+
+form .form-group label {
+  font-size: 1.8rem;
 }
-form .data input{
+  
+.form-group.invalid .form-control {
+    border-color: #f33a58;
+    border-bottom-width: 0.2rem;
+  }
+  
+.form-group.invalid .form-message {
+    color: #f33a58;
+  }
+
+.form-message {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 0.4rem 0 0;
+}
+
+form .form-group input {
   height: 100%;
   width: 100%;
-  padding-left: 10px;
-  font-size: 17px;
-  border: 1px solid silver;
+  padding-left: 1rem;
+  font-size: 1.7rem;
+  border: 0.1rem solid silver;
+  border-radius: 0.5rem;
 }
-form .data input:focus{
+
+form .form-group input:focus {
   border-color: #3498db;
-  border-bottom-width: 2px;
+  border-bottom-width: 0.2rem;
 }
-form .forgot-pass{
-  margin-top: -8px;
+
+form .forgot-pass {
+  margin-top: 1rem;
 }
-form .forgot-pass a{
+
+form .forgot-pass a {
   color: #3498db;
   text-decoration: none;
+  font-size: 1.4rem;
 }
-form .forgot-pass a:hover{
+
+form .forgot-pass a:hover {
   text-decoration: underline;
 }
-form .btn{
-  margin: 30px 0;
-  height: 45px;
+
+form .btn {
+  margin: 3rem 0;
+  height: 4.5rem;
   width: 100%;
   position: relative;
   overflow: hidden;
+  border-radius: 0.5rem;
 }
-form .btn .inner{
+
+form .btn .inner {
   height: 100%;
   width: 300%;
   position: absolute;
@@ -111,29 +156,35 @@ form .btn .inner{
   background: -webkit-linear-gradient(right, #56d8e4, #9f01ea, #56d8e4, #9f01ea);
   transition: all 0.4s;
 }
-form .btn:hover .inner{
+
+form .btn:hover .inner {
   left: 0;
 }
-form .btn button{
+
+form .btn button {
   height: 100%;
   width: 100%;
   background: none;
   border: none;
   color: #fff;
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.1rem;
   cursor: pointer;
 }
-form .signup-link{
+
+form .signup-link {
   text-align: center;
 }
-form .signup-link a{
+
+form .signup-link a {
   color: #3498db;
   text-decoration: none;
+  font-size: 1.4rem;
 }
-form .signup-link a:hover{
+
+form .signup-link a:hover {
   text-decoration: underline;
 }
 
@@ -145,3 +196,4 @@ form .signup-link a:hover{
     opacity: 1;
   }
 }
+
