@@ -60,11 +60,11 @@
       <script src="<c:url value='/assets/js/validator.js'/>"></script>
 
       <!-- Initialize the Validator -->
-      <script>
+      <!-- <script>
          document.addEventListener("DOMContentLoaded", function() {
             Validator('#loginForm');
          });
-      </script>
+      </script> -->
       
       <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
