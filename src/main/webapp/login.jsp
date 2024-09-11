@@ -22,8 +22,11 @@
       <title>Popup Login Form Design | CodingNepal</title>
       <link href="<c:url value='/assets/css/login.css'/>" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    </head>
    <body>
+   <div id="toast">
+    </div>
       <div class="center">
          <input type="checkbox" id="show">
          <label for="show" class="show-btn">Login now!</label>
@@ -56,16 +59,7 @@
             </form>
          </div>
       </div>
-      <!-- Link to the validator.js file -->
-      <script src="<c:url value='/assets/js/validator.js'/>"></script>
-
-      <!-- Initialize the Validator -->
-      <!-- <script>
-         document.addEventListener("DOMContentLoaded", function() {
-            Validator('#loginForm');
-         });
-      </script> -->
-      
+    
       <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>

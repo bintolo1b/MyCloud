@@ -10,7 +10,7 @@ public class ConnectDatabase {
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
-			String url = "jdbc:mysql://localhost:3306/mycloud";
+			String url = "jdbc:mysql://localhost:3306/mycloud?autoReconnect=true&useSSL=false";
 			String username = "root";
 			String password = "Trantai25022004";
 			c = DriverManager.getConnection(url, username, password);
