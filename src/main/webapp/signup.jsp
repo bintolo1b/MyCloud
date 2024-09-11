@@ -14,7 +14,7 @@
    <body>
       <div class="center">
          <input type="checkbox" id="show">
-         <label for="show" class="show-btn">Login now!</label>
+         <label for="show" class="show-btn">Signup</label>
          <div class="container">
             <label for="show" class="close-btn fas fa-times" title="close"></label>
             <div class="text">
@@ -24,27 +24,29 @@
                <div class="form-group">
                   <label>Email</label>
                   <input type="text" name="email" rules="required|email" class="form-control">
-              	  <span class="form-message"></span>
+                  <span class="form-message"></span>
                </div>
                <div class="form-group">
                   <label>Password</label>
-                  <input input type="password" name="password" rules="required|min:6" class="form-control">
-              	  <span class="form-message"></span>
+                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <span class="form-message"></span>
                </div>
-               <div class="forgot-pass">
-                  <a href="#">Forgot Password?</a>
+               <div class="form-group">
+                  <label>Verify password</label>
+                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <span class="form-message"></span>
                </div>
                <div class="btn">
                   <div class="inner"></div>
-                  <button type="submit">login</button>
+                  <button type="submit">signup</button>
                </div>
                <div class="signup-link">
-                  Not a member? <a href="<c:url value='/signup.jsp'/>">Signup now</a>
+                  <a href="<c:url value='/login.jsp'/>">Back to login</a>
                </div>
             </form>
          </div>
       </div>
-      <!-- Link to the validator.js file -->
+       <!-- Link to the validator.js file -->
       <script src="<c:url value='/assets/js/validator.js'/>"></script>
 
       <!-- Initialize the Validator -->
