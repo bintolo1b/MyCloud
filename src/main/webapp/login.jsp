@@ -33,13 +33,15 @@
                Login Form
             </div>
             <form id="loginForm">
-               <div class="data">
+               <div class="form-group">
                   <label>Username</label>
-                  <input id="username" type="text" name="username" required>
+                  <input id="username" type="text" name="username" rules="required" class="form-control">
+              	  <span class="form-message"></span>
                </div>
-               <div class="data">
+               <div class="form-group">
                   <label>Password</label>
-                  <input id="password" type="password" name="passowrd" required>
+                  <input id="password" type="password" name="passowrd" rules="required|min:6" class="form-control">
+              	  <span class="form-message"></span>
                </div>
                <div class="forgot-pass">
                   <a href="#">Forgot Password?</a>
@@ -49,11 +51,20 @@
                   <button type="submit">login</button>
                </div>
                <div class="signup-link">
-                  Not a member? <a href="#">Signup now</a>
+                  Not a member? <a href="<c:url value='/signup.jsp'/>">Signup now</a>
                </div>
             </form>
          </div>
       </div>
+      <!-- Link to the validator.js file -->
+      <script src="<c:url value='/assets/js/validator.js'/>"></script>
+
+      <!-- Initialize the Validator -->
+      <script>
+         document.addEventListener("DOMContentLoaded", function() {
+            Validator('#loginForm');
+         });
+      </script>
       
       <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
