@@ -34,7 +34,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		})
 		.catch(function(error){
 			console.log(error);
-			showErrorToast("An error occurred. Please try again later.");
 		})
 });
 
