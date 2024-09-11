@@ -51,6 +51,7 @@ input[type="checkbox"] {
   width: 41rem;
   padding: 3rem;
   border-radius: 0.5rem;
+  animation: fadeIn linear 0.5s;
   box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.1);
 }
 
@@ -58,7 +59,11 @@ input[type="checkbox"] {
   display: block;
 }
 
-.container .close-btn {
+#show:checked ~ .show-btn{
+  display: none;
+}
+
+.container .close-btn{
   position: absolute;
   right: 2rem;
   top: 1.5rem;
@@ -182,3 +187,13 @@ form .signup-link a {
 form .signup-link a:hover {
   text-decoration: underline;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+

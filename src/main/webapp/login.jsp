@@ -4,6 +4,18 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 
+<%
+    String username = null;
+    if (session != null) {
+        username = (String) session.getAttribute("username");
+    }
+    
+    if (username != null) {
+        response.sendRedirect(request.getContextPath() + "/userhomepage");
+        return;
+    }
+%>
+
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
@@ -20,15 +32,15 @@
             <div class="text">
                Login Form
             </div>
-            <form action="#" id="form">
+            <form id="loginForm">
                <div class="form-group">
-                  <label>Email</label>
-                  <input type="text" name="email" rules="required|email" class="form-control">
+                  <label>Username</label>
+                  <input id="username" type="text" name="username" rules="required" class="form-control">
               	  <span class="form-message"></span>
                </div>
                <div class="form-group">
                   <label>Password</label>
-                  <input input type="password" name="password" rules="required|min:6" class="form-control">
+                  <input id="password" type="password" name="passowrd" rules="required|min:6" class="form-control">
               	  <span class="form-message"></span>
                </div>
                <div class="forgot-pass">
@@ -50,8 +62,10 @@
       <!-- Initialize the Validator -->
       <script>
          document.addEventListener("DOMContentLoaded", function() {
-            Validator('#form');
+            Validator('#loginForm');
          });
       </script>
+      
+      <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>
