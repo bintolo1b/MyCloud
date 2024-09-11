@@ -15,11 +15,14 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		body: JSON.stringify(formData)
 		})
 		.then(function(response){
-			return response.json();
+			if (!response.ok) {
+           	 	throw new Error('Network response was not ok');
+       		}
+			else
+				return response.json();
 		})
 		.then(function(returnObject){
 			if (returnObject.message === 'Login successfully'){
-				const usernameEncoded = encodeURIComponent(username);
 				window.location.href = `http://localhost:8080/PBL4/userhomepage`;
 			}
 			else{
