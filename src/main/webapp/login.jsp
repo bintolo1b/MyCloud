@@ -22,8 +22,11 @@
       <title>Popup Login Form Design | CodingNepal</title>
       <link href="<c:url value='/assets/css/login.css'/>" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    </head>
    <body>
+   <div id="toast">
+    </div>
       <div class="center">
          <input type="checkbox" id="show">
          <label for="show" class="show-btn">Login now!</label>
@@ -33,13 +36,15 @@
                Login Form
             </div>
             <form id="loginForm">
-               <div class="data">
+               <div class="form-group">
                   <label>Username</label>
-                  <input id="username" type="text" name="username" required>
+                  <input id="username" type="text" name="username" rules="required" class="form-control">
+              	  <span class="form-message"></span>
                </div>
-               <div class="data">
+               <div class="form-group">
                   <label>Password</label>
-                  <input id="password" type="password" name="passowrd" required>
+                  <input id="password" type="password" name="passowrd" rules="required|min:6" class="form-control">
+              	  <span class="form-message"></span>
                </div>
                <div class="forgot-pass">
                   <a href="#">Forgot Password?</a>
@@ -49,12 +54,12 @@
                   <button type="submit">login</button>
                </div>
                <div class="signup-link">
-                  Not a member? <a href="#">Signup now</a>
+                  Not a member? <a href="<c:url value='/logup'/>">Signup now</a>
                </div>
             </form>
          </div>
       </div>
-      
+    
       <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>
