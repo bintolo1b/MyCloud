@@ -1,55 +1,32 @@
-document.getElementById('loginForm').addEventListener('submit', function(event){
-	event.preventDefault();
-	
-	var formData = {
-		username: document.getElementById('username').value,
-		password: document.getElementById('password').value
-	}
-	
-	fetch('http://localhost:8080/PBL4/login',{
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(formData)
-		})
-		.then(function(response){
-			return response.json();
-		})
-		.then(function(returnObject){
-			console.log(returnObject.message);
-			if (returnObject.message === 'Login successfully'){
-				const usernameEncoded = encodeURIComponent(formData.username);
-				window.location.href = `http://localhost:8080/PBL4/userhomepage`;
-			}
-			else{
-				document.getElementById('password').value = '';
-      			showErrorToast(returnObject.message);
-			}
-			
-		})
-		.catch(function(error){
-			console.log(error);
-			showErrorToast("An error occurred. Please try again later.");
-		})
-});
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <title>Toast Notification</title>
+</head>
+<body>
+    <div id="toast">
+    </div>
 
- function showErrorToast(message){
-            toast({
-               title: 'Error',
-               message: message,
-               type: 'error',
-               duration: 3000
-            });
-         }
+    <div>
+        <div onclick="showSuccessToast();" class="btn btn--success">Show success toast</div>
+        <div onclick="showErrorToast();" class="btn btn--error">Show error toast</div>
+    </div>
 
-         function toast({title = '',message = '',type = 'info',duration = 3000}) {
+    <script>
+        function toast({title = '',message = '',type = 'infor',duration = 3000}) {
             const main = document.getElementById('toast');
             if(main) {
                 const toast = document.createElement('div');
+
                 const autoRemoveID = setTimeout(function() {
                     main.removeChild(toast);
                 }, duration + 1000);
+
                 toast.onclick = function(e) {
                     if(e.target.closest('.toast__close')){
                         main.removeChild(toast);
@@ -74,7 +51,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
                 <i class="${icon}"></i>
                 </div>
                 <div class="toast__body">
-                <h3 class="toast__title">${title}</h3>
+                 <h3 class="toast__title">${title}</h3>
                 <p class="toast__msg">${message}</p>
                 </div>
                 <div class="toast__close">
@@ -83,4 +60,24 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
                 `;
                 main.appendChild(toast);
             }
-         }
+        }
+
+        function showSuccessToast(){
+            toast({
+            title: 'Success',
+            message: 'Successful!',
+            type: 'success',
+            duration: 3000
+        });
+        }
+        function showErrorToast(){
+            toast({
+            title: 'Error',
+            message: 'Error!',
+            type: 'error',
+            duration: 3000
+        });
+        }
+    </script>
+</body>
+</html>
