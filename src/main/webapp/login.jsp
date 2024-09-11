@@ -54,7 +54,7 @@
                   <button type="submit">login</button>
                </div>
                <div class="signup-link">
-                  Not a member? <a href="<c:url value='/WEB-INF/views/signup.jsp'/>">Signup now</a>
+                  Not a member? <a href="<c:url value='/logup'/>">Signup now</a>
                </div>
             </form>
          </div>

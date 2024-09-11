@@ -13,12 +13,12 @@
    </head>
    <body>
       <div class="center">
-         <input type="checkbox" id="show">
-         <label for="show" class="show-btn">Signup</label>
+         <input type="checkbox" id="show" style="display: none;">
+		 <label for="show" class="show-btn">Show</label>
          <div class="container">
             <label for="show" class="close-btn fas fa-times" title="close"></label>
             <div class="text">
-               Login Form
+               Signup Form
             </div>
             <form action="#" id="form">
                <div class="form-group">
@@ -54,6 +54,16 @@
          document.addEventListener("DOMContentLoaded", function() {
             Validator('#form');
          });
+         
+         var checkbox = document.getElementById('show');
+         
+         checkbox.checked = true;
+
+         if (checkbox.checked) {
+           document.querySelector('.container').style.display = 'block';
+           document.querySelector('.show-btn').style.display = 'none';
+           console.log(checkbox);
+         }
       </script>
    </body>
 </html>
