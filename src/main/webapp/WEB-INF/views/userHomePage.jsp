@@ -87,11 +87,14 @@
 		<div class="container-fluid">
 			<div class = "folder-container">
 				<p class="subheader">Folders</p>
-				<c:forEach items="${folders}" var="folder">
-					<div class="card-panel folder">
+				<c:forEach items="${subFolders}" var="folder">
+					<c:url value="/userhomepage" var="userhomepageurl">
+							<c:param name="folderPath" value="${folder.path}"></c:param>
+					</c:url>
+					<a href="${userhomepageurl}" class="card-panel folder">
 						<i class="material-icons left">folder</i>
-						${folder}
-					</div>
+						${folder.name}	
+					</a>
 				</c:forEach>
 			</div>
 			
@@ -100,7 +103,7 @@
 				<c:forEach items="${files}" var="file">
 					<div class="card-panel file">
 						<i class="material-icons left">description</i>
-						${file}
+						${file.name}
 					</div>
 				</c:forEach>
 

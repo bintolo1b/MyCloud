@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,6 +10,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.bean.File;
+import model.bean.Folder;
+import model.bo.FileBO;
+import model.bo.FolderBO;
+
 
 @WebServlet(urlPatterns = "/userhomepage")
 public class UserHomePageController extends HttpServlet {
@@ -22,19 +26,26 @@ public class UserHomePageController extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		if (session != null && session.getAttribute("username") != null) {
 			String username = session.getAttribute("username").toString();
+			String folderPath = "";
 			
-			File originUserFolder = new File(SERVER_PATH + File.separator + username);
-			File[] fileList = originUserFolder.listFiles();
-			ArrayList<String> folders = new ArrayList<String>();
-			ArrayList<String> files = new ArrayList<String>();
-			for (File file:fileList) {
-				if (file.isDirectory())
-					folders.add(file.getName());
-				else if (file.isFile())
-					files.add(file.getName());
+			if (req.getParameter("folderPath")!=null)
+				folderPath = req.getParameter("folderPath");
+			else 
+				folderPath = SERVER_PATH+"\\"+username;
+			
+			ArrayList<Folder> subFolders = new ArrayList<Folder>();
+			ArrayList<File> files = new ArrayList<File>();
+			
+			Folder currentFolder = FolderBO.getInstance().getFolderByPath(folderPath);
+			if (FolderBO.getInstance().doesFolderBelongToUser(currentFolder, username)) {
+				subFolders = FolderBO.getInstance().getAllSubfolderOfFolder(currentFolder);
+				files = FileBO.getInstance().getAllFilesOfFolder(currentFolder);
+			}
+			else {
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
 			
-			req.setAttribute("folders", folders);
+			req.setAttribute("subFolders", subFolders);
 			req.setAttribute("files", files);
 			
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePage.jsp");
