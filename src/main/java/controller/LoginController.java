@@ -30,24 +30,30 @@ public class LoginController extends HttpServlet {
 			sb.append(line);
 		}
 		
-		JSONObject jsonRequest = new JSONObject(sb.toString());
-		String username = jsonRequest.getString("username");
-		String password = jsonRequest.getString("password");
 		PrintWriter pw = resp.getWriter();
 		
-		if (UserBO.getInstance().doesUserExits(username)) {
-			if (!UserBO.getInstance().doesPasswordCorrect(username, password))
-				pw.write("{\"message\": \"Password incorrect\"}");
+		try {
+			JSONObject jsonRequest = new JSONObject(sb.toString());
+			String username = jsonRequest.getString("username");
+			String password = jsonRequest.getString("password");
+			
+			if (UserBO.getInstance().doesUserExits(username)) {
+				if (!UserBO.getInstance().doesPasswordCorrect(username, password))
+					pw.write("{\"message\": \"Password incorrect\"}");
+				else {
+			        pw.write("{\"message\": \"Login successfully\"}");
+			        HttpSession session = req.getSession(false);
+			        session.setAttribute("username", username);
+			        session.setMaxInactiveInterval(30 * 60);
+			    }
+			}
 			else {
-		        pw.write("{\"message\": \"Login successfully\"}");
-		        HttpSession session = req.getSession(false);
-		        session.setAttribute("username", username);
-		        session.setMaxInactiveInterval(30 * 60);
-		    }
+				pw.write("{\"message\": \"Account doesn't exist\"}");
+			}
 		}
-		else {
-			resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			pw.write("{\"message\": \"Account doesn't exist\"}");
+		catch (Exception e) {
+			e.printStackTrace();
+			pw.write("{\"message\": \"Exception occur!\"}");
 		}
 		
 		pw.flush();

@@ -2,6 +2,8 @@ package model.bo;
 
 import java.util.ArrayList;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import model.bean.User;
 import model.dao.UserDAOImp;
 
@@ -32,7 +34,7 @@ public class UserBO {
 		ArrayList<User> userArrayList = UserDAOImp.getInstance().getAll();
 		for (User user:userArrayList) {
 			if (user.getUsername().equals(account)) {
-				if (user.getPassword().equals(password))
+				if (BCrypt.checkpw(password, user.getHashedPassword()))
 					return true;
 				else
 					return false;
