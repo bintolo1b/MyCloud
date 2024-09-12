@@ -20,8 +20,21 @@ public class FileDAOImp implements DAOInterface<File> {
 	}
 	@Override
 	public void Insert(File obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "insert into file(ownerUsername, folderID, name, path, size, uploadDate) value"
+				+ "(?,?,?,?,?,?)";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getOwnerUsername());
+			pst.setObject(2, obj.getFolderId());
+			pst.setObject(3, obj.getName());
+			pst.setObject(4, obj.getPath());
+			pst.setObject(5, obj.getSize());
+			pst.setObject(6, obj.getUploadDate());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void Update(File obj) {
@@ -53,4 +66,5 @@ public class FileDAOImp implements DAOInterface<File> {
 	public ArrayList<File> selectByCondition(String condition, Object... params) {
 		return null;
 	}
+	
 }

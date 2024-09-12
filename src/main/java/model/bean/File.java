@@ -3,7 +3,7 @@ package model.bean;
 import java.time.LocalDateTime;
 
 public class File {
-	private int id;
+	private Integer id;
 	private String ownerUsername;
 	private int folderId;
 	private String name;
@@ -11,7 +11,7 @@ public class File {
 	private long size;
 	private LocalDateTime uploadDate;
 	
-	public File(int id, String ownerUsername, int folderId, String name, String path, long size,
+	public File(Integer id, String ownerUsername, int folderId, String name, String path, long size,
 			LocalDateTime uploadDate) {
 		super();
 		this.id = id;
@@ -22,59 +22,46 @@ public class File {
 		this.size = size;
 		this.uploadDate = uploadDate;
 	}
-
-	public int getId() {
+	
+	public Integer getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	public String getOwnerUsername() {
 		return ownerUsername;
 	}
-
 	public void setOwnerUsername(String ownerUsername) {
 		this.ownerUsername = ownerUsername;
 	}
-
 	public int getFolderId() {
 		return folderId;
 	}
-
 	public void setFolderId(int folderId) {
 		this.folderId = folderId;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getPath() {
 		return path;
 	}
-
 	public void setPath(String path) {
 		this.path = path;
 	}
-
 	public long getSize() {
 		return size;
 	}
-
 	public void setSize(long size) {
 		this.size = size;
 	}
-
 	public LocalDateTime getUploadDate() {
 		return uploadDate;
 	}
-
 	public void setUploadDate(LocalDateTime uploadDate) {
 		this.uploadDate = uploadDate;
 	}

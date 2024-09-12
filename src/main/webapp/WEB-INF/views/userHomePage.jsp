@@ -77,11 +77,22 @@
 		<li><div class="divider"></div></li>
 		<li><a href="#"><i class="material-icons">storage</i>Upgrade
 				Storage</a></li>
+				
 		<c:url value="/logout" var="logouturl">
 		</c:url>
 		<form action="${logouturl}" method="post">
 			<button type="submit">logout</button>
 		</form>
+		
+		<c:url value="/UploadFileController" var="uploadfileurl">
+			<c:param name="folderPath" value="${folderPath}"></c:param>
+		</c:url>
+		<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
+			select file:
+			<input type="file" name="files" multiple required="required"/>
+			<input type="submit" value="Upload file"/>
+		</form>
+		
 	</ul>
 	<div class="main">
 		<div class="container-fluid">

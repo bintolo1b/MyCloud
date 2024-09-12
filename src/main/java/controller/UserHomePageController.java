@@ -24,32 +24,26 @@ public class UserHomePageController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		if (session != null && session.getAttribute("username") != null) {
-			String username = session.getAttribute("username").toString();
-			String folderPath = "";
-			
-			if (req.getParameter("folderPath")!=null)
-				folderPath = req.getParameter("folderPath");
-			else 
-				folderPath = SERVER_PATH+"\\"+username;
-			
-			ArrayList<Folder> subFolders = new ArrayList<Folder>();
-			ArrayList<File> files = new ArrayList<File>();
-			
-			Folder currentFolder = FolderBO.getInstance().getFolderByPath(folderPath);
-			if (FolderBO.getInstance().doesFolderBelongToUser(currentFolder, username)) {
-				subFolders = FolderBO.getInstance().getAllSubfolderOfFolder(currentFolder);
-				files = FileBO.getInstance().getAllFilesOfFolder(currentFolder);
-			}
-			else {
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-			}
-			
-			req.setAttribute("subFolders", subFolders);
-			req.setAttribute("files", files);
-			
-			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePage.jsp");
-			requestDispatcher.forward(req, resp);
-		}
+		String username = session.getAttribute("username").toString();
+		String folderPath = "";
+		
+		if (req.getParameter("folderPath")!=null)
+			folderPath = req.getParameter("folderPath");
+		else 
+			folderPath = SERVER_PATH+"\\"+username;
+		
+		ArrayList<Folder> subFolders = new ArrayList<Folder>();
+		ArrayList<File> files = new ArrayList<File>();
+		
+		Folder currentFolder = FolderBO.getInstance().getFolderByPath(folderPath);
+		subFolders = FolderBO.getInstance().getAllSubfolderOfFolder(currentFolder);
+		files = FileBO.getInstance().getAllFilesOfFolder(currentFolder);
+		
+		req.setAttribute("folderPath", folderPath);
+		req.setAttribute("subFolders", subFolders);
+		req.setAttribute("files", files);
+		
+		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePage.jsp");
+		requestDispatcher.forward(req, resp);
 	}
 }

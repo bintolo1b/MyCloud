@@ -12,9 +12,11 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.bean.Folder;
+import model.bo.FolderBO;
 
-@WebFilter(urlPatterns = {"/userhomepage"})
-public class AuthenticationFilter implements Filter {
+@WebFilter(urlPatterns = {"/userhomepage", "/UploadController"})
+public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -24,10 +26,24 @@ public class AuthenticationFilter implements Filter {
 		if (session == null || session.getAttribute("username") == null) {
 			RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
 			dispatcher.forward(req, resp);
+			return;
 		}
-		else {
-			chain.doFilter(request, response);
+		
+		String username = session.getAttribute("username").toString();
+		if (req.getParameter("folderPath")!=null) {
+			String folderPath = req.getParameter("folderPath"); 
+			Folder folder = FolderBO.getInstance().getFolderByPath(folderPath);
+			if (folder==null) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
+			else if (!FolderBO.getInstance().doesFolderBelongToUser(folder, username)) {
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this folder.");
+				return;
+			}
 		}
+			
+		chain.doFilter(request, response);
 	}
 
 }
