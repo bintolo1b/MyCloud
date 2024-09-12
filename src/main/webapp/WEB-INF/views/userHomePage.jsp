@@ -22,7 +22,7 @@
 		<nav class="nav-extended white">
 			<div class="nav-wrapper white">
 				<ul>
-					<li><a href="#!" class="title grey-text text-darken-1">My Cloud</a></li>
+					<li><a href='<c:url value='/userhomepage'/>' class="title grey-text text-darken-1">My Cloud</a></li>
 				</ul>
 				<div class="search-wrapper">
 					<i class="material-icons">search</i> <input type="search"
