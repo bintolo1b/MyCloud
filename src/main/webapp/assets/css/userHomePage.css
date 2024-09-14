@@ -207,18 +207,31 @@ body {
   /*folders*/
   .folder {
     position: relative;
-    min-width: 185px;
+    width: 270px;
     display: inline-block;
     margin: 15px 20px 15px 0;
     font-weight: 500;
   }
   
   .file {
-    min-width: 185px;
+    width: 270px;
     display: inline-block;
     margin: 15px 20px 15px 0;
     font-weight: 500;
   }
+
+  .folder,.file {
+    border-radius: 10px;
+  }
+
+.folder>span,
+.file>span{
+  display: block; /* Đảm bảo phần tử có kích thước */
+  width: 170px; /* Kích thước cố định */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
   
   .folder i {
     color: rgba(0, 0, 0, 0.54);
@@ -284,13 +297,21 @@ body {
     position: relative; 
 }
 
+.card-panel:hover {
+  background-color: #e6e5e5;
+}
+
+.kebab-wrapper {
+  overflow: visible;
+}
+
 .kebab-container {
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
   top: 50%;
-  right: 15px;
+  right: 8px;
   transform: translateY(-50%); /* Căn chỉnh theo trục Y */
   display: flex;
   justify-content: center;
@@ -300,7 +321,7 @@ body {
 }
 
 .kebab-menu {
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .kebab-container:hover {
@@ -313,7 +334,7 @@ body {
   min-width: 200px;
   padding: 0;
   top: calc(100% + -9px);
-  right: -536%;
+  right: -770%;
   background-color: #fff;
   box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.2);
   list-style: none;

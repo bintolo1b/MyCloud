@@ -106,36 +106,38 @@
 					</c:url>
 					<a href="${userhomepageurl}" class="card-panel folder">
 						<i class="material-icons left">folder</i>
-						${folder.name}	
-						<div class="kebab-container">
-                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
-                        <ul class="kebab-items-list">
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">download</i>
-                                    Tải xuống
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">share</i>
-                                    Chia sẻ
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">edit</i>
-                                    Đổi tên
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">delete</i>
-                                    Chuyển vào thùng rác
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+						<span>${folder.name}</span>
+						<div class="kebab-wrapper">
+                            <div class="kebab-container">
+                            <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
+                            <ul class="kebab-items-list">
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">download</i>
+                                        Tải xuống
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">share</i>
+                                        Chia sẻ
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">edit</i>
+                                        Đổi tên
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">delete</i>
+                                        Chuyển vào thùng rác
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
 					</a>
 				</c:forEach>
 			</div>
@@ -145,39 +147,40 @@
 				<c:forEach items="${files}" var="file">
 					<div class="card-panel file">
 						<i class="material-icons left">description</i>
-						${file.name}
-						<div class="kebab-container">
-                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
-                        <ul class="kebab-items-list">
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">download</i>
-                                    Tải xuống
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">share</i>
-                                    Chia sẻ
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">edit</i>
-                                    Đổi tên
-                                </a>
-                            </li>
-                            <li class="kebab-item">
-                                <a href="">
-                                    <i class="material-icons">delete</i>
-                                    Chuyển vào thùng rác
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-					</div>
+						<span>${file.name}</span>
+						<div class="kebab-wrapper">
+                            <div class="kebab-container">
+                            <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
+                            <ul class="kebab-items-list">
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">download</i>
+                                        Tải xuống
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">share</i>
+                                        Chia sẻ
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">edit</i>
+                                        Đổi tên
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">delete</i>
+                                        Chuyển vào thùng rác
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                      </div>
 				</c:forEach>
-
 			</div>
 		</div>
 	</div>
@@ -213,41 +216,49 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
-        document.querySelectorAll('.kebab-container').forEach(container => {
-            container.addEventListener('click', function() {
-            const menu = this.querySelector('.kebab-items-list');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-          });
-        });
+document.querySelectorAll('.kebab-container').forEach(container => {
+    container.addEventListener('click', function() {
+    const menu = this.querySelector('.kebab-items-list');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  });
+});
 
-        const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
-        const modal = document.querySelector('.js-modal');
-        const modalClose = document.querySelector('.js-modal-close');
-        const modalContainer = document.querySelector('.js-modal-container');
-
-        // Hiển thị modal
-        function showModal() {
-            modal.classList.add('open');
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('.kebab-items-list').forEach(menu => {
+        if (!menu.parentElement.contains(event.target)) {
+            menu.style.display = 'none';
         }
+    });
+});
 
-        // Ẩn modal
-        function hideModal() {
-            modal.classList.remove('open');
-        }
+const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
+const modal = document.querySelector('.js-modal');
+const modalClose = document.querySelector('.js-modal-close');
+const modalContainer = document.querySelector('.js-modal-container');
 
-        // Gán sự kiện mở modal
-        newBtn.addEventListener('click', showModal);
+// Hiển thị modal
+function showModal() {
+    modal.classList.add('open');
+}
 
-        // Gán sự kiện đóng modal khi click vào nút đóng
-        modalClose.addEventListener('click', hideModal);
+// Ẩn modal
+function hideModal() {
+    modal.classList.remove('open');
+}
 
-        // Gán sự kiện đóng modal khi click ra ngoài modal-container
-        modal.addEventListener('click', hideModal);
+// Gán sự kiện mở modal
+newBtn.addEventListener('click', showModal);
 
-        // Ngăn không cho sự kiện click của modal-container lan ra ngoài modal
-        modalContainer.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
+// Gán sự kiện đóng modal khi click vào nút đóng
+modalClose.addEventListener('click', hideModal);
+
+// Gán sự kiện đóng modal khi click ra ngoài modal-container
+modal.addEventListener('click', hideModal);
+
+// Ngăn không cho sự kiện click của modal-container lan ra ngoài modal
+modalContainer.addEventListener('click', function(event) {
+    event.stopPropagation();
+});
        
       </script>
 </html>
