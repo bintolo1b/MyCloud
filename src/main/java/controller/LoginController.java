@@ -42,7 +42,7 @@ public class LoginController extends HttpServlet {
 					pw.write("{\"message\": \"Password incorrect\"}");
 				else {
 			        pw.write("{\"message\": \"Login successfully\"}");
-			        HttpSession session = req.getSession(false);
+			        HttpSession session = req.getSession();
 			        session.setAttribute("username", username);
 			        session.setMaxInactiveInterval(30 * 60);
 			    }

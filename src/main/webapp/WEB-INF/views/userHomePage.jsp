@@ -12,6 +12,8 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 <link rel="stylesheet"
 	href="<c:url value='/assets/css/userHomePage.css'/>" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -34,8 +36,23 @@
 					<li><a href="#!"><i
 							class="material-icons grey-text text-darken-1">notifications</i></a>
 					</li>
-					<li><a href="#!"><img
+					<li class="account"><a href="#!"><img
 							src='<c:url value='/assets/img/user.png'/>' alt="profile pic" class="circle" /></a>
+							<ul class="listItems">
+								<li class="item">
+									<a href="#">Personal Information</a>
+								</li>
+								<li class="item">
+									<a href="#">Change Password</a>
+								</li>
+								<li class="item">
+									<c:url value="/logout" var="logouturl">
+									</c:url>
+									<form action="${logouturl}" method="post">
+										<button type="submit">Log Out</button>
+									</form>
+								</li>
+							</ul>
 					</li>
 				</ul>
 			</div>
@@ -77,21 +94,6 @@
 		<li><div class="divider"></div></li>
 		<li><a href="#"><i class="material-icons">storage</i>Upgrade
 				Storage</a></li>
-				
-		<c:url value="/logout" var="logouturl">
-		</c:url>
-		<form action="${logouturl}" method="post">
-			<button type="submit">logout</button>
-		</form>
-		
-		<c:url value="/UploadFileController" var="uploadfileurl">
-			<c:param name="folderPath" value="${folderPath}"></c:param>
-		</c:url>
-		<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
-			select file:
-			<input type="file" name="files" multiple required="required"/>
-			<input type="submit" value="Upload file"/>
-		</form>
 		
 	</ul>
 	<div class="main">
@@ -102,10 +104,41 @@
 					<c:url value="/userhomepage" var="userhomepageurl">
 							<c:param name="folderPath" value="${folder.path}"></c:param>
 					</c:url>
-					<a href="${userhomepageurl}" class="card-panel folder">
+					<div onclick="window.location.href='${userhomepageurl}'" class="card-panel folder">
 						<i class="material-icons left">folder</i>
-						${folder.name}	
-					</a>
+						<span>${folder.name}</span>
+						<div class="kebab-wrapper">
+                            <div class="kebab-container">
+                            <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
+                            <ul class="kebab-items-list">
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">download</i>
+                                        Tải xuống
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">share</i>
+                                        Chia sẻ
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">edit</i>
+                                        Đổi tên
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">delete</i>
+                                        Chuyển vào thùng rác
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+					</div>
 				</c:forEach>
 			</div>
 			
@@ -114,13 +147,125 @@
 				<c:forEach items="${files}" var="file">
 					<div class="card-panel file">
 						<i class="material-icons left">description</i>
-						${file.name}
-					</div>
+						<span>${file.name}</span>
+						<div class="kebab-wrapper">
+                            <div class="kebab-container">
+                            <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
+                            <ul class="kebab-items-list">
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">download</i>
+                                        Tải xuống
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">share</i>
+                                        Chia sẻ
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">edit</i>
+                                        Đổi tên
+                                    </a>
+                                </li>
+                                <li class="kebab-item">
+                                    <a href="">
+                                        <i class="material-icons">delete</i>
+                                        Chuyển vào thùng rác
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        </div>
+                      </div>
 				</c:forEach>
-
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal js-modal">
+        <div class="modal-container js-modal-container">
+            <div class = "modal-close js-modal-close">
+                <i class="material-icons">close</i>
+            </div>
+			<header class="modal-header"></header>
+			            <ul class="new-list">
+                <li class="new-item">
+                    <a href="">
+                        <i class="FFicon material-icons">create_new_folder</i>
+                        Create new folder
+                    </a>
+                </li>
+                <li class="new-item">
+                    <a href="">
+                        <i class="FFicon material-icons">drive_folder_upload</i>
+                        Upload folder
+                    </a>
+                </li>
+                <li class="new-item">
+                    <!-- <a href="">
+                        <i class="FFicon material-icons">upload_file</i>
+                        Upload file
+                    </a> -->
+					<c:url value="/UploadFileController" var="uploadfileurl">
+					<c:param name="folderPath" value="${folderPath}"></c:param>
+					</c:url>
+					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
+						<input type="file" name="files" multiple required="required"/>
+						<input type="submit" value="Upload file"/>
+					</form>
+                </li>
+            </ul>
+        </div>
+    </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+document.querySelectorAll('.kebab-container').forEach(container => {
+    container.addEventListener('click', function() {
+    const menu = this.querySelector('.kebab-items-list');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  });
+});
+
+document.addEventListener('click', function(event) {
+    document.querySelectorAll('.kebab-items-list').forEach(menu => {
+        if (!menu.parentElement.contains(event.target)) {
+            menu.style.display = 'none';
+        }
+    });
+});
+
+const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
+const modal = document.querySelector('.js-modal');
+const modalClose = document.querySelector('.js-modal-close');
+const modalContainer = document.querySelector('.js-modal-container');
+
+// Hiển thị modal
+function showModal() {
+    modal.classList.add('open');
+}
+
+// Ẩn modal
+function hideModal() {
+    modal.classList.remove('open');
+}
+
+// Gán sự kiện mở modal
+newBtn.addEventListener('click', showModal);
+
+// Gán sự kiện đóng modal khi click vào nút đóng
+modalClose.addEventListener('click', hideModal);
+
+// Gán sự kiện đóng modal khi click ra ngoài modal-container
+modal.addEventListener('click', hideModal);
+
+// Ngăn không cho sự kiện click của modal-container lan ra ngoài modal
+modalContainer.addEventListener('click', function(event) {
+    event.stopPropagation();
+});
+       
+      </script>
 </html>
