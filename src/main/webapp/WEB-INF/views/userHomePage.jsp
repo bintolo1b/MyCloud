@@ -104,7 +104,7 @@
 					<c:url value="/userhomepage" var="userhomepageurl">
 							<c:param name="folderPath" value="${folder.path}"></c:param>
 					</c:url>
-					<a href="${userhomepageurl}" class="card-panel folder">
+					<div onclick="${userhomepageurl}" class="card-panel folder">
 						<i class="material-icons left">folder</i>
 						<span>${folder.name}</span>
 						<div class="kebab-wrapper">
@@ -138,7 +138,7 @@
                             </ul>
                         </div>
                         </div>
-					</a>
+					</div>
 				</c:forEach>
 			</div>
 			
