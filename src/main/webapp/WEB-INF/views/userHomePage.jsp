@@ -199,18 +199,25 @@
                     </a>
                 </li>
                 <li class="new-item">
-                    <a href="">
+                    <!-- <a href="">
                         <i class="FFicon material-icons">drive_folder_upload</i>
                         Upload folder
-                    </a>
+                    </a> -->
+                    <c:url value="/uploadfoldercontroller" var="uploadfolderurl">
+						<c:param name="folderPath" value="${folderPath}"></c:param>
+					</c:url>
+					<form action="${uploadfolderurl}" method="post" enctype="multipart/form-data">
+					    <input type="file" name="files" webkitdirectory directory multiple>
+					    <input type="submit" value="Upload folder">
+					</form>
                 </li>
                 <li class="new-item">
                     <!-- <a href="">
                         <i class="FFicon material-icons">upload_file</i>
                         Upload file
                     </a> -->
-					<c:url value="/UploadFileController" var="uploadfileurl">
-					<c:param name="folderPath" value="${folderPath}"></c:param>
+					<c:url value="/uploadfilecontroller" var="uploadfileurl">
+						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
 					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
 						<input type="file" name="files" multiple required="required"/>

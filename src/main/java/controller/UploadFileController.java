@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
-@WebServlet(urlPatterns = "/UploadFileController")
+@WebServlet(urlPatterns = "/uploadfilecontroller")
 @MultipartConfig
 public class UploadFileController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -25,12 +25,12 @@ public class UploadFileController extends HttpServlet {
         String folderPath = req.getParameter("folderPath");
         if (folderPath!=null) {
         	Collection<Part> parts = req.getParts();
-        	if (!FileBO.getInstance().saveFilesOnServer(folderPath, parts)) {
+        	if (!FileBO.getInstance().saveUploadedFilesOnServer(folderPath, parts)) {
         		resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         		return;
         	}
         	else {
-        		FileBO.getInstance().saveFilesOnDatabase(folderPath, parts);
+        		FileBO.getInstance().saveUploadedFilesOnDatabase(folderPath, parts);
         		String encodedFolderPath = URLEncoder.encode(folderPath, StandardCharsets.UTF_8.toString());
         		resp.sendRedirect(req.getContextPath()+"/userhomepage?folderPath=" + encodedFolderPath);
         		return;

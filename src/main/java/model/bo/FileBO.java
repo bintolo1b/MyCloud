@@ -34,7 +34,7 @@ public class FileBO {
 		return filesOfFolder;
 	}
 	
-	public boolean saveFilesOnServer(String folderPath, Collection<Part> parts) {
+	public boolean saveUploadedFilesOnServer(String folderPath, Collection<Part> parts) {
 		boolean res = true;
 		for (Part part : parts) {
             if (part.getSubmittedFileName() != null) {
@@ -81,7 +81,7 @@ public class FileBO {
 		return res;
 	}
 	
-	public void saveFilesOnDatabase(String folderPath, Collection<Part> parts) {
+	public void saveUploadedFilesOnDatabase(String folderPath, Collection<Part> parts) {
 		Folder folder = FolderBO.getInstance().getFolderByPath(folderPath);
 		String ownerUsername = folder.getOwnerUsername();
 		int folderId = folder.getId();

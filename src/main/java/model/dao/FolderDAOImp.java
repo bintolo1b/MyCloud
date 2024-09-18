@@ -20,8 +20,19 @@ public class FolderDAOImp implements DAOInterface<Folder> {
 	}
 	@Override
 	public void Insert(Folder obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "insert into folder(ownerUsername, parentFolderId, name, path) value"
+				+ "(?,?,?,?)";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getOwnerUsername());
+			pst.setObject(2, obj.getParentFolderId());
+			pst.setObject(3, obj.getName());
+			pst.setObject(4, obj.getPath());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

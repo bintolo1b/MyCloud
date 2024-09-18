@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.Folder;
 import model.bo.FolderBO;
 
-@WebFilter(urlPatterns = {"/userhomepage", "/UploadController"})
+@WebFilter(urlPatterns = {"/userhomepage", "/uploadfilecontroller", "/uploadfoldercontroller"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -31,7 +31,7 @@ public class AuthorAndAuthenFilter implements Filter {
 		
 		String username = session.getAttribute("username").toString();
 		if (req.getParameter("folderPath")!=null) {
-			String folderPath = req.getParameter("folderPath"); 
+			String folderPath = req.getParameter("folderPath");
 			Folder folder = FolderBO.getInstance().getFolderByPath(folderPath);
 			if (folder==null) {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -42,7 +42,7 @@ public class AuthorAndAuthenFilter implements Filter {
 				return;
 			}
 		}
-			
+		
 		chain.doFilter(request, response);
 	}
 
