@@ -38,12 +38,12 @@
             <form id="loginForm">
                <div class="form-group">
                   <label>Username</label>
-                  <input id="username" type="text" name="username" rules="required" class="form-control">
+                  <input id="username" type="text" name="username" required class="form-control">
               	  <span class="form-message"></span>
                </div>
                <div class="form-group">
                   <label>Password</label>
-                  <input id="password" type="password" name="passowrd" rules="required|min:6" class="form-control">
+                  <input id="password" type="password" name="passowrd" required class="form-control">
               	  <span class="form-message"></span>
                </div>
                <div class="forgot-pass">
@@ -61,5 +61,7 @@
       </div>
     
       <script src="<c:url value='/assets/js/login.js'/>"></script>
+      
+      </script>
    </body>
 </html>
