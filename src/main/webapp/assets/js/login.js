@@ -27,7 +27,12 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 				window.location.href = `http://localhost:8080/PBL4/userhomepage`;
 			}
 			else{
-				document.getElementById('password').value = '';
+				if(returnObject.message === "Account doesn't exist") {
+					document.getElementById('username').value = '';
+					document.getElementById('password').value = '';
+				} else if(returnObject.message === "Password incorrect") {
+					document.getElementById('password').value = '';
+				}
       			showErrorToast(returnObject.message);
 			}
 			
