@@ -73,67 +73,92 @@ public class FolderBO {
 		
 		String uploadFolderName = null;
 		ArrayList<String[]> filePathsComponents = new ArrayList<String[]>();
+		java.io.File uploadFolder = null;
 		
-		for (int i = 0 ;  i < parts.size() ; i++) {
-			String fileName = parts.get(i).getSubmittedFileName();
-        	uploadFolderName = fileName.substring(0, fileName.indexOf('/'));
-        	fileName = fileName.substring(fileName.indexOf('/')+1);
-        	filePathsComponents.add(fileName.split("/")); 
+		try {
+			for (int i = 0 ;  i < parts.size() ; i++) {
+				String fileName = parts.get(i).getSubmittedFileName();
+	        	uploadFolderName = fileName.substring(0, fileName.indexOf('/'));
+	        	fileName = fileName.substring(fileName.indexOf('/')+1);
+	        	filePathsComponents.add(fileName.split("/")); 
+			}
+			
+			if (uploadFolderName != null) {
+				uploadFolder = new java.io.File(currentFolderPath + java.io.File.separator + uploadFolderName);
+	            
+	            int count = 1;
+	            String originalFolderName = uploadFolderName;
+	            while (uploadFolder.exists()) {
+	            	uploadFolderName = originalFolderName + "(" + count + ")";
+	            	uploadFolder = new java.io.File(currentFolderPath + java.io.File.separator + uploadFolderName);
+	                count++;
+	            }
+	            uploadFolder.mkdir();
+	            
+	            for (int k = 0 ; k < filePathsComponents.size(); k++) {
+	            	String[] filePathComponent = filePathsComponents.get(k);
+	            	String currentSubfolderPath = uploadFolder.getPath();
+	            	for (int i = 0 ; i < filePathComponent.length - 1; i++) {
+	            		File subFolder = new File(currentSubfolderPath + File.separator + filePathComponent[i]);
+	            		if (!subFolder.exists())
+	            			subFolder.mkdir();
+	            		currentSubfolderPath = currentSubfolderPath + File.separator + filePathComponent[i];
+	            	}
+	            	
+	            	String uploadedFileNameOfCurrentSubFolder = filePathComponent[filePathComponent.length - 1];
+	            	File uploadedFileOfCurrentSubFolder = new File(currentSubfolderPath + File.separator + uploadedFileNameOfCurrentSubFolder);
+	            	InputStream input = null;
+	                OutputStream output = null;
+	                try {
+	                	input = parts.get(k).getInputStream();
+		                output = new FileOutputStream(uploadedFileOfCurrentSubFolder);
+		                byte[] buffer = new byte[1024];
+		                int bytesRead;
+		                
+		                while ((bytesRead = input.read(buffer)) != -1) {
+		                    output.write(buffer, 0, bytesRead);
+		                }
+		                
+		                input.close();
+		                output.close();
+	                }
+	                catch (IOException ex) {
+						ex.printStackTrace();
+						throw new IOException("Error occurred while saving files.");
+					}
+	                
+	                
+	            }
+			}
 		}
-		
-		if (uploadFolderName != null) {
-			java.io.File uploadFolder = new java.io.File(currentFolderPath + java.io.File.separator + uploadFolderName);
-            
-            int count = 1;
-            String originalFolderName = uploadFolderName;
-            while (uploadFolder.exists()) {
-            	uploadFolderName = originalFolderName + "(" + count + ")";
-            	uploadFolder = new java.io.File(currentFolderPath + java.io.File.separator + uploadFolderName);
-                count++;
-            }
-            uploadFolder.mkdir();
-            
-            for (int k = 0 ; k < filePathsComponents.size(); k++) {
-            	String[] filePathComponent = filePathsComponents.get(k);
-            	String currentSubfolderPath = uploadFolder.getPath();
-            	for (int i = 0 ; i < filePathComponent.length - 1; i++) {
-            		File subFolder = new File(currentSubfolderPath + File.separator + filePathComponent[i]);
-            		if (!subFolder.exists());
-            			subFolder.mkdir();
-            		currentSubfolderPath = currentSubfolderPath + File.separator + filePathComponent[i];
-            	}
-            	
-            	String uploadedFileNameOfCurrentSubFolder = filePathComponent[filePathComponent.length - 1];
-            	File uploadedFileOfCurrentSubFolder = new File(currentSubfolderPath + File.separator + uploadedFileNameOfCurrentSubFolder);
-            	InputStream input = null;
-                OutputStream output = null;
-               
-                try {
-                    input = parts.get(k).getInputStream();
-                    output = new FileOutputStream(uploadedFileOfCurrentSubFolder);
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = input.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                    
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    if (uploadedFileOfCurrentSubFolder.exists()) {
-                    	uploadedFileOfCurrentSubFolder.delete(); // Xóa file nếu có lỗi
-                    }
-                } finally {
-                    try {
-                        if (input != null) input.close();
-                        if (output != null) output.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+		catch (Exception e) {
+			uploadFolderName = null;
+			deleteFolderOnServer(uploadFolder);
+			e.printStackTrace();
 		}
 		return uploadFolderName;
 	}
+	
+	private void deleteFolderOnServer(File folder) {
+		try {
+			if (folder.isDirectory()) {
+	            File[] files = folder.listFiles();
+	            if (files != null) {
+	                for (File file : files) {
+	                    if (file.isDirectory()) {
+	                        deleteFolderOnServer(file);
+	                    } else {
+	                        file.delete();
+	                    }
+	                }
+	            }
+	        }
+	        folder.delete();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}	
+    }
 	
 	public void saveUploadedFolderOnDatabase(String currentFolderPath, String uploadedFolderName) {
 		Folder currentFolder = FolderBO.getInstance().getFolderByPath(currentFolderPath);
