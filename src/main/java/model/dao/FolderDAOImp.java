@@ -43,8 +43,15 @@ public class FolderDAOImp implements DAOInterface<Folder> {
 
 	@Override
 	public void Delete(Folder obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "delete from folder where id = ?";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getId());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

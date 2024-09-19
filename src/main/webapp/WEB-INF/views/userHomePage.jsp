@@ -130,10 +130,17 @@
                                     </a>
                                 </li>
                                 <li class="kebab-item">
-                                    <a href="">
+                                    <!-- <a href="">
                                         <i class="material-icons">delete</i>
                                         Chuyển vào thùng rác
-                                    </a>
+                                    </a> -->
+                                    <c:url value="/deletefoldercontroller" var="deletefolderurl">
+										<c:param name="folderPath" value="${folderPath}"></c:param>
+										<c:param name="deletedFolderName" value="${folder.name}"></c:param>
+									</c:url>
+									<form action="${deletefolderurl}" method="post">
+									    <input type="submit" value="Chuyen vao thung rac">
+									</form>
                                 </li>
                             </ul>
                         </div>

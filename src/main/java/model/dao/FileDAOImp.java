@@ -43,8 +43,15 @@ public class FileDAOImp implements DAOInterface<File> {
 	}
 	@Override
 	public void Delete(File obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "delete from file where id = ?";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getId());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public ArrayList<File> getAll() {

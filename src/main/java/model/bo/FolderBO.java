@@ -68,6 +68,16 @@ public class FolderBO {
 		return subFolerArrayList;
 	}
 	
+	public ArrayList<model.bean.File> getAllFilesOfFolder(Folder folder){
+		ArrayList<model.bean.File> fileArrayList = FileDAOImp.getInstance().getAll();
+		ArrayList<model.bean.File> filesOfFolder = new ArrayList<model.bean.File>();
+		for (model.bean.File file:fileArrayList)
+			if (file.getFolderId()==folder.getId()) {
+				filesOfFolder.add(file);
+			}
+		return filesOfFolder;
+	}
+	
 	public String saveUploadedFolderOnServer(String currentFolderPath, Collection<Part> colectionParts) {
 		ArrayList<Part> parts = new ArrayList<Part>(colectionParts);
 		
@@ -133,31 +143,32 @@ public class FolderBO {
 		}
 		catch (Exception e) {
 			uploadFolderName = null;
-			deleteFolderOnServer(uploadFolder);
+			
+			try {
+				deleteFolderOnServer(uploadFolder);
+			} catch (IOException e1) { //luc nay xay ra su bat dong bo giua database va server
+				e1.printStackTrace(); 
+			}
+			
 			e.printStackTrace();
 		}
 		return uploadFolderName;
 	}
 	
-	private void deleteFolderOnServer(File folder) {
-		try {
-			if (folder.isDirectory()) {
-	            File[] files = folder.listFiles();
-	            if (files != null) {
-	                for (File file : files) {
-	                    if (file.isDirectory()) {
-	                        deleteFolderOnServer(file);
-	                    } else {
-	                        file.delete();
-	                    }
-	                }
-	            }
-	        }
-	        folder.delete();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}	
+	public void deleteFolderOnServer(File folder) throws IOException {
+		if (folder.isDirectory()) {
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteFolderOnServer(file);
+                    } else {
+                        file.delete();
+                    }
+                }
+            }
+        }
+        folder.delete();
     }
 	
 	public void saveUploadedFolderOnDatabase(String currentFolderPath, String uploadedFolderName) {
@@ -182,6 +193,20 @@ public class FolderBO {
 			}	
 		}
 	}
+
+	public void deleteFolderOnDatabase(Folder deletedFolder) {
+		ArrayList<Folder> subFolders = getAllSubfolderOfFolder(deletedFolder);
+		for (Folder folder: subFolders)
+			deleteFolderOnDatabase(folder);
+		
+		ArrayList<model.bean.File> filesOfFolder = getAllFilesOfFolder(deletedFolder);
+		for (model.bean.File file:filesOfFolder) {
+			FileDAOImp.getInstance().Delete(file);
+		}
+		
+		FolderDAOImp.getInstance().Delete(deletedFolder);
+	}
+	
 	
 	
 }
