@@ -13,6 +13,7 @@
 <link rel="stylesheet"
 	href="<c:url value='/assets/css/userHomePage.css'/>" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
 <title>Insert title here</title>
 </head>
@@ -134,12 +135,13 @@
                                         <i class="material-icons">delete</i>
                                         Chuyển vào thùng rác
                                     </a> -->
+                                    <i class="material-icons" style="margin-left:15px">delete</i>
                                     <c:url value="/deletefoldercontroller" var="deletefolderurl">
 										<c:param name="folderPath" value="${folderPath}"></c:param>
 										<c:param name="deletedFolderName" value="${folder.name}"></c:param>
 									</c:url>
 									<form action="${deletefolderurl}" method="post">
-									    <input type="submit" value="Chuyen vao thung rac">
+									    <input type="submit" value="Chuyển vào thùng rác">
 									</form>
                                 </li>
                             </ul>
@@ -198,7 +200,7 @@
                 <i class="material-icons">close</i>
             </div>
 			<header class="modal-header"></header>
-			            <ul class="new-list">
+			  <ul class="new-list">
                 <li class="new-item">
                     <a href="">
                         <i class="FFicon material-icons">create_new_folder</i>
@@ -206,29 +208,27 @@
                     </a>
                 </li>
                 <li class="new-item">
-                    <!-- <a href="">
+                     <a href="">
                         <i class="FFicon material-icons">drive_folder_upload</i>
                         Upload folder
-                    </a> -->
+                    </a>
                     <c:url value="/uploadfoldercontroller" var="uploadfolderurl">
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
 					<form action="${uploadfolderurl}" method="post" enctype="multipart/form-data">
 					    <input type="file" name="files" webkitdirectory directory multiple>
-					    <input type="submit" value="Upload folder">
 					</form>
                 </li>
                 <li class="new-item">
-                    <!-- <a href="">
+                    <a href="">
                         <i class="FFicon material-icons">upload_file</i>
                         Upload file
-                    </a> -->
+                    </a> 
 					<c:url value="/uploadfilecontroller" var="uploadfileurl">
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
 					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
 						<input type="file" name="files" multiple required="required"/>
-						<input type="submit" value="Upload file"/>
 					</form>
                 </li>
             </ul>
@@ -290,6 +290,38 @@
         // Ngăn không cho sự kiện click của modal-container lan ra ngoài modal
         modalContainer.addEventListener('click', function(event) {
             event.stopPropagation();
+        });
+        
+        
+        document.querySelectorAll('.new-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const inputFile = this.querySelector('input[type="file"]');
+
+                // Ngăn sự kiện mặc định cho các thẻ con (nếu có) như <a>
+                if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
+                    e.preventDefault(); 
+                }
+
+                // Nếu có input file, kích hoạt nó
+                if (inputFile) {
+                    inputFile.click();
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tự động submit form khi file hoặc folder được chọn
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (this.files.length > 0) {
+                        // Tìm form gần nhất và submit
+                        const form = this.closest('form');
+                        form.submit();
+                    }
+                });
+            });
         });
 
       </script>
