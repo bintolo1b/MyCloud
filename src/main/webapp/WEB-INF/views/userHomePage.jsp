@@ -154,7 +154,11 @@
 			<div class = "file-container">
 				<p class="subheader">Files</p>
 				<c:forEach items="${files}" var="file">
-					<div class="card-panel file">
+					<c:url value="/displayfilecontroller" var="displayfileurl">
+						<c:param name="folderPath" value="${folderPath}"></c:param>
+						<c:param name="fileName" value="${file.name}"></c:param>
+					</c:url>
+					<div data-url="${displayfileurl}" onclick="window.open('${displayfileurl}')" class="card-panel file">
 						<i class="material-icons left">description</i>
 						<span>${file.name}</span>
 						<div class="kebab-wrapper">
@@ -180,10 +184,18 @@
                                     </a>
                                 </li>
                                 <li class="kebab-item">
-                                    <a href="">
+                                    <!-- <a href="">
                                         <i class="material-icons">delete</i>
                                         Chuyển vào thùng rác
-                                    </a>
+                                    </a> -->
+                                    <i class="material-icons" style="margin-left:15px">delete</i>
+                                    <c:url value="/deletefilecontroller" var="deletefilerurl">
+										<c:param name="folderPath" value="${folderPath}"></c:param>
+										<c:param name="deletedFileName" value="${file.name}"></c:param>
+									</c:url>
+									<form action="${deletefilerurl}" method="post">
+									    <input type="submit" value="Chuyển vào thùng rác">
+									</form>
                                 </li>
                             </ul>
                         </div>

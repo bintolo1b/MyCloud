@@ -34,6 +34,24 @@ public class FileBO {
 		return filesOfFolder;
 	}
 	
+	public File getFileByPath(String path) {
+		ArrayList<File> fileArrayList = FileDAOImp.getInstance().getAll();
+		for (File file:fileArrayList)
+			if (file.getPath().equals(path))
+				return file;
+		return null;
+	}
+	
+	public void deleteFileOnServer(String path) {
+		java.io.File file = new java.io.File(path);
+		if (file.exists())
+			file.delete();
+	}
+	
+	public void deleteFileOnDatabase(File file) {
+		FileDAOImp.getInstance().Delete(file);
+	}
+	
 	public boolean saveUploadedFilesOnServer(String folderPath, Collection<Part> parts) {
 		boolean res = true;
 		for (Part part : parts) {
