@@ -2,6 +2,7 @@ package model.bo;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -13,6 +14,39 @@ import com.spire.presentation.Presentation;
 import com.spire.xls.Workbook;
 
 public class ConvertFileToPDF {
+	public static byte[] convertFileToPDF(String inputFilePath) {
+		byte[] pdfData = null;
+        
+		if (inputFilePath.endsWith(".pdf")) {
+			pdfData = readPdfFile(inputFilePath);
+		}
+        if (inputFilePath.endsWith(".txt"))
+        	pdfData = ConvertFileToPDF.convertTxtToPDF(inputFilePath);
+        else if (inputFilePath.endsWith(".docx"))
+        	pdfData = ConvertFileToPDF.convertDocxToPDF(inputFilePath);
+        else if (inputFilePath.endsWith(".pptx"))
+        	pdfData = ConvertFileToPDF.convertPPTXToPDF(inputFilePath);
+        else if (inputFilePath.endsWith(".xls"))
+        	pdfData = ConvertFileToPDF.convertXlsToPDF(inputFilePath);
+        
+        return pdfData;
+	}
+	
+	private static byte[] readPdfFile(String pdfPath) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            FileInputStream inputStream = new FileInputStream(pdfPath)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            return outputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
 	public static byte[] convertTxtToPDF(String inputFilePath) {
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    try (PdfWriter writer = new PdfWriter(outputStream)) {

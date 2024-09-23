@@ -21,20 +21,16 @@ public class DisplayFileController extends HttpServlet {
 			String fileName = req.getParameter("fileName");
 			String filePath = currentFolderPath + File.separator + fileName;
 			
-	        byte[] pdfData = null;
-	        if (filePath.endsWith(".txt"))
-	        	pdfData = ConvertFileToPDF.convertTxtToPDF(filePath);
-	        else if (filePath.endsWith(".docx"))
-	        	pdfData = ConvertFileToPDF.convertDocxToPDF(filePath);
-	        else if (filePath.endsWith(".pptx"))
-	        	pdfData = ConvertFileToPDF.convertPPTXToPDF(filePath);
-	        else if (filePath.endsWith(".xls"))
-	        	pdfData = ConvertFileToPDF.convertXlsToPDF(filePath);
+	        byte[] pdfData = ConvertFileToPDF.convertFileToPDF(filePath);
 	        			
 	        if (pdfData != null) {
 	            resp.setContentType("application/pdf");
 	            resp.setContentLength(pdfData.length);
 	            resp.getOutputStream().write(pdfData);
+	        }
+	        else {
+	            req.setAttribute("errorMessage", "Website does not support reading this file.");
+	            req.getRequestDispatcher("/WEB-INF/views/fileReadingError.jsp").forward(req, resp);
 	        }
 		}
 		else {
@@ -42,6 +38,4 @@ public class DisplayFileController extends HttpServlet {
 			return;
 		}
 	}
-	
-	
 }
