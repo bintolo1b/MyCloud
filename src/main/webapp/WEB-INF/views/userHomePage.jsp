@@ -32,10 +32,16 @@
 						name="Search" placeholder="Search Drive" />
 				</div>
 				<ul class="right">
-					<li><a href="#!"><i
-							class="material-icons grey-text text-darken-1">apps</i></a></li>
-					<li><a href="#!"><i
-							class="material-icons grey-text text-darken-1">notifications</i></a>
+					<li>
+						<a href="#!"><i class="material-icons grey-text text-darken-1">settings</i></a>
+						<span class="detail-item">Settings</span>
+					</li>
+					<li>
+						<a href="#!" class="notify"><i class="material-icons grey-text text-darken-1">notifications</i></a>
+						<span class="detail-item">Notifications</span>
+						<div class="notify-block">
+							<h3>You don't have any notifications</h3>
+						</div>
 					</li>
 					<li class="account"><a href="#!"><img
 							src='<c:url value='/assets/img/user.png'/>' alt="profile pic" class="circle" /></a>
@@ -61,16 +67,6 @@
 				<ul>
 					<li><a href="#!"
 						class="waves-effect waves-light btn btn-flat white-text">New</a>
-					</li>
-				</ul>
-				<ul class="right">
-					<li><a href="#!"><i
-							class="material-icons grey-text text-darken-1">view_list</i></a>
-					</li>
-					<li><a href="#!"><i
-							class="material-icons grey-text text-darken-1">info</i></a></li>
-					<li><a href="#!"><i
-							class="material-icons grey-text text-darken-1">settings</i></a>
 					</li>
 				</ul>
 			</div>
@@ -158,7 +154,7 @@
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 						<c:param name="fileName" value="${file.name}"></c:param>
 					</c:url>
-					<div data-url="${displayfileurl}" onclick="window.open('${displayfileurl}')" class="card-panel file">
+					<div data-url="${displayfileurl}"class="card-panel file">
 						<i class="material-icons left">description</i>
 						<span>${file.name}</span>
 						<div class="kebab-wrapper">
@@ -246,9 +242,34 @@
             </ul>
         </div>
     </div>
+    
+    <div class = "display-modal">
+    	<iframe scr = ""></iframe>
+    </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
+
+		document.addEventListener('click', function(event) {
+		    const notifyIcon = document.querySelector('.notify');
+		    const notifyBlock = document.querySelector('.notify-block');
+		
+		    // Check if the click is outside the notify icon and notify block
+		    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
+		        notifyBlock.classList.remove('open'); // Hide the notify block
+		    }
+		});
+		
+		document.querySelector('.notify').addEventListener('click', function(e) {
+		    const notifyBlock = document.querySelector('.notify-block'); // Select the .notify-block
+		    console.log(notifyBlock);
+		
+			notifyBlock.classList.toggle('open');
+			
+		    e.stopPropagation();
+		});
+
+
       document.querySelectorAll('.kebab-container').forEach(container => {
     	    container.addEventListener('click', function(e) {
     	        e.stopPropagation(); // Ngăn sự kiện click tiếp tục lên các phần tử cha
@@ -335,6 +356,44 @@
                 });
             });
         });
+        
+        document.querySelectorAll('.card-panel.file').forEach(card => {
+            card.addEventListener('dblclick', function() {
+                const url = this.getAttribute('data-url');
+                const displayModal = document.querySelector('.display-modal');
+                const iframe = document.querySelector('.display-modal iframe');
+
+                // Kiểm tra nếu file là ảnh (jpg, png, gif...)
+                if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                    const img = new Image();
+                    img.src = url;
+
+                    img.onload = function() {
+                        displayModal.innerHTML = ''; // Xóa nội dung cũ
+                        displayModal.appendChild(img);
+                        img.style.display = 'block';
+                        img.style.margin = 'auto';
+
+                        // Hiển thị modal
+                        displayModal.style.display = 'flex';
+                        displayModal.classList.add('open');
+                    };
+                } else {
+                    // Mở file lớn trong tab mới
+                    window.open(url, '_blank');
+                }
+
+                // Đóng modal khi click ra ngoài vùng ảnh
+                displayModal.addEventListener('click', function(e) {
+                    if (e.target === displayModal) {
+                        displayModal.classList.remove('open');
+                        displayModal.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+
 
       </script>
       
