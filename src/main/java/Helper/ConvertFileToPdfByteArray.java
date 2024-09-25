@@ -1,4 +1,4 @@
-package model.bo;
+package Helper;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -13,22 +13,21 @@ import com.itextpdf.layout.element.Paragraph;
 import com.spire.presentation.Presentation;
 import com.spire.xls.Workbook;
 
-public class ConvertFileToPDF {
+public class ConvertFileToPdfByteArray {
 	public static byte[] convertFileToPDF(String inputFilePath) {
 		byte[] pdfData = null;
         
-		if (inputFilePath.endsWith(".pdf")) {
+		if (inputFilePath.endsWith(".pdf")) 
 			pdfData = readPdfFile(inputFilePath);
-		}
-        if (inputFilePath.endsWith(".txt"))
-        	pdfData = ConvertFileToPDF.convertTxtToPDF(inputFilePath);
+		else if (inputFilePath.endsWith(".txt"))
+        	pdfData = ConvertFileToPdfByteArray.convertTxtToPdfByteArr(inputFilePath);
         else if (inputFilePath.endsWith(".docx"))
-        	pdfData = ConvertFileToPDF.convertDocxToPDF(inputFilePath);
+        	pdfData = ConvertFileToPdfByteArray.convertDocxToPdfByteArr(inputFilePath);
         else if (inputFilePath.endsWith(".pptx"))
-        	pdfData = ConvertFileToPDF.convertPPTXToPDF(inputFilePath);
+        	pdfData = ConvertFileToPdfByteArray.convertPPTXToPdfByteArr(inputFilePath);
         else if (inputFilePath.endsWith(".xls"))
-        	pdfData = ConvertFileToPDF.convertXlsToPDF(inputFilePath);
-        
+        	pdfData = ConvertFileToPdfByteArray.convertXlsToPdfByteArr(inputFilePath);
+	  
         return pdfData;
 	}
 	
@@ -47,7 +46,7 @@ public class ConvertFileToPDF {
         }
     }
 	
-	public static byte[] convertTxtToPDF(String inputFilePath) {
+	public static byte[] convertTxtToPdfByteArr(String inputFilePath) {
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    try (PdfWriter writer = new PdfWriter(outputStream)) {
 	        PdfDocument pdfDoc = new PdfDocument(writer);
@@ -74,7 +73,7 @@ public class ConvertFileToPDF {
 	    }
 	}
 	
-	public static byte[] convertDocxToPDF(String docxPath) {
+	public static byte[] convertDocxToPdfByteArr(String docxPath) {
 	    try {
 	        // Tạo đối tượng Document từ file DOCX
 	    	com.aspose.words.Document doc = new com.aspose.words.Document(docxPath);
@@ -93,7 +92,7 @@ public class ConvertFileToPDF {
 	    }
 	}
 	
-	public static byte[] convertPPTXToPDF(String pptxPath) {
+	public static byte[] convertPPTXToPdfByteArr(String pptxPath) {
         try {
         	Presentation ppt = new Presentation();
         	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -106,7 +105,7 @@ public class ConvertFileToPDF {
 		}
     }
 	
-	public static byte[] convertXlsToPDF(String pptxPath) {
+	public static byte[] convertXlsToPdfByteArr(String pptxPath) {
         try {
         	Workbook workbook = new Workbook();
         	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

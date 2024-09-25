@@ -23,7 +23,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		.then(function(returnObject){
 			console.log(returnObject.message);
 			if (returnObject.message === 'Login successfully'){
-				const usernameEncoded = encodeURIComponent(formData.username);
 				window.location.href = `http://localhost:8080/PBL4/userhomepage`;
 			}
 			else{

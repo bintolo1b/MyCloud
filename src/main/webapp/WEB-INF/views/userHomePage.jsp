@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
+<script src="<c:url value='/assets/js/userHomePageFetch.js'/>"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -153,7 +155,7 @@
 			
 			<div class = "file-container">
 				<p class="subheader">Files</p>
-				<c:forEach items="${files}" var="file">
+				<c:forEach items="${files}" var="file" varStatus="status">
 					<c:url value="/displayfilecontroller" var="displayfileurl">
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 						<c:param name="fileName" value="${file.name}"></c:param>
@@ -161,6 +163,7 @@
 					<div data-url="${displayfileurl}" onclick="window.open('${displayfileurl}')" class="card-panel file">
 						<i class="material-icons left">description</i>
 						<span>${file.name}</span>
+						<img alt="" style="width: 50px" id="img-${status.index}-${file.name}">
 						<div class="kebab-wrapper">
                             <div class="kebab-container">
                             <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
@@ -201,6 +204,14 @@
                         </div>
                         </div>
                       </div>
+                      
+                      <script>
+                        var folderPath = "${folderPath.replace('\\', '\\\\')}";
+                      	var fileName = "${file.name}";
+                      	var imgTagId = "img-${status.index}-${file.name}";                  
+                      	assignPDFImgToImgTag(folderPath, fileName, imgTagId);
+                      </script>
+                      
 				</c:forEach>
 			</div>
 		</div>
@@ -335,7 +346,7 @@
                 });
             });
         });
-
+	
       </script>
       
 </html>
