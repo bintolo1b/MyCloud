@@ -37,19 +37,19 @@ public class FileImageController extends HttpServlet {
 					if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".png")) {
 						byte[] imgData = ConvertImgFileToImgByteArray.imageToByteArr(filePath);
 						demoImgURL = TemporaryFolderHelper.SaveImage(imgData, username);
+						pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						
 					}
 					else {
 						byte[] pdfData = ConvertFileToPdfByteArray.convertFileToPDF(filePath);
 						if (pdfData != null) {
 							demoImgURL = TemporaryFolderHelper.convertFirstPDFPageToImgAndSave(pdfData, username);
+							pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						}
 						else {
 							pw.write("{\"Message\": \"Website does not support reading this file.\"}");
 						}
 					}	
-					
-					pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 				}
 				else {
 					pw.write("{\"Message\": \"File doesn't exist.\"}");
