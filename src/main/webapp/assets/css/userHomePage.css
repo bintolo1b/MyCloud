@@ -11,7 +11,7 @@ html {
   box-sizing: border-box;
 }
 body {
-    background-color: #f0f0f0;
+    background-color:white;
     font-size: 13px;
   }
   
@@ -358,6 +358,23 @@ ul.right li .detail-item {
   .card-panel:hover{
       cursor: pointer;
   }
+  .breadcrumb {
+        background-color: #f1f1f1;
+        padding: 8px;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+    .breadcrumb a {
+        text-decoration: none;
+        color: #007bff;
+        margin-right: 8px;
+    }
+    .breadcrumb a:hover {
+        text-decoration: underline;
+    }
+    .breadcrumb span {
+        color: #6c757d;
+    }
 
   .material-icons {
     vertical-align: middle;
@@ -378,6 +395,7 @@ ul.right li .detail-item {
   display: inline-block;
   margin: 15px 20px 15px 0;
   font-weight: 500;
+  background-color: #f0f4f9;
   border-radius: 10px;
   display: flex; /* Use flexbox for alignment */
   align-items: center; /* Center items vertically */
@@ -385,14 +403,16 @@ ul.right li .detail-item {
 }
 
 .folder>span,
-.file>span {
+.file-details>span {
   display: block;
   width: 170px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: -5px; /* Add space between icon and text */
+  margin-left: -5px;
+  flex-shrink: 0; /* Prevent the span from shrinking or growing */
 }
+
 
 .folder i,
 .file i { /* Ensure the icon has consistent styling */
@@ -490,8 +510,55 @@ ul.right li .detail-item {
 }
 
 .card-panel:hover {
-  background-color: #e6e5e5;
+  background-color: #e8ecf1;
 }
+
+/* Preview Panel for files */
+.file {
+    position: relative;
+    width: 270px;
+    display: flex;
+    flex-direction: column; /* Đảm bảo các phần tử con nằm dọc */
+    margin: 15px 20px 15px 0;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.file-details {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.preview-panel {
+    width: 260px;
+    height: 147px;
+    margin-top: 10px;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+}
+
+.file-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-preview-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
 
 .kebab-wrapper {
   overflow: visible;
@@ -510,6 +577,10 @@ ul.right li .detail-item {
   align-items: center;
   padding: 4px;
   z-index: 5;
+}
+
+.file-details .kebab-container {
+	top: 23px;
 }
 
 .kebab-menu {

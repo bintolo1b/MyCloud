@@ -22,8 +22,8 @@
 	<a href="<%=request.getContextPath()%>/FileController">Start Browsing your files</a> --%>
 
 	<div class="navbar-fixed">
-		<nav class="nav-extended white">
-			<div class="nav-wrapper white">
+		<nav class="nav-extended" style="background-color: #f8fafd">
+			<div class="nav-wrapper">
 				<ul>
 					<li><a href='<c:url value='/userhomepage'/>' class="title grey-text text-darken-1">My Cloud</a></li>
 				</ul>
@@ -73,25 +73,17 @@
 		</nav>
 	</div>
 	<ul class="side-nav fixed floating transparent z-depth-0">
-		<li class="active"><a href="#"><i
-				class="material-icons blue-text text-darken-1">dashboard</i>My Drive</a>
-		</li>
-		<li><a href="#"><i class="material-icons">devices</i>Computers</a>
-		</li>
-		<li><a href="#"><i class="material-icons">people</i>Shared
-				with me</a></li>
-		<li><a href="#"><i class="material-icons">access_time</i>Recent</a>
-		</li>
-		<li><a href="#"><i class="material-icons">camera</i>Google
-				Photos</a></li>
-		<li><a href="#"><i class="material-icons">star</i>Starred</a></li>
-		<li><a href="#"><i class="material-icons">delete</i>Trash</a></li>
+		<li class="userHomePageItem active"><a href="#"><i class="material-icons blue-text text-darken-1">dashboard</i>My Drive</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/computerItem.jsp"><a href="#"><i class="material-icons">devices</i>Computers</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/sharedItem.jsp"><a href="#"><i class="material-icons">people</i>Shared with me</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/recentItem.jsp"><a href="#"><i class="material-icons">access_time</i>Recent</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/googlePhotoItem.jsp"><a href="#"><i class="material-icons">camera</i>Google Photos</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/starredItem.jsp"><a href="#"><i class="material-icons">star</i>Starred</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/trashItem.jsp"><a href="#"><i class="material-icons">delete</i>Trash</a></li>
 		<li><div class="divider"></div></li>
-		<li><a href="#"><i class="material-icons">cloud</i>Backup</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/backUpItem.jsp"><a href="#"><i class="material-icons">cloud</i>Backup</a></li>
 		<li><div class="divider"></div></li>
-		<li><a href="#"><i class="material-icons">storage</i>Upgrade
-				Storage</a></li>
-		
+		<li class="userHomePageItem" data-file="userHomePageItems/upgradeStorageItem.jsp"><a href="#"><i class="material-icons">storage</i>Upgrade Storage</a></li>
 	</ul>
 	<div class="main">
 		<div class="container-fluid">
@@ -147,57 +139,74 @@
 				</c:forEach>
 			</div>
 			
-			<div class = "file-container">
-				<p class="subheader">Files</p>
-				<c:forEach items="${files}" var="file">
-					<c:url value="/displayfilecontroller" var="displayfileurl">
-						<c:param name="folderPath" value="${folderPath}"></c:param>
-						<c:param name="fileName" value="${file.name}"></c:param>
-					</c:url>
-					<div data-url="${displayfileurl}"class="card-panel file">
-						<i class="material-icons left">description</i>
-						<span>${file.name}</span>
-						<div class="kebab-wrapper">
-                            <div class="kebab-container">
-                            <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
-                            <ul class="kebab-items-list">
-                                <li class="kebab-item">
-                                    <a href="">
-                                        <i class="material-icons">download</i>
-                                        Tải xuống
-                                    </a>
-                                </li>
-                                <li class="kebab-item">
-                                    <a href="">
-                                        <i class="material-icons">share</i>
-                                        Chia sẻ
-                                    </a>
-                                </li>
-                                <li class="kebab-item">
-                                    <a href="">
-                                        <i class="material-icons">edit</i>
-                                        Đổi tên
-                                    </a>
-                                </li>
-                                <li class="kebab-item">
-                                    <!-- <a href="">
-                                        <i class="material-icons">delete</i>
-                                        Chuyển vào thùng rác
-                                    </a> -->
-                                    <i class="material-icons" style="margin-left:15px">delete</i>
-                                    <c:url value="/deletefilecontroller" var="deletefilerurl">
-										<c:param name="folderPath" value="${folderPath}"></c:param>
-										<c:param name="deletedFileName" value="${file.name}"></c:param>
-									</c:url>
-									<form action="${deletefilerurl}" method="post">
-									    <input type="submit" value="Chuyển vào thùng rác">
-									</form>
-                                </li>
-                            </ul>
-                        </div>
-                        </div>
-                      </div>
-				</c:forEach>
+			<div class="file-container">
+		    <p class="subheader">Files</p>
+		    <c:forEach items="${files}" var="file">
+		        <c:url value="/displayfilecontroller" var="displayfileurl">
+		            <c:param name="folderPath" value="${folderPath}"></c:param>
+		            <c:param name="fileName" value="${file.name}"></c:param>
+		        </c:url>
+		
+		        <div data-url="${displayfileurl}" class="card-panel file">
+		            <!-- Div chứa tên file, icon và kebab menu -->
+		            <div class="file-details">
+		                <i class="material-icons left">description</i>
+		                <span>${file.name}</span>
+		                
+		                <div class="kebab-wrapper">
+		                    <div class="kebab-container">
+		                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
+		                        <ul class="kebab-items-list">
+		                            <li class="kebab-item">
+		                                <a href="">
+		                                    <i class="material-icons">download</i>
+		                                    Tải xuống
+		                                </a>
+		                            </li>
+		                            <li class="kebab-item">
+		                                <a href="">
+		                                    <i class="material-icons">share</i>
+		                                    Chia sẻ
+		                                </a>
+		                            </li>
+		                            <li class="kebab-item">
+		                                <a href="">
+		                                    <i class="material-icons">edit</i>
+		                                    Đổi tên
+		                                </a>
+		                            </li>
+		                            <li class="kebab-item">
+		                                <i class="material-icons" style="margin-left:15px">delete</i>
+		                                <c:url value="/deletefilecontroller" var="deletefilerurl">
+		                                    <c:param name="folderPath" value="${folderPath}"></c:param>
+		                                    <c:param name="deletedFileName" value="${file.name}"></c:param>
+		                                </c:url>
+		                                <form action="${deletefilerurl}" method="post">
+		                                    <input type="submit" value="Chuyển vào thùng rác">
+		                                </form>
+		                            </li>
+		                        </ul>
+		                    </div>
+		                </div>
+	            </div>
+
+            <!-- Div chứa phần preview-panel riêng biệt -->
+			            <div class="preview-panel">
+						    <c:choose>
+						        <c:when test="${file.name.endsWith('.png') || file.name.endsWith('.jpg')}">
+						            <img src="${displayfileurl}" alt="Image preview" class="file-preview-image">
+						        </c:when>
+						        <c:when test="${file.name.endsWith('.pdf')}">
+						            <iframe src="https://docs.google.com/gview?url=http://your-server-url/${displayfileurl}&embedded=true"
+        							class="file-preview-iframe" frameborder="0"></iframe>
+						        </c:when>
+						        <c:otherwise>
+						            <span>Cannot show the preview of this file.</span>
+						        </c:otherwise>
+						    </c:choose>
+						</div>
+			        </div>
+			    </c:forEach>
 			</div>
 		</div>
 	</div>
@@ -249,20 +258,139 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const initialMainContent = document.querySelector('.main').innerHTML;
 
+    initializeMainContent();
+
+    document.querySelectorAll('.userHomePageItem').forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Remove 'active', 'blue-text', 'text-darken-1' from all items and icons
+            document.querySelectorAll('.userHomePageItem').forEach(i => {
+                i.classList.remove('active');
+                const icon = i.querySelector('i.material-icons');
+                if (icon) {
+                    icon.classList.remove('blue-text', 'text-darken-1');
+                }
+            });
+
+            // Add 'active' to the clicked item
+            this.classList.add('active');
+
+            // Add 'blue-text', 'text-darken-1' to the icon inside the clicked item
+            const itemIcon = this.querySelector('i.material-icons');
+            if (itemIcon) {
+                itemIcon.classList.add('blue-text', 'text-darken-1');
+            }
+
+            const file = this.getAttribute('data-file');
+
+            if (this === document.querySelector('.userHomePageItem:first-child')) {
+                document.querySelector('.main').innerHTML = initialMainContent;
+                initializeMainContent();
+            } else if (file) {
+                fetch('loadPage?page=' + file)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        document.querySelector('.main').innerHTML = html;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the file:', error);
+                        document.querySelector('.main').innerHTML = "<p>Không thể tải nội dung. Vui lòng thử lại.</p>";
+                    });
+            } else {
+                console.error('File value is empty, not fetching.');
+                document.querySelector('.main').innerHTML = "<p>File không hợp lệ. Vui lòng thử lại.</p>";
+            }
+        });
+    });
+});
+
+
+// Initialize main content behavior, called after loading new content
+function initializeMainContent() {
+    // Kebab menu click behavior
+    document.querySelectorAll('.kebab-container').forEach(container => {
+        container.addEventListener('click', function(e) {
+            e.stopPropagation(); 
+            const menu = this.querySelector('.kebab-items-list');
+            const isOpen = menu.style.display === 'block';
+
+            // Close all open kebab menus
+            document.querySelectorAll('.kebab-items-list').forEach(m => {
+                m.style.display = 'none';
+            });
+
+            // Toggle the clicked menu
+            menu.style.display = isOpen ? 'none' : 'block';
+        });
+    });
+
+    // Close kebab menu when clicking outside
+    document.addEventListener('click', function(event) {
+        document.querySelectorAll('.kebab-items-list').forEach(menu => {
+            if (!menu.parentElement.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        });
+    });
+
+    // Double-click file card to view or open in a modal/new tab
+    document.querySelectorAll('.card-panel.file').forEach(card => {
+        card.addEventListener('dblclick', function() {
+            const url = this.getAttribute('data-url');
+            const displayModal = document.querySelector('.display-modal');
+            const iframe = document.querySelector('.display-modal iframe');
+
+            // Handle image files (jpg, png, gif)
+            if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                const img = new Image();
+                img.src = url;
+
+                img.onload = function() {
+                    displayModal.innerHTML = ''; // Clear previous content
+                    displayModal.appendChild(img);
+                    img.style.display = 'block';
+                    img.style.margin = 'auto';
+
+                    displayModal.style.display = 'flex';
+                    displayModal.classList.add('open');
+                };
+            } else {
+                // Open non-image files in a new tab
+                window.open(url, '_blank');
+            }
+
+            // Close modal when clicking outside the image
+            displayModal.addEventListener('click', function(e) {
+                if (e.target === displayModal) {
+                    displayModal.classList.remove('open');
+                    displayModal.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+		
 		document.addEventListener('click', function(event) {
 		    const notifyIcon = document.querySelector('.notify');
 		    const notifyBlock = document.querySelector('.notify-block');
 		
-		    // Check if the click is outside the notify icon and notify block
 		    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
-		        notifyBlock.classList.remove('open'); // Hide the notify block
+		        notifyBlock.classList.remove('open'); 
 		    }
 		});
 		
 		document.querySelector('.notify').addEventListener('click', function(e) {
-		    const notifyBlock = document.querySelector('.notify-block'); // Select the .notify-block
-		    console.log(notifyBlock);
+		    const notifyBlock = document.querySelector('.notify-block'); 
 		
 			notifyBlock.classList.toggle('open');
 			
@@ -270,57 +398,27 @@
 		});
 
 
-      document.querySelectorAll('.kebab-container').forEach(container => {
-    	    container.addEventListener('click', function(e) {
-    	        e.stopPropagation(); // Ngăn sự kiện click tiếp tục lên các phần tử cha
-
-    	        const menu = this.querySelector('.kebab-items-list');
-    	        const isOpen = menu.style.display === 'block';
-
-    	        // Đóng tất cả các menu trước
-    	        document.querySelectorAll('.kebab-items-list').forEach(m => {
-    	            m.style.display = 'none';
-    	        });
-
-    	        // Mở hoặc đóng menu hiện tại
-    	        menu.style.display = isOpen ? 'none' : 'block';
-    	    });
-    	});
-
-    	// Đóng tất cả các menu khi nhấp ra ngoài
-    	document.addEventListener('click', function(event) {
-    	    document.querySelectorAll('.kebab-items-list').forEach(menu => {
-    	        if (!menu.parentElement.contains(event.target)) {
-    	            menu.style.display = 'none';
-    	        }
-    	    });
-    	});
+      
 
         const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
         const modal = document.querySelector('.js-modal');
         const modalClose = document.querySelector('.js-modal-close');
         const modalContainer = document.querySelector('.js-modal-container');
 
-        // Hiển thị modal
         function showModal() {
             modal.classList.add('open');
         }
 
-        // Ẩn modal
         function hideModal() {
             modal.classList.remove('open');
         }
 
-        // Gán sự kiện mở modal
         newBtn.addEventListener('click', showModal);
 
-        // Gán sự kiện đóng modal khi click vào nút đóng
         modalClose.addEventListener('click', hideModal);
 
-        // Gán sự kiện đóng modal khi click ra ngoài modal-container
         modal.addEventListener('click', hideModal);
 
-        // Ngăn không cho sự kiện click của modal-container lan ra ngoài modal
         modalContainer.addEventListener('click', function(event) {
             event.stopPropagation();
         });
@@ -330,12 +428,10 @@
             item.addEventListener('click', function(e) {
                 const inputFile = this.querySelector('input[type="file"]');
 
-                // Ngăn sự kiện mặc định cho các thẻ con (nếu có) như <a>
                 if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
                     e.preventDefault(); 
                 }
 
-                // Nếu có input file, kích hoạt nó
                 if (inputFile) {
                     inputFile.click();
                 }
@@ -343,13 +439,11 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Tự động submit form khi file hoặc folder được chọn
             const fileInputs = document.querySelectorAll('input[type="file"]');
 
             fileInputs.forEach(input => {
                 input.addEventListener('change', function() {
                     if (this.files.length > 0) {
-                        // Tìm form gần nhất và submit
                         const form = this.closest('form');
                         form.submit();
                     }
@@ -357,44 +451,7 @@
             });
         });
         
-        document.querySelectorAll('.card-panel.file').forEach(card => {
-            card.addEventListener('dblclick', function() {
-                const url = this.getAttribute('data-url');
-                const displayModal = document.querySelector('.display-modal');
-                const iframe = document.querySelector('.display-modal iframe');
-
-                // Kiểm tra nếu file là ảnh (jpg, png, gif...)
-                if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                    const img = new Image();
-                    img.src = url;
-
-                    img.onload = function() {
-                        displayModal.innerHTML = ''; // Xóa nội dung cũ
-                        displayModal.appendChild(img);
-                        img.style.display = 'block';
-                        img.style.margin = 'auto';
-
-                        // Hiển thị modal
-                        displayModal.style.display = 'flex';
-                        displayModal.classList.add('open');
-                    };
-                } else {
-                    // Mở file lớn trong tab mới
-                    window.open(url, '_blank');
-                }
-
-                // Đóng modal khi click ra ngoài vùng ảnh
-                displayModal.addEventListener('click', function(e) {
-                    if (e.target === displayModal) {
-                        displayModal.classList.remove('open');
-                        displayModal.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-
-
+        
       </script>
       
 </html>
