@@ -85,8 +85,41 @@
 		<li><div class="divider"></div></li>
 		<li class="userHomePageItem" data-file="userHomePageItems/upgradeStorageItem.jsp"><a href="#"><i class="material-icons">storage</i>Upgrade Storage</a></li>
 	</ul>
+
+<!-- Hiển thị breadcrumb -->
+	  
 	<div class="main">
 		<div class="container-fluid">
+			<% 
+			    String folderPath = (String) request.getAttribute("folderPath");
+			
+			    String displayPath = folderPath.replace("D:\\MyPBL4Server\\", "");
+			
+			    String[] pathSegments = displayPath.split("\\\\");
+			%>
+			
+			<% if (pathSegments.length > 0) { %>  
+			    <div class="breadcrumb-container" style="margin-bottom: 10px;">
+			        <%
+			        String cumulativePath = "D:\\MyPBL4Server";
+			        for (int i = 0; i < pathSegments.length; i++) {
+			            cumulativePath += "\\" + pathSegments[i];
+			
+			            String displaySegment = (i == 0) ? "MyCloud" : pathSegments[i];
+			        %>
+			            <c:url value="/userhomepage" var="breadcrumbUrl">
+			                <c:param name="folderPath" value="<%= cumulativePath %>"></c:param> <!-- Đường dẫn thực tế không thay đổi -->
+			            </c:url>
+			            <a href="${breadcrumbUrl}" class="breadcrumb-link">
+			                <%= displaySegment %>
+			            </a>
+			            <% if (i < pathSegments.length - 1) { %>
+			                <i class="breadcrumb-separator material-icons">arrow_forward_ios</i>
+			            <% } %>
+			        <% } %>
+			    </div>
+			<% } %>
+
 			<div class = "folder-container">
 				<p class="subheader">Folders</p>
 				<c:forEach items="${subFolders}" var="folder">
@@ -188,22 +221,10 @@
 		                        </ul>
 		                    </div>
 		                </div>
-	            </div>
+	            	</div>
 
-            <!-- Div chứa phần preview-panel riêng biệt -->
 			            <div class="preview-panel">
-						    <c:choose>
-						        <c:when test="${file.name.endsWith('.png') || file.name.endsWith('.jpg')}">
-						            <img src="${displayfileurl}" alt="Image preview" class="file-preview-image">
-						        </c:when>
-						        <c:when test="${file.name.endsWith('.pdf')}">
-						            <iframe src="https://docs.google.com/gview?url=http://your-server-url/${displayfileurl}&embedded=true"
-        							class="file-preview-iframe" frameborder="0"></iframe>
-						        </c:when>
-						        <c:otherwise>
-						            <span>Cannot show the preview of this file.</span>
-						        </c:otherwise>
-						    </c:choose>
+						    <img src="" alt="Image preview" class="file-preview-image">
 						</div>
 			        </div>
 			    </c:forEach>
