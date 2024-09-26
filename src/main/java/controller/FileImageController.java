@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import Helper.ConvertFileToPdfByteArray;
 import Helper.ConvertImgFileToImgByteArray;
 import Helper.TemporaryFolderHelper;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,17 +34,19 @@ public class FileImageController extends HttpServlet {
 				if (file.exists()) {
 					String demoImgURL = "";
 					String username = req.getSession().getAttribute("username").toString();
+					ServletContext context = req.getServletContext();
+					String tempImgFolder = context.getRealPath("/temporary/img");
 					
 					if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".png")) {
 						byte[] imgData = ConvertImgFileToImgByteArray.imageToByteArr(filePath);
-						demoImgURL = TemporaryFolderHelper.SaveImage(imgData, username);
+						demoImgURL = TemporaryFolderHelper.SaveImage(imgData, username, tempImgFolder);
 						pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						
 					}
 					else {
 						byte[] pdfData = ConvertFileToPdfByteArray.convertFileToPDF(filePath);
 						if (pdfData != null) {
-							demoImgURL = TemporaryFolderHelper.convertFirstPDFPageToImgAndSave(pdfData, username);
+							demoImgURL = TemporaryFolderHelper.convertFirstPDFPageToImgAndSave(pdfData, username, tempImgFolder);
 							pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						}
 						else {

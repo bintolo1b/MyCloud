@@ -12,8 +12,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 public class TemporaryFolderHelper {
-	public static String tempImgFolder = "D:\\Java\\PBL4\\src\\main\\webapp\\temporary\\img";
-	public static String SaveImage(byte[] imageData, String username) throws IOException {
+	public static String SaveImage(byte[] imageData, String username, String tempImgFolder) throws IOException {
 		String fileName = username + "_" + System.currentTimeMillis() + ".png";
 		File imgFile = new File(tempImgFolder + File.separator + fileName);
 		
@@ -24,7 +23,7 @@ public class TemporaryFolderHelper {
 		return "/PBL4/temporary/img/" + imgFile.getName();
     }
 	
-	public static String convertFirstPDFPageToImgAndSave(byte[] pdfData, String username) throws IOException {
+	public static String convertFirstPDFPageToImgAndSave(byte[] pdfData, String username, String tempImgFolder) throws IOException {
 		String fileName = username + "_" + System.currentTimeMillis() + ".png";
 		File imgFile = new File(tempImgFolder + File.separator + fileName);
 		
