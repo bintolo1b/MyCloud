@@ -3,6 +3,7 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import Helper.ConvertFileToPdfByteArray;
 import Helper.ConvertImgFileToImgByteArray;
 import Helper.TemporaryFolderHelper;
@@ -24,6 +25,7 @@ public class FileImageController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 			PrintWriter pw = resp.getWriter();
 			
+			
 			try {
 				String folderPath = req.getParameter("folderPath");
 				String fileName = req.getParameter("fileName");
@@ -35,6 +37,7 @@ public class FileImageController extends HttpServlet {
 					String demoImgURL = "";
 					String username = req.getSession().getAttribute("username").toString();
 					ServletContext context = req.getServletContext();
+
 					String tempImgFolder = context.getRealPath("/temporary/img");
 					
 					if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".png")) {

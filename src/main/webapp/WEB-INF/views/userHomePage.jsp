@@ -185,7 +185,11 @@
 		                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
 		                        <ul class="kebab-items-list">
 		                            <li class="kebab-item">
-		                                <a href="">
+		                           		<c:url value="/downloadfilecontroller" var="downloadfileurl">
+		                                    <c:param name="folderPath" value="${folderPath}"></c:param>
+		                                    <c:param name="downloadedFileName" value="${file.name}"></c:param>
+		                                </c:url>
+		                                <a href="${downloadfileurl}">
 		                                    <i class="material-icons">download</i>
 		                                    Tải xuống
 		                                </a>

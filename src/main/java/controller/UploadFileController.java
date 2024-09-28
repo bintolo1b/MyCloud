@@ -12,6 +12,7 @@ import model.bo.FileBO;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @WebServlet(urlPatterns = "/uploadfilecontroller")
@@ -25,16 +26,14 @@ public class UploadFileController extends HttpServlet {
         String folderPath = req.getParameter("folderPath");
         if (folderPath!=null) {
         	Collection<Part> parts = req.getParts();
-        	if (!FileBO.getInstance().saveUploadedFilesOnServer(folderPath, parts)) {
-        		resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        		return;
-        	}
-        	else {
-        		FileBO.getInstance().saveUploadedFilesOnDatabase(folderPath, parts);
-        		String encodedFolderPath = URLEncoder.encode(folderPath, StandardCharsets.UTF_8.toString());
-        		resp.sendRedirect(req.getContextPath()+"/userhomepage?folderPath=" + encodedFolderPath);
-        		return;
-        	}
+        	ArrayList<String> fileNames = FileBO.getInstance().saveUploadedFilesOnServer(folderPath, parts);
+  
+    		FileBO.getInstance().saveUploadedFilesOnDatabase(folderPath, fileNames);
+    		
+    		String encodedFolderPath = URLEncoder.encode(folderPath, StandardCharsets.UTF_8.toString());
+    		resp.sendRedirect(req.getContextPath()+"/userhomepage?folderPath=" + encodedFolderPath);
+    		return;
+        	
         }
         else {
         	resp.setStatus(HttpServletResponse.SC_NOT_FOUND);

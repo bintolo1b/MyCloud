@@ -52,8 +52,8 @@ public class FileBO {
 		FileDAOImp.getInstance().Delete(file);
 	}
 	
-	public boolean saveUploadedFilesOnServer(String folderPath, Collection<Part> parts) {
-		boolean res = true;
+	public ArrayList<String> saveUploadedFilesOnServer(String folderPath, Collection<Part> parts) {
+		ArrayList<String> fileNames = new ArrayList<String>();
 		for (Part part : parts) {
             if (part.getSubmittedFileName() != null) {
                 String fileName = part.getSubmittedFileName();
@@ -67,6 +67,8 @@ public class FileBO {
                     file = new java.io.File(folderPath + java.io.File.separator + fileName);
                     count++;
                 }
+                
+                fileNames.add(fileName);
 
                 InputStream input = null;
                 OutputStream output = null;
@@ -81,9 +83,9 @@ public class FileBO {
                     
                 } catch (IOException e) {
                     e.printStackTrace();
-                    res = false;
+                    fileNames.remove(fileNames.size()-1);
                     if (file.exists()) {
-                        file.delete(); // Xóa file nếu có lỗi
+                        file.delete();
                     }
                 } finally {
                     try {
@@ -96,24 +98,22 @@ public class FileBO {
 
             }
         }
-		return res;
+		return fileNames;
 	}
 	
-	public void saveUploadedFilesOnDatabase(String folderPath, Collection<Part> parts) {
+	public void saveUploadedFilesOnDatabase(String folderPath, ArrayList<String> fileNames) {
 		Folder folder = FolderBO.getInstance().getFolderByPath(folderPath);
 		String ownerUsername = folder.getOwnerUsername();
 		int folderId = folder.getId();
 		
-		for (Part part:parts) {
-			if (part.getSubmittedFileName() != null) {
-				String fileName = part.getSubmittedFileName();
+		for (String fileName:fileNames) {
+				java.io.File fileOnServer = new java.io.File(folderPath+java.io.File.separator+fileName);
 				String filePath = folderPath + java.io.File.separator + fileName;
-				long size = part.getSize();
+				long size = fileOnServer.length();
 				LocalDateTime uploadDatetime = LocalDateTime.now();
 				
 				File newFile = new File(null, ownerUsername, folderId, fileName, filePath, size, uploadDatetime);
 				FileDAOImp.getInstance().Insert(newFile);
-			}
 		}
 	}
 }
