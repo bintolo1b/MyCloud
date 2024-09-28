@@ -16,7 +16,7 @@ import model.bean.Folder;
 import model.bo.FolderBO;
 
 @WebFilter(urlPatterns = {"/userhomepage", "/uploadfilecontroller", "/uploadfoldercontroller", "/deletefoldercontroller", "/deletefilecontroller"
-		, "/downloadfilecontroller"})
+		, "/downloadfilecontroller", "/downloadfoldercontroller", "/userhomepageitem"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

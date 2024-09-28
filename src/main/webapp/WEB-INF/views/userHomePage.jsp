@@ -132,21 +132,24 @@
                             <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
                             <ul class="kebab-items-list">
                                 <li class="kebab-item">
-                                    <a href="">
+                                	<c:url value="/downloadfoldercontroller" var="downloadfolderurl">
+                                		<c:param name="folderPath" value="${folder.path}"></c:param>
+                                	</c:url>
+                                    <a href="${downloadfolderurl}">
                                         <i class="material-icons">download</i>
-                                        Tải xuống
+                                        Download
                                     </a>
                                 </li>
                                 <li class="kebab-item">
                                     <a href="">
                                         <i class="material-icons">share</i>
-                                        Chia sẻ
+                                        Share
                                     </a>
                                 </li>
                                 <li class="kebab-item">
                                     <a href="">
                                         <i class="material-icons">edit</i>
-                                        Đổi tên
+                                        Rename
                                     </a>
                                 </li>
                                 <li class="kebab-item">
@@ -156,7 +159,7 @@
 										<c:param name="deletedFolderName" value="${folder.name}"></c:param>
 									</c:url>
 									<form action="${deletefolderurl}" method="post">
-									    <input type="submit" value="Chuyển vào thùng rác">
+									    <input type="submit" value="Delete">
 									</form>
                                 </li>
                             </ul>
@@ -168,7 +171,7 @@
 
 			<div class="file-container">
 		    <p class="subheader">Files</p>
-		    <c:forEach items="${files}" var="file">
+		    <c:forEach items="${files}" var="file" varStatus="status">
 		        <c:url value="/displayfilecontroller" var="displayfileurl">
 		            <c:param name="folderPath" value="${folderPath}"></c:param>
 		            <c:param name="fileName" value="${file.name}"></c:param>
@@ -191,19 +194,19 @@
 		                                </c:url>
 		                                <a href="${downloadfileurl}">
 		                                    <i class="material-icons">download</i>
-		                                    Tải xuống
+		                                   	Download
 		                                </a>
 		                            </li>
 		                            <li class="kebab-item">
 		                                <a href="">
 		                                    <i class="material-icons">share</i>
-		                                    Chia sẻ
+		                                    Share
 		                                </a>
 		                            </li>
 		                            <li class="kebab-item">
 		                                <a href="">
 		                                    <i class="material-icons">edit</i>
-		                                    Đổi tên
+		                                   	Rename
 		                                </a>
 		                            </li>
 		                            <li class="kebab-item">
@@ -213,7 +216,7 @@
 		                                    <c:param name="deletedFileName" value="${file.name}"></c:param>
 		                                </c:url>
 		                                <form action="${deletefilerurl}" method="post">
-		                                    <input type="submit" value="Chuyển vào thùng rác">
+		                                    <input type="submit" value="Delete">
 		                                </form>
 		                            </li>
 		                        </ul>
@@ -229,7 +232,8 @@
 						<script>
 	                        var folderPath = "${folderPath.replace('\\', '\\\\')}";
 	                      	var fileName = "${file.name}";
-	                      	var imgTagId = "img-${status.index}-${file.name}";                  
+	                      	var imgTagId = "img-${status.index}-${file.name}"; 
+	                      	console.log(imgTagId+" tren")
 	                      	assignPDFImgToImgTag(folderPath, fileName, imgTagId);
                      	</script>
 			        </div>
@@ -286,8 +290,9 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() { 
     const initialMainContent = document.querySelector('.main').innerHTML;
+    let currentIntervalIds = []; // Mảng để lưu trữ các intervalId hiện tại
 
     initializeMainContent();
 
@@ -315,11 +320,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const file = this.getAttribute('data-file');
 
+            // Clear all intervals
+            clearAllIntervals();
+
+            // Nếu là item đầu tiên, trả về nội dung ban đầu
             if (this === document.querySelector('.userHomePageItem:first-child')) {
                 document.querySelector('.main').innerHTML = initialMainContent;
                 initializeMainContent();
             } else if (file) {
-                fetch('loadPage?page=' + file)
+                fetch('userhomepageitem?page=' + file)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -327,7 +336,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         return response.text();
                     })
                     .then(html => {
+                        // Xóa nội dung cũ trước khi tải nội dung mới
+                        document.querySelector('.main').innerHTML = ''; 
+
+                        // Thay thế nội dung của .main bằng nội dung mới
                         document.querySelector('.main').innerHTML = html;
+
+                        // Tìm và thực thi tất cả các thẻ <script> trong nội dung mới
+                        const scripts = document.querySelector('.main').querySelectorAll('script');
+                        scripts.forEach(script => {
+                            const newScript = document.createElement('script');
+                            // Nếu là script có src (tức là file JS bên ngoài), nạp từ src
+                            if (script.src) {
+                                newScript.src = script.src;
+                            } else {
+                                // Nếu là inline script, nạp lại nội dung
+                                newScript.textContent = script.textContent;
+                            }
+                            // Đảm bảo script này chỉ thuộc về file hiện tại
+                            document.querySelector('.main').appendChild(newScript);
+                        });
                     })
                     .catch(error => {
                         console.error('Error fetching the file:', error);
@@ -339,7 +367,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    function clearAllIntervals() {
+        currentIntervalIds.forEach(intervalId => {
+            clearInterval(intervalId);
+        });
+        currentIntervalIds = []; // Reset lại mảng
+    }
+
+    // Override native setInterval để lưu trữ các intervalId
+    const originalSetInterval = window.setInterval;
+    window.setInterval = function(fn, delay) {
+        const intervalId = originalSetInterval(fn, delay);
+        currentIntervalIds.push(intervalId);
+        return intervalId;
+    };
 });
+
 
 
 // Initialize main content behavior, called after loading new content
@@ -371,43 +415,61 @@ function initializeMainContent() {
     });
 
     // Double-click file card to view or open in a modal/new tab
-    document.querySelectorAll('.card-panel.file').forEach(card => {
-        card.addEventListener('dblclick', function() {
-            const url = this.getAttribute('data-url');
-            const displayModal = document.querySelector('.display-modal');
-            const iframe = document.querySelector('.display-modal iframe');
+   document.querySelectorAll('.card-panel.file').forEach(card => {
+    card.addEventListener('dblclick', function() {
+        const url = this.getAttribute('data-url');
+        const displayModal = document.querySelector('.display-modal');
+        const iframe = document.querySelector('.display-modal iframe');
 
-            // Handle image files (jpg, png, gif)
-            if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
-                const img = new Image();
-                img.src = url;
+        // Handle image files (jpg, png, gif)
+        if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+            const img = new Image();
+            img.src = url;
 
-                img.onload = function() {
-                    displayModal.innerHTML = ''; // Clear previous content
-                    displayModal.appendChild(img);
-                    img.style.display = 'block';
-                    img.style.margin = 'auto';
+            img.onload = function() {
+                // Clear previous content
+                displayModal.innerHTML = ''; // Clear any existing content in the modal
+                displayModal.appendChild(img); // Append the image
 
-                    displayModal.style.display = 'flex';
-                    displayModal.classList.add('open');
-                };
-            } else {
-                // Open non-image files in a new tab
-                window.open(url, '_blank');
-            }
-
-            // Close modal when clicking outside the image
-            displayModal.addEventListener('click', function(e) {
-                if (e.target === displayModal) {
-                    displayModal.classList.remove('open');
-                    displayModal.style.display = 'none';
+                // Adjust image size according to viewport
+                if (img.naturalWidth >= window.innerWidth * 0.9 || img.naturalHeight >= window.innerHeight * 0.9) {
+                    img.style.maxWidth = '90%'; // Scale down to 90% of viewport
+                    img.style.maxHeight = '90%'; // Scale down to 90% of viewport
+                } else {
+                    img.style.width = `${img.naturalWidth}px`; // Set original width
+                    img.style.height = `${img.naturalHeight}px`; // Set original height
                 }
-            });
+
+                // Show modal
+                displayModal.style.display = 'flex';
+                displayModal.classList.add('open');
+            };
+        } else {
+            // Open non-image files in a new tab
+            window.open(url, '_blank');
+        }
+
+        // Close modal when clicking outside the content
+        displayModal.addEventListener('click', function(e) {
+            if (e.target === displayModal) {
+                displayModal.classList.remove('open');
+                displayModal.style.display = 'none';
+                iframe.src = ''; // Reset iframe content
+                displayModal.innerHTML = ''; // Clear modal content when closed
+            }
         });
     });
+});
+    
+    document.querySelectorAll('.card-panel.file').forEach((card, index) => {
+    	
+        const folderPath = "${folderPath.replace('\\', '\\\\')}";
+        const fileName = card.querySelector('.file-details span').innerText;
+        console.log(folderPath)
+        let imgId = card.querySelector('.preview-panel img').id;
+        assignPDFImgToImgTag(folderPath, fileName, imgId);
+    });
 }
-
-		
 		document.addEventListener('click', function(event) {
 		    const notifyIcon = document.querySelector('.notify');
 		    const notifyBlock = document.querySelector('.notify-block');

@@ -9,11 +9,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-@WebServlet("/loadPage")
-public class LoadPageServlet extends HttpServlet {
+@WebServlet("/userhomepageitem")
+public class UserHomePageItemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final List<String> VALID_PAGES = Arrays.asList(
     	    "userHomePageItems/myDriveItem.jsp", 
