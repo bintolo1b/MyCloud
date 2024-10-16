@@ -15,7 +15,7 @@ public class UserHomePageItemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final List<String> VALID_PAGES = Arrays.asList(
     	    "userHomePageItems/myDriveItem.jsp", 
-    	    "userHomePageItems/computerItem.jsp", 
+    	    "userHomePageItems/mailItem.jsp", 
     	    "userHomePageItems/sharedItem.jsp",
     	    "userHomePageItems/recentItem.jsp", 
     	    "userHomePageItems/googlePhotoItem.jsp", 

@@ -72,7 +72,7 @@
 	</div>
 	<ul class="side-nav fixed floating transparent z-depth-0">
 		<li class="userHomePageItem active"><a href="#"><i class="material-icons blue-text text-darken-1">dashboard</i>My Drive</a></li>
-		<li class="userHomePageItem" data-file="userHomePageItems/computerItem.jsp"><a href="#"><i class="material-icons">devices</i>Computers</a></li>
+		<li class="userHomePageItem" data-file="userHomePageItems/mailItem.jsp"><a href="#"><i class="material-icons">mail</i>Mail</a></li>
 		<li class="userHomePageItem" data-file="userHomePageItems/sharedItem.jsp"><a href="#"><i class="material-icons">people</i>Shared with me</a></li>
 		<li class="userHomePageItem" data-file="userHomePageItems/recentItem.jsp"><a href="#"><i class="material-icons">access_time</i>Recent</a></li>
 		<li class="userHomePageItem" data-file="userHomePageItems/googlePhotoItem.jsp"><a href="#"><i class="material-icons">camera</i>Google Photos</a></li>
@@ -132,10 +132,7 @@
                             <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
                             <ul class="kebab-items-list">
                                 <li class="kebab-item">
-                                	<c:url value="/downloadfoldercontroller" var="downloadfolderurl">
-                                		<c:param name="folderPath" value="${folder.path}"></c:param>
-                                	</c:url>
-                                    <a href="${downloadfolderurl}">
+                                    <a href="">
                                         <i class="material-icons">download</i>
                                         Download
                                     </a>
@@ -188,11 +185,7 @@
 		                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
 		                        <ul class="kebab-items-list">
 		                            <li class="kebab-item">
-		                           		<c:url value="/downloadfilecontroller" var="downloadfileurl">
-		                                    <c:param name="folderPath" value="${folderPath}"></c:param>
-		                                    <c:param name="downloadedFileName" value="${file.name}"></c:param>
-		                                </c:url>
-		                                <a href="${downloadfileurl}">
+		                                <a href="">
 		                                    <i class="material-icons">download</i>
 		                                   	Download
 		                                </a>
@@ -241,6 +234,36 @@
 
 			</div>
 		</div>
+		<button id="composeBtn" class="compose-btn">
+    		<i class="fas fa-envelope"></i> Compose a letter
+		</button>
+
+		
+		 <div id="composeModal" class="composeModal">
+	        <div class="composeModal-content">
+	            <span id="closeComposeModal" class="closeComposeModal">&times;</span>
+	            <h2>Compose a letter</h2>
+	            <form>
+	                <label class="composeLabel" for="to">To:</label>
+	                <input type="email" id="to" name="to" placeholder="Address of receiver" required>
+	
+	                <label class="composeLabel" for="subject">Theme:</label>
+	                <input type="text" id="subject" name="subject" placeholder="Theme" required>
+	
+	                <label class="composeLabel" for="message">Content:</label>
+					<textarea id="message" name="message" rows="15" style="height: 150px;" placeholder="Content..."></textarea>
+
+	
+	                <div class="compose-form-buttons">
+	                    <button type="button" class="attach-btn">
+	                        <i class="fas fa-paperclip"></i> Attach
+	                        <input type="file" id="attachment" name="attachment" style="display: none;">
+	                    </button>
+	                    <button type="submit" class="send-btn">Send</button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
 	</div>
 	
 	<div class="modal js-modal">
@@ -292,8 +315,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() { 
     const initialMainContent = document.querySelector('.main').innerHTML;
-    let currentIntervalIds = []; // Mảng để lưu trữ các intervalId hiện tại
 
+    let currentIntervalIds = []; // Mảng để lưu trữ các intervalId hiện tại
+	
     initializeMainContent();
 
     document.querySelectorAll('.userHomePageItem').forEach(item => {
@@ -328,39 +352,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelector('.main').innerHTML = initialMainContent;
                 initializeMainContent();
             } else if (file) {
-                fetch('userhomepageitem?page=' + file)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        // Xóa nội dung cũ trước khi tải nội dung mới
-                        document.querySelector('.main').innerHTML = ''; 
-
-                        // Thay thế nội dung của .main bằng nội dung mới
-                        document.querySelector('.main').innerHTML = html;
-
-                        // Tìm và thực thi tất cả các thẻ <script> trong nội dung mới
-                        const scripts = document.querySelector('.main').querySelectorAll('script');
-                        scripts.forEach(script => {
-                            const newScript = document.createElement('script');
-                            // Nếu là script có src (tức là file JS bên ngoài), nạp từ src
-                            if (script.src) {
-                                newScript.src = script.src;
-                            } else {
-                                // Nếu là inline script, nạp lại nội dung
-                                newScript.textContent = script.textContent;
-                            }
-                            // Đảm bảo script này chỉ thuộc về file hiện tại
-                            document.querySelector('.main').appendChild(newScript);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching the file:', error);
-                        document.querySelector('.main').innerHTML = "<p>Không thể tải nội dung. Vui lòng thử lại.</p>";
-                    });
+                // Sử dụng AJAX để lấy nội dung file
+                loadFileContent(file);
             } else {
                 console.error('File value is empty, not fetching.');
                 document.querySelector('.main').innerHTML = "<p>File không hợp lệ. Vui lòng thử lại.</p>";
@@ -382,12 +375,54 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIntervalIds.push(intervalId);
         return intervalId;
     };
+
+    function loadFileContent(file) {
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.querySelector('.main').innerHTML = this.responseText;
+
+                // Execute any scripts that are in the new content
+                const newContent = document.querySelector('.main');
+                const scripts = newContent.getElementsByTagName('script');
+                for (var i = 0; i < scripts.length; i++) {
+                    new Function(scripts[i].innerText)();
+                }
+            }
+        };
+        xhr.open("GET", file, true);
+        xhr.send();
+    }
 });
+
 
 
 
 // Initialize main content behavior, called after loading new content
 function initializeMainContent() {
+	const composeBtn = document.getElementById("composeBtn");
+    const closeComposeModal = document.getElementById("closeComposeModal");
+    const composeModal = document.getElementById("composeModal");
+
+    if (composeBtn) {
+        composeBtn.addEventListener("click", function() {
+            composeModal.style.display = "flex";
+        });
+    }
+
+    if (closeComposeModal) {
+        closeComposeModal.addEventListener("click", function() {
+            composeModal.style.display = "none";
+        });
+    }
+
+    // Đóng modal khi click bên ngoài nội dung modal
+    window.onclick = function(event) {
+        if (event.target == composeModal) {
+            composeModal.style.display = "none";
+        }
+    };
+	
     // Kebab menu click behavior
     document.querySelectorAll('.kebab-container').forEach(container => {
         container.addEventListener('click', function(e) {
