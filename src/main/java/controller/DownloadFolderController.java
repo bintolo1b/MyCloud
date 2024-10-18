@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.zip.ZipOutputStream;
 
-import Helper.CompressFolder;
+import helper.CompressFolder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.bo.FolderBO;
+
+
 
 @WebServlet(urlPatterns = "/downloadfoldercontroller")
 public class DownloadFolderController extends HttpServlet {

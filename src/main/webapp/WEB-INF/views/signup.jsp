@@ -22,7 +22,7 @@
             </div>
             <form action="#" id="form">
                <div class="form-group">
-                  <label>Email</label>
+                  <label>Username</label>
                   <input type="text" name="email" rules="required|email" class="form-control">
                   <span class="form-message"></span>
                </div>
