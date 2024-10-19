@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
-		
+	
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = req.getReader();
 		String line;

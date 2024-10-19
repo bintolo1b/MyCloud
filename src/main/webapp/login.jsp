@@ -11,7 +11,7 @@
     }
     
     if (username != null) {
-        response.sendRedirect(request.getContextPath() + "/userhomepage");
+        response.sendRedirect(request.getContextPath() + "/userhomepage/main");
         return;
     }
 %>
@@ -59,9 +59,6 @@
             </form>
          </div>
       </div>
-    
-      <script src="<c:url value='/assets/js/login.js'/>"></script>
-      
-      </script>
+     <script src="<c:url value='/assets/js/login.js'/>"></script>
    </body>
 </html>

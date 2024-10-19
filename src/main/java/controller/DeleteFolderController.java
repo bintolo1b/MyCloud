@@ -31,7 +31,7 @@ public class DeleteFolderController extends HttpServlet {
 					FolderBO.getInstance().deleteFolderOnDatabase(deletedFolder);
 					
 					String encodedFolderPath = URLEncoder.encode(currentFolderPath, StandardCharsets.UTF_8.toString());
-	        		resp.sendRedirect(req.getContextPath()+"/userhomepage?folderPath=" + encodedFolderPath);
+	        		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);
 				} catch (IOException e) {
 					resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to delete folder");
 					e.printStackTrace();

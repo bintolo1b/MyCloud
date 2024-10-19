@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -15,8 +14,8 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.Folder;
 import model.bo.FolderBO;
 
-@WebFilter(urlPatterns = {"/userhomepage", "/uploadfilecontroller", "/uploadfoldercontroller", "/deletefoldercontroller", "/deletefilecontroller"
-		, "/downloadfilecontroller", "/downloadfoldercontroller", "/userhomepageitem"})
+@WebFilter(urlPatterns = {"/userhomepage/*", "/uploadfilecontroller", "/uploadfoldercontroller", "/deletefoldercontroller", "/deletefilecontroller"
+		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -25,8 +24,7 @@ public class AuthorAndAuthenFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		HttpSession session = req.getSession(false);
 		if (session == null || session.getAttribute("username") == null) {
-			RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
-			dispatcher.forward(req, resp);
+			resp.sendRedirect(req.getContextPath());
 			return;
 		}
 		

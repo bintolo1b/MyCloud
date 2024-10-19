@@ -43,6 +43,7 @@ public class FileImageController extends HttpServlet {
 					if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".png")) {
 						byte[] imgData = ConvertImgFileToImgByteArray.imageToByteArr(filePath);
 						demoImgURL = TemporaryFolderHelper.SaveImage(imgData, username, tempImgFolder);
+						System.out.println(demoImgURL);
 						pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						
 					}

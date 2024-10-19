@@ -16,8 +16,8 @@ import model.bo.FileBO;
 import model.bo.FolderBO;
 
 
-@WebServlet(urlPatterns = "/userhomepage")
-public class UserHomePageController extends HttpServlet {
+@WebServlet(urlPatterns = "/userhomepage/main")
+public class UserHomePage_MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String  SERVER_PATH = "D:\\MyPBL4Server";
 
@@ -43,7 +43,7 @@ public class UserHomePageController extends HttpServlet {
 		req.setAttribute("subFolders", subFolders);
 		req.setAttribute("files", files);
 		
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePage.jsp");
+		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_main.jsp");
 		requestDispatcher.forward(req, resp);
 	}
 }

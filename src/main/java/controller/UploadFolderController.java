@@ -31,7 +31,7 @@ public class UploadFolderController extends HttpServlet {
 			else {
         		FolderBO.getInstance().saveUploadedFolderOnDatabase(currentFolderPath, uploadedFolderName);
         		String encodedFolderPath = URLEncoder.encode(currentFolderPath, StandardCharsets.UTF_8.toString());
-        		resp.sendRedirect(req.getContextPath()+"/userhomepage?folderPath=" + encodedFolderPath);
+        		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);
         		return;
 			}
 			

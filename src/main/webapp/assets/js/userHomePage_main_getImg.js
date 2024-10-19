@@ -1,4 +1,3 @@
-
 function assignPDFImgToImgTag(folderPath, fileName, imgTagId){
 	var imgTag = document.getElementById(imgTagId);
 	var folderPathEnc = encodeURIComponent(folderPath);
