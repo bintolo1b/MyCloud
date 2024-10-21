@@ -2,8 +2,8 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import helper.ConvertFileToPdfByteArray;
-import helper.ConvertImgFileToImgByteArray;
+import Helper.ConvertFileToPdfByteArray;
+import Helper.ConvertImgFileToImgByteArray;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

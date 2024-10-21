@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import helper.ConvertFileToPdfByteArray;
-import helper.ConvertImgFileToImgByteArray;
-import helper.TemporaryFolderHelper;
+import Helper.ConvertFileToPdfByteArray;
+import Helper.ConvertImgFileToImgByteArray;
+import Helper.TemporaryFolderHelper;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

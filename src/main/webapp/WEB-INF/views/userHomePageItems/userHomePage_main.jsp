@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script src="<c:url value='/assets/js/userHomePage_main_getImg.js'/>"></script>
-	<div class="main">
+	<div class="main" id="main">
 		<div class="container-fluid">
 			<% 
 			    String folderPath = (String) request.getAttribute("folderPath");

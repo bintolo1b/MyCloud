@@ -49,6 +49,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize main content behavior, called after loading new content
 function initializeMainContent() {
+	const composeBtn = document.getElementById("composeBtn");
+    const closeComposeModal = document.getElementById("closeComposeModal");
+    const composeModal = document.getElementById("composeModal");
+
+    if (composeBtn) {
+        composeBtn.addEventListener("click", function() {
+            composeModal.style.display = "flex";
+        });
+    }
+
+    if (closeComposeModal) {
+        closeComposeModal.addEventListener("click", function() {
+            composeModal.style.display = "none";
+        });
+    }
+
+    // Đóng modal khi click bên ngoài nội dung modal
+    window.onclick = function(event) {
+        if (event.target == composeModal) {
+            composeModal.style.display = "none";
+        }
+    };
+	
     // Kebab menu click behavior
     document.querySelectorAll('.kebab-container').forEach(container => {
         container.addEventListener('click', function(e) {
@@ -125,8 +148,8 @@ function initializeMainContent() {
     document.querySelectorAll('.card-panel.file').forEach((card, index) => {
     	
         const folderPath = "${folderPath.replace('\\', '\\\\')}";
+        console.log(folderPath);
         const fileName = card.querySelector('.file-details span').innerText;
-        console.log(folderPath)
         let imgId = card.querySelector('.preview-panel img').id;
         assignPDFImgToImgTag(folderPath, fileName, imgId);
     });

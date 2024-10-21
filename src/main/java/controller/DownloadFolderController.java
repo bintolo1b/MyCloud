@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.zip.ZipOutputStream;
 
-import helper.CompressFolder;
+import Helper.CompressFolder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;

@@ -1,4 +1,4 @@
-package helper;
+package Helper;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
