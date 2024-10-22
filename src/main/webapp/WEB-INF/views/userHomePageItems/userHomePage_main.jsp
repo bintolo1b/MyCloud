@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -154,7 +155,10 @@
 						
 						
 						<script>
-							assignPDFImgToImgTag("D:\\MyPBL4Server\\bintolo1b", "${file.name}", "img-${status.index}-${file.name}");	
+						   var folderPathh = "${fn:replace(folderPath, '\\', '\\\\')}";
+						   var file = "${file.name}";
+						   var imgTagId = "img-${status.index}-${file.name}";
+						   assignPDFImgToImgTag(folderPathh, file, imgTagId);
 						</script>
 			        </div>
 			    </c:forEach>

@@ -143,14 +143,7 @@ function initializeMainContent() {
         });
     });
 });
-    
-    document.querySelectorAll('.card-panel.file').forEach((card, index) => {
-    	
-        const folderPath = "${folderPath.replace('\\', '\\\\')}";
-        const fileName = card.querySelector('.file-details span').innerText;
-        let imgId = card.querySelector('.preview-panel img').id;
-        assignPDFImgToImgTag(folderPath, fileName, imgId);
-    });
+ 
 }
 		document.addEventListener('click', function(event) {
 		    const notifyIcon = document.querySelector('.notify');

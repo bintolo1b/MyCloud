@@ -1,8 +1,4 @@
 function assignPDFImgToImgTag(folderPath, fileName, imgTagId){
-	console.log(folderPath);
-	/*console.log(fileName);
-	console.log(imgTagId);
-	console.log("_______qwe")*/
 	var imgTag = document.getElementById(imgTagId);
 	var folderPathEnc = encodeURIComponent(folderPath);
 	var fileNameEnc = encodeURIComponent(fileName);
@@ -18,10 +14,10 @@ function assignPDFImgToImgTag(folderPath, fileName, imgTagId){
 		})
 		.then(function(returnObject){
 			if (returnObject.demoImgURL){
-				imgTag.src = returnObject.demoImgURL
+				imgTag.src = returnObject.demoImgURL;
 			}
 			else{
-				imgTag.src = '/PBL4/assets/img/file.png'
+				imgTag.src = '/PBL4/assets/img/file.png';	
 			}
 			
 		})
