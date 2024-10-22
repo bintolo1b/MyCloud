@@ -1,20 +1,14 @@
-const menuItems = document.querySelectorAll('.userHomePageItem');
+const currentUrl = window.location.pathname;
 
-menuItems.forEach(item => {
-    item.addEventListener('click', function () {
-        menuItems.forEach(i => {
-            i.classList.remove('active');
-            const icon = i.querySelector('i.material-icons');
-            if (icon) {
-                icon.classList.remove('blue-text', 'text-darken-1');
-            }
-        });
+const navLinks = document.querySelectorAll('.userHomePageItem a');
 
-        this.classList.add('active');
-
-        const clickedIcon = this.querySelector('i.material-icons');
-        if (clickedIcon) {
-            clickedIcon.classList.add('blue-text', 'text-darken-1');
+navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentUrl) {
+        const icon = link.querySelector('i');
+        if (icon) {
+            icon.classList.add('blue-text', 'text-darken-1');
         }
-    });
+
+        link.parentElement.classList.add('active');
+    }
 });

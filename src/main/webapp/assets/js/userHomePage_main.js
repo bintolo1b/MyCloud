@@ -147,7 +147,6 @@ function initializeMainContent() {
     document.querySelectorAll('.card-panel.file').forEach((card, index) => {
     	
         const folderPath = "${folderPath.replace('\\', '\\\\')}";
-        console.log(folderPath);
         const fileName = card.querySelector('.file-details span').innerText;
         let imgId = card.querySelector('.preview-panel img').id;
         assignPDFImgToImgTag(folderPath, fileName, imgId);

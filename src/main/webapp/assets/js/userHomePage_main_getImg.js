@@ -1,10 +1,13 @@
 function assignPDFImgToImgTag(folderPath, fileName, imgTagId){
+	console.log(folderPath);
+	/*console.log(fileName);
+	console.log(imgTagId);
+	console.log("_______qwe")*/
 	var imgTag = document.getElementById(imgTagId);
 	var folderPathEnc = encodeURIComponent(folderPath);
 	var fileNameEnc = encodeURIComponent(fileName);
 
 	var url = `http://localhost:8080/PBL4/gettemporarydemoimgurl?folderPath=${folderPathEnc}&fileName=${fileNameEnc}`;
-
 	fetch(url) 
 		.then(function(response){
 			if (!response.ok) {

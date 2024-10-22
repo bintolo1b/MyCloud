@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="/common/taglib.jsp"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,12 +111,16 @@
 		                    <div class="kebab-container">
 		                        <i class="kebab-menu fa-solid fa-ellipsis-vertical"></i>
 		                        <ul class="kebab-items-list">
-		                            <li class="kebab-item">
-		                                <a href="">
-		                                    <i class="material-icons">download</i>
-		                                   	Download
-		                                </a>
-		                            </li>
+		                        	<li class="kebab-item">
+	                                	<c:url value="/downloadfilecontroller" var="downloadfileurl">
+	                                		<c:param name="folderPath" value="${folderPath}"></c:param>
+	                                		<c:param name="downloadedFileName" value="${file.name}"></c:param>
+	                                	</c:url>
+	                                    <a href="${downloadfileurl}">
+	                                        <i class="material-icons">download</i>
+	                                        Download
+	                                    </a>
+                                	</li>
 		                            <li class="kebab-item">
 		                                <a href="">
 		                                    <i class="material-icons">share</i>
@@ -149,12 +154,8 @@
 						
 						
 						<script>
-	                        var folderPath = "${folderPath.replace('\\', '\\\\')}";
-	                      	var fileName = "${file.name}";
-	                      	var imgTagId = "img-${status.index}-${file.name}"; 
-	                      	console.log(imgTagId+" tren")
-	                      	assignPDFImgToImgTag(folderPath, fileName, imgTagId);
-                     	</script>
+							assignPDFImgToImgTag("D:\\MyPBL4Server\\bintolo1b", "${file.name}", "img-${status.index}-${file.name}");	
+						</script>
 			        </div>
 			    </c:forEach>
 
