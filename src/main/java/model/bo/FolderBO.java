@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import constant.Server;
 import jakarta.servlet.http.Part;
 import model.bean.Folder;
+import model.bean.User;
 import model.dao.FileDAOImp;
 import model.dao.FolderDAOImp;
 
@@ -207,6 +209,22 @@ public class FolderBO {
 		FolderDAOImp.getInstance().Delete(deletedFolder);
 	}
 	
+	public void createRootFolder(User user) {
+		String newFolderPath = Server.SERVER_PATH+"\\"+user.getUsername();
+		Folder folder = new Folder(null, user.getUsername(), null, user.getUsername(), newFolderPath);
+		createRootFolderOnServer(newFolderPath);
+		insertRootFolderOnDatabase(folder);
+	}
 	
+	public void createRootFolderOnServer(String path) {
+		File newFolder = new File(path);
+		if (!newFolder.exists()) {
+			newFolder.mkdir();
+		}
+	}
+	
+	public void insertRootFolderOnDatabase(Folder folder) {
+		FolderDAOImp.getInstance().Insert(folder);
+	}
 	
 }

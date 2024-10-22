@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import constant.Server;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,8 +19,6 @@ import model.bo.FolderBO;
 @WebServlet(urlPatterns = "/userhomepage/mail")
 public class UserHomePage_MailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String  SERVER_PATH = "D:\\MyPBL4Server";
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
@@ -29,7 +28,7 @@ public class UserHomePage_MailController extends HttpServlet {
 		if (req.getParameter("folderPath")!=null)
 			folderPath = req.getParameter("folderPath");
 		else 
-			folderPath = SERVER_PATH+"\\"+username;
+			folderPath = Server.SERVER_PATH+"\\"+username;
 		
 		ArrayList<Folder> subFolders = new ArrayList<Folder>();
 		ArrayList<File> files = new ArrayList<File>();

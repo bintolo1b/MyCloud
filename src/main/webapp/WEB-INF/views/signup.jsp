@@ -23,17 +23,22 @@
             <form action="#" id="form">
                <div class="form-group">
                   <label>Username</label>
-                  <input type="text" name="email" rules="required|email" class="form-control">
+                  <input id="username" type="text" name="email" rules="required|email" class="form-control">
                   <span class="form-message"></span>
                </div>
                <div class="form-group">
+                  <label>Full name</label>
+                  <input id="fullName" type="text" name="fullName" required class="form-control">
+              	  <span class="form-message"></span>
+               </div>
+               <div class="form-group">
                   <label>Password</label>
-                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <input id="password" type="password" name="password" rules="required|min:6" class="form-control">
                   <span class="form-message"></span>
                </div>
                <div class="form-group">
                   <label>Verify password</label>
-                  <input type="password" name="password" rules="required|min:6" class="form-control">
+                  <input id="verifyPassword" type="password" name="password" rules="required|min:6" class="form-control">
                   <span class="form-message"></span>
                </div>
                <div class="btn">
@@ -41,13 +46,13 @@
                   <button type="submit">signup</button>
                </div>
                <div class="signup-link">
-                  <a href="<c:url value='/login.jsp'/>">Back to login</a>
+                  <a href="<c:url value='/login'/>">Back to login</a>
                </div>
             </form>
          </div>
       </div>
+      <script src="<c:url value='/assets/js/logup.js'/>"></script>
        <!-- Link to the validator.js file -->
-      <script src="<c:url value='/assets/js/validator.js'/>"></script>
 
       <!-- Initialize the Validator -->
       <script>

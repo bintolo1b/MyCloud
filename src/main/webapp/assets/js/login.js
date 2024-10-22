@@ -22,14 +22,14 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		})
 		.then(function(returnObject){
 			console.log(returnObject.message);
-			if (returnObject.message === 'Login successfully'){
+			if (returnObject.message === 'Login successfully!'){
 				window.location.href = `http://localhost:8080/PBL4/userhomepage/main`;
 			}
 			else{
-				if(returnObject.message === "Account doesn't exist") {
+				if(returnObject.message === "Account doesn't exist!") {
 					document.getElementById('username').value = '';
 					document.getElementById('password').value = '';
-				} else if(returnObject.message === "Password incorrect") {
+				} else if(returnObject.message === "Password incorrect!") {
 					document.getElementById('password').value = '';
 				}
       			showErrorToast(returnObject.message);

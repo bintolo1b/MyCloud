@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 import org.json.JSONObject;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,18 +38,12 @@ public class LoginController extends HttpServlet {
 			String username = jsonRequest.getString("username");
 			String password = jsonRequest.getString("password");
 			
-			if (UserBO.getInstance().doesUserExits(username)) {
-				if (!UserBO.getInstance().doesPasswordCorrect(username, password))
-					pw.write("{\"message\": \"Password incorrect\"}");
-				else {
-			        pw.write("{\"message\": \"Login successfully\"}");
-			        HttpSession session = req.getSession();
-			        session.setAttribute("username", username);
-			        session.setMaxInactiveInterval(30 * 60);
-			    }
-			}
-			else {
-				pw.write("{\"message\": \"Account doesn't exist\"}");
+			String message = UserBO.getInstance().CheckLogin(username, password);
+			pw.write("{\"message\": \"" + message + "\"}");
+			if (message.equals("Login successfully!")) {
+				HttpSession session = req.getSession();
+		        session.setAttribute("username", username);
+		        session.setMaxInactiveInterval(30 * 60);
 			}
 		}
 		catch (Exception e) {
@@ -59,5 +54,11 @@ public class LoginController extends HttpServlet {
 		pw.flush();
 		pw.close();
 			
+	}
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
+		dispatcher.forward(req, resp);
 	}
 }

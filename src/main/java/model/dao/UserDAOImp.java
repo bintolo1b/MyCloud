@@ -20,8 +20,18 @@ public class UserDAOImp implements DAOInterface<User> {
 	}
 	@Override
 	public void Insert(User obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "insert into user(username, hashedPassword, fullName) value"
+				+ "(?,?,?)";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getUsername());
+			pst.setObject(2, obj.getHashedPassword());
+			pst.setObject(3, obj.getFullName());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -44,7 +54,7 @@ public class UserDAOImp implements DAOInterface<User> {
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				User user = new User(res.getString(1), res.getString(2));
+				User user = new User(res.getString(1), res.getString(2), res.getString(3));
 				userArrayList.add(user);
 			}
 		} catch (SQLException e) {

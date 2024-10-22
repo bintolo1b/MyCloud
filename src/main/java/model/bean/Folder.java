@@ -3,11 +3,11 @@ package model.bean;
 public class Folder {
 	private Integer id;
 	private String ownerUsername;
-	private int parentFolderId;
+	private Integer parentFolderId;
 	private String name;
 	private String path;
 	
-	public Folder(Integer id, String ownerUsername, int parentFolderId, String name, String path) {
+	public Folder(Integer id, String ownerUsername, Integer parentFolderId, String name, String path) {
 		super();
 		this.id = id;
 		this.ownerUsername = ownerUsername;
@@ -15,7 +15,6 @@ public class Folder {
 		this.name = name;
 		this.path = path;
 	}
-	
 	public Integer getId() {
 		return id;
 	}
@@ -28,10 +27,10 @@ public class Folder {
 	public void setOwnerUsername(String ownerUsername) {
 		this.ownerUsername = ownerUsername;
 	}
-	public int getParentFolderId() {
+	public Integer getParentFolderId() {
 		return parentFolderId;
 	}
-	public void setParentFolderId(int parentFolderId) {
+	public void setParentFolderId(Integer parentFolderId) {
 		this.parentFolderId = parentFolderId;
 	}
 	public String getName() {
