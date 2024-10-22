@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() { 
     const initialMainContent = document.querySelector('.main').innerHTML;
     let currentIntervalIds = []; // Mảng để lưu trữ các intervalId hiện tại
