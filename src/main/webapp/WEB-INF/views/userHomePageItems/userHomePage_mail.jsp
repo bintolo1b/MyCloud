@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<%@include file="/common/taglib.jsp"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -13,6 +14,18 @@
 	    <div class="inbox-container">
 	        <table id="inbox-table">
 	            <tbody id="inbox-body">
+	            	<c:forEach items="${mails}" var="mail">
+	            		<c:if test="${mail.status == 'Pending'}">
+	            			<tr class="unread">	          
+	            		</c:if>
+	            		<c:if test="${mail.status == 'Read'}">
+	            			<tr class="unread">	           
+	            		</c:if>
+		            		<td>${mail.senderUsername}</td>
+			            	<td class="subject-cell">${mail.topic}</td>
+			            	<td>${mail.formattedSentDate}</td>
+		            	</tr>
+	            	</c:forEach>
 	            </tbody>
 	        </table>
 	    </div>
@@ -26,6 +39,6 @@
         </div>
 	</div>
 		
-    <script src="<c:url value='/assets/js/userHomePage_mail.js'/>"></script>
+   <%--  <script src="<c:url value='/assets/js/userHomePage_mail.js'/>"></script> --%>
 </body>
 </html>

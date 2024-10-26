@@ -16,7 +16,7 @@
 			<% 
 			    String folderPath = (String) request.getAttribute("folderPath");
 			
-			    String displayPath = folderPath.replace("D:\\MyPBL4Server\\", "");
+			    String displayPath = folderPath.replace("D:\\MyPBL4Server\\UserFolder\\", "");
 			
 			    String[] pathSegments = displayPath.split("\\\\");
 			%>
@@ -24,7 +24,7 @@
 			<% if (pathSegments.length > 0) { %>  
 			    <div class="breadcrumb-container" style="margin-bottom: 10px;">
 			        <%
-			        String cumulativePath = "D:\\MyPBL4Server";
+			        String cumulativePath = "D:\\MyPBL4Server\\UserFolder";
 			        for (int i = 0; i < pathSegments.length; i++) {
 			            cumulativePath += "\\" + pathSegments[i];
 			
@@ -220,9 +220,9 @@
 	        <div class="composeModal-content">
 	            <span id="closeComposeModal" class="closeComposeModal">&times;</span>
 	            <h2>Compose a letter</h2>
-	            <form>
+	            <form id="sendMailForm">
 	                <label class="composeLabel" for="to">To:</label>
-	                <input type="email" id="to" name="to" placeholder="Address of receiver" required>
+	                <input type="text" id="to" name="to" placeholder="Address of receiver" required>
 	
 	                <label class="composeLabel" for="subject">Theme:</label>
 	                <input type="text" id="subject" name="subject" placeholder="Theme" required>
@@ -230,65 +230,19 @@
 	                <label class="composeLabel" for="message">Content:</label>
 					<textarea id="message" name="message" rows="15" style="height: 150px;" placeholder="Content..."></textarea>
 
-	
 	                <div class="compose-form-buttons">
 	                    <button type="button" class="attach-btn">
 	                        <i class="fas fa-paperclip"></i> Attach
-	                        <input type="file" id="attachment" name="attachment" style="display: none;">
+	                        <input type="file" id="attachment" name="attachment" multiple>
 	                    </button>
+	                   		
 	                    <button type="submit" class="send-btn">Send</button>
 	                </div>
 	            </form>
+	            
 	        </div>
 	    </div>
 	</div>	
-	
-	<div class="modal js-modal">
-        <div class="modal-container js-modal-container">
-            <div class = "modal-close js-modal-close">
-                <i class="material-icons">close</i>
-            </div>
-			<header class="modal-header"></header>
-			  <ul class="new-list">
-                <li class="new-item">
-                    <a href="">
-                        <i class="FFicon material-icons">create_new_folder</i>
-                        Create new folder
-                    </a>
-                </li>
-                <li class="new-item">
-                     <a href="">
-                        <i class="FFicon material-icons">drive_folder_upload</i>
-                        Upload folder
-                    </a>
-                    <c:url value="/uploadfoldercontroller" var="uploadfolderurl">
-						<c:param name="folderPath" value="${folderPath}"></c:param>
-					</c:url>
-					<form action="${uploadfolderurl}" method="post" enctype="multipart/form-data">
-					    <input type="file" name="files" webkitdirectory directory multiple>
-					</form>
-                </li>
-                <li class="new-item">
-                    <a href="">
-                        <i class="FFicon material-icons">upload_file</i>
-                        Upload file
-                    </a> 
-					<c:url value="/uploadfilecontroller" var="uploadfileurl">
-						<c:param name="folderPath" value="${folderPath}"></c:param>
-					</c:url>
-					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
-						<input type="file" name="files" multiple required="required"/>
-					</form>
-                </li>
-            </ul>
-        </div>
-    </div>
-    
-    
-    
-    <div class = "display-modal">
-    	<iframe scr =""></iframe>
-    </div>
     
     <script src="<c:url value='/assets/js/userHomePage_main.js'/>"></script>
 </body>

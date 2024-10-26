@@ -45,13 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+ document.getElementById('attachment').addEventListener('change', function(event) {
+   		event.preventDefault(); // Ngăn chặn reload khi chọn file
+	});
+
 
 // Initialize main content behavior, called after loading new content
 function initializeMainContent() {
 	const composeBtn = document.getElementById("composeBtn");
     const closeComposeModal = document.getElementById("closeComposeModal");
     const composeModal = document.getElementById("composeModal");
-
+    
+   
     if (composeBtn) {
         composeBtn.addEventListener("click", function() {
             composeModal.style.display = "flex";
@@ -98,120 +103,155 @@ function initializeMainContent() {
     });
 
     // Double-click file card to view or open in a modal/new tab
-   document.querySelectorAll('.card-panel.file').forEach(card => {
-    card.addEventListener('dblclick', function() {
-        const url = this.getAttribute('data-url');
-        const displayModal = document.querySelector('.display-modal');
-        const iframe = document.querySelector('.display-modal iframe');
+    document.querySelectorAll('.card-panel.file').forEach(card => {
+        card.addEventListener('dblclick', function() {
+            const url = this.getAttribute('data-url');
+            const displayModal = document.querySelector('.display-modal');
+            const iframe = document.querySelector('.display-modal iframe');
 
-        // Handle image files (jpg, png, gif)
-        if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
-            const img = new Image();
-            img.src = url;
+            // Handle image files (jpg, png, gif)
+            if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                const img = new Image();
+                img.src = url;
 
-            img.onload = function() {
-                // Clear previous content
-                displayModal.innerHTML = ''; // Clear any existing content in the modal
-                displayModal.appendChild(img); // Append the image
+                img.onload = function() {
+                    // Clear previous content
+                    displayModal.innerHTML = ''; // Clear any existing content in the modal
+                    displayModal.appendChild(img); // Append the image
 
-                // Adjust image size according to viewport
-                if (img.naturalWidth >= window.innerWidth * 0.9 || img.naturalHeight >= window.innerHeight * 0.9) {
-                    img.style.maxWidth = '90%'; // Scale down to 90% of viewport
-                    img.style.maxHeight = '90%'; // Scale down to 90% of viewport
-                } else {
-                    img.style.width = `${img.naturalWidth}px`; // Set original width
-                    img.style.height = `${img.naturalHeight}px`; // Set original height
-                }
+                    // Adjust image size according to viewport
+                    if (img.naturalWidth >= window.innerWidth * 0.9 || img.naturalHeight >= window.innerHeight * 0.9) {
+                        img.style.maxWidth = '90%'; // Scale down to 90% of viewport
+                        img.style.maxHeight = '90%'; // Scale down to 90% of viewport
+                    } else {
+                        img.style.width = `${img.naturalWidth}px`; // Set original width
+                        img.style.height = `${img.naturalHeight}px`; // Set original height
+                    }
 
-                // Show modal
-                displayModal.style.display = 'flex';
-                displayModal.classList.add('open');
-            };
-        } else {
-            // Open non-image files in a new tab
-            window.open(url, '_blank');
-        }
-
-        // Close modal when clicking outside the content
-        displayModal.addEventListener('click', function(e) {
-            if (e.target === displayModal) {
-                displayModal.classList.remove('open');
-                displayModal.style.display = 'none';
-                iframe.src = ''; // Reset iframe content
-                displayModal.innerHTML = ''; // Clear modal content when closed
+                    // Show modal
+                    displayModal.style.display = 'flex';
+                    displayModal.classList.add('open');
+                };
+            } else {
+                // Open non-image files in a new tab
+                window.open(url, '_blank');
             }
+
+            // Close modal when clicking outside the content
+            displayModal.addEventListener('click', function(e) {
+                if (e.target === displayModal) {
+                    displayModal.classList.remove('open');
+                    displayModal.style.display = 'none';
+                    iframe.src = ''; // Reset iframe content
+                    displayModal.innerHTML = ''; // Clear modal content when closed
+                }
+            });
         });
     });
-});
- 
 }
-		document.addEventListener('click', function(event) {
-		    const notifyIcon = document.querySelector('.notify');
-		    const notifyBlock = document.querySelector('.notify-block');
-		
-		    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
-		        notifyBlock.classList.remove('open'); 
-		    }
-		});
-		
-		document.querySelector('.notify').addEventListener('click', function(e) {
-		    const notifyBlock = document.querySelector('.notify-block'); 
-		
-			notifyBlock.classList.toggle('open');
-			
-		    e.stopPropagation();
-		});
+document.addEventListener('click', function(event) {
+    const notifyIcon = document.querySelector('.notify');
+    const notifyBlock = document.querySelector('.notify-block');
+
+    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
+        notifyBlock.classList.remove('open'); 
+    }
+});
+
+document.querySelector('.notify').addEventListener('click', function(e) {
+    const notifyBlock = document.querySelector('.notify-block'); 
+
+    notifyBlock.classList.toggle('open');
+    
+    e.stopPropagation();
+});
 
 
-      
 
-        const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
-        const modal = document.querySelector('.js-modal');
-        const modalClose = document.querySelector('.js-modal-close');
-        const modalContainer = document.querySelector('.js-modal-container');
 
-        function showModal() {
-            modal.classList.add('open');
+const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
+const modal = document.querySelector('.js-modal');
+const modalClose = document.querySelector('.js-modal-close');
+const modalContainer = document.querySelector('.js-modal-container');
+
+function showModal() {
+    modal.classList.add('open');
+}
+
+function hideModal() {
+    modal.classList.remove('open');
+}
+
+newBtn.addEventListener('click', showModal);
+
+modalClose.addEventListener('click', hideModal);
+
+modal.addEventListener('click', hideModal);
+
+modalContainer.addEventListener('click', function(event) {
+    event.stopPropagation();
+});
+
+
+document.querySelectorAll('.new-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+        const inputFile = this.querySelector('input[type="file"]');
+
+        if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
+            e.preventDefault(); 
         }
 
-        function hideModal() {
-            modal.classList.remove('open');
+        if (inputFile) {
+            inputFile.click();
         }
+    });
+});
 
-        newBtn.addEventListener('click', showModal);
+// document.addEventListener('DOMContentLoaded', function() {
+//     const fileInputs = document.querySelectorAll('input[type="file"]');
 
-        modalClose.addEventListener('click', hideModal);
+//     fileInputs.forEach(input => {
+//         input.addEventListener('change', function() {
+//             if (this.files.length > 0) {
+//                 const form = this.closest('form');
+//                 form.submit();
+//             }
+//         });
+//     });
+// });
 
-        modal.addEventListener('click', hideModal);
-
-        modalContainer.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-        
-        
-        document.querySelectorAll('.new-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                const inputFile = this.querySelector('input[type="file"]');
-
-                if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
-                    e.preventDefault(); 
-                }
-
-                if (inputFile) {
-                    inputFile.click();
-                }
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInputs = document.querySelectorAll('input[type="file"]');
-
-            fileInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    if (this.files.length > 0) {
-                        const form = this.closest('form');
-                        form.submit();
-                    }
-                });
-            });
-        });
+document.getElementById('sendMailForm').addEventListener('submit', function(event){
+    event.preventDefault();
+    
+    var fd = new FormData();
+    fd.append("receiverUsername", document.getElementById('to').value);
+    fd.append("topic", document.getElementById('subject').value);
+    fd.append("content", document.getElementById('message').value);
+  
+  	var files = document.getElementById('attachment').files;
+    for (var i = 0; i < files.length; i++) {
+        fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
+    }
+   
+    fetch('http://localhost:8080/PBL4/sendmail',{
+		method: 'POST',
+		body: fd
+		})
+		.then(function(response){
+			if (!response.ok) {
+           	 	throw new Error('Network response was not ok');
+       		}
+			else
+				return response.json();
+		})
+		.then(function(returnObject){
+			console.log(returnObject.message);
+			if (returnObject.message === 'Sent Successfully!'){
+                alert("Sent successfully!")
+				document.getElementById("composeModal").style.display = 'none';
+			}			
+		})
+		.catch(function(error){
+			console.log(error);
+	 	})
+})

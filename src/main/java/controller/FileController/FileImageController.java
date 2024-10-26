@@ -1,4 +1,4 @@
-package controller;
+package controller.FileController;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,10 +41,8 @@ public class FileImageController extends HttpServlet {
 					String tempImgFolder = context.getRealPath("/temporary/img");
 					
 					if (filePath.endsWith(".jpg") || filePath.endsWith(".jpeg") || filePath.endsWith(".png")) {
-						System.out.println("not found wtf");
 						byte[] imgData = ConvertImgFileToImgByteArray.imageToByteArr(filePath);
 						demoImgURL = TemporaryFolderHelper.SaveImage(imgData, username, tempImgFolder);
-						System.out.println(demoImgURL);
 						pw.write("{\"demoImgURL\": \""+demoImgURL+"\"}");
 						
 					}

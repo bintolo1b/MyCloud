@@ -16,7 +16,6 @@ public class TemporaryFolderHelper {
 	public static String SaveImage(byte[] imageData, String username, String tempImgFolder) throws IOException {
 		String fileName = username + "_" + UUID.randomUUID().toString() + ".png";
 		File imgFile = new File(tempImgFolder + File.separator + fileName);
-			 
 		try (FileOutputStream fos = new FileOutputStream(imgFile)) {
             fos.write(imageData);
         }

@@ -1,4 +1,4 @@
-package controller;
+package controller.UserHomePageItemController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +16,11 @@ import model.bean.Folder;
 import model.bo.FileBO;
 import model.bo.FolderBO;
 
-@WebServlet(urlPatterns = "/userhomepage/mail")
-public class UserHomePage_MailController extends HttpServlet {
+
+@WebServlet(urlPatterns = "/userhomepage/main")
+public class UserHomePage_MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
@@ -28,7 +30,7 @@ public class UserHomePage_MailController extends HttpServlet {
 		if (req.getParameter("folderPath")!=null)
 			folderPath = req.getParameter("folderPath");
 		else 
-			folderPath = Server.SERVER_PATH+"\\"+username;
+			folderPath = Server.USER_FOLDER_PATH+"\\"+username;
 		
 		ArrayList<Folder> subFolders = new ArrayList<Folder>();
 		ArrayList<File> files = new ArrayList<File>();
@@ -41,7 +43,7 @@ public class UserHomePage_MailController extends HttpServlet {
 		req.setAttribute("subFolders", subFolders);
 		req.setAttribute("files", files);
 		
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_mail.jsp");
+		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_main.jsp");
 		requestDispatcher.forward(req, resp);
 	}
 }

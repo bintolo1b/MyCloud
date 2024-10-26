@@ -1,4 +1,4 @@
-package controller;
+package controller.FolderController;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import model.bo.FolderBO;
+
 
 @WebServlet(urlPatterns = "/uploadfoldercontroller")
 @MultipartConfig
