@@ -72,7 +72,7 @@
                                     </a>
                                 </li>
                                 <li class="kebab-item">
-                                    <a href="">
+                                    <a href="#" class="rename-btn" data-file-name="${folder.name}">
                                         <i class="material-icons">edit</i>
                                         Rename
                                     </a>
@@ -129,7 +129,7 @@
 		                                </a>
 		                            </li>
 		                            <li class="kebab-item">
-		                                <a href="">
+		                                <a href="#" class="rename-btn" data-file-name="${file.name}">
 		                                    <i class="material-icons">edit</i>
 		                                   	Rename
 		                                </a>
@@ -173,8 +173,8 @@
             </div>
 			<header class="modal-header"></header>
 			  <ul class="new-list">
-                <li class="new-item">
-                    <a href="">
+                <li class="new-item" id="create-new-folder">
+                    <a href="" id="create-new-folder">
                         <i class="FFicon material-icons">create_new_folder</i>
                         Create new folder
                     </a>
@@ -188,7 +188,7 @@
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
 					<form action="${uploadfolderurl}" method="post" enctype="multipart/form-data">
-					    <input type="file" name="files" webkitdirectory directory multiple>
+					    <input class="uploadItem" type="file" name="files" webkitdirectory directory multiple>
 					</form>
                 </li>
                 <li class="new-item">
@@ -200,12 +200,40 @@
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
 					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
-						<input type="file" name="files" multiple required="required"/>
+						<input class="uploadItem" type="file" name="files" multiple required="required"/>
 					</form>
                 </li>
             </ul>
         </div>
     </div>
+    
+    <div id="newFolderModal" class="newFolderModal" >
+	    <div class="new-folder-modal-content">
+	        <h2>New Folder</h2>
+	        <!-- Thay đổi từ div sang form -->
+	        <form id="newFolderForm" action="" method="POST">
+	            <input type="text" id="folderName" name="folderName" value="New Folder">
+	            <div class="new-folder-modal-buttons">
+	                <button type="button" id="cancel-new-folder-modal-btn" class="cancel-new-folder-modal-btn">Cancel</button>
+	                <button type="submit" id="create-new-folder-modal-btn" class="create-new-folder-modal-btn">Create</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+	
+	<div id="renameModal" class="renameModal">
+	    <div class="rename-modal-content">
+	        <h2>Rename</h2>
+	        <!-- Thay đổi từ div sang form -->
+	        <form id="renameForm" action="" method="POST">
+	            <input type="text" id="renameInput">
+	            <div class="rename-modal-buttons">
+	                <button type="button" id="cancel-rename-modal-btn" class="cancel-rename-modal-btn">Cancel</button>
+	                <button type="submit" id="confirm-rename-modal-btn" class="confirm-rename-modal-btn">OK</button>
+	            </div>
+	        </form>
+	    </div>
+	</div>
     
     <div class = "display-modal">
     	<iframe scr = ""></iframe>

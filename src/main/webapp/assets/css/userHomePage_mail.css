@@ -43,7 +43,7 @@ tr:hover {
 }
 
 td.subject-cell {
-    width: 1020px; 
+    width: 920px; 
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 

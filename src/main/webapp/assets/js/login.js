@@ -23,6 +23,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		.then(function(returnObject){
 			console.log(returnObject.message);
 			if (returnObject.message === 'Login successfully!'){
+				showSuccessToast(returnObject.message);
 				window.location.href = `http://localhost:8080/PBL4/userhomepage/main`;
 			}
 			else{
@@ -47,6 +48,16 @@ function showErrorToast(message){
        message: message,
        type: 'error',
        duration: 3000
+    });
+}
+
+
+function showSuccessToast(message) {
+    toast({
+        title: 'Success',
+        message: message,  // Display the message passed from the server
+        type: 'success',
+        duration: 3000
     });
 }
 
