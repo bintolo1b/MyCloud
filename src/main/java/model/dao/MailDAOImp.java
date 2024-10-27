@@ -82,7 +82,7 @@ public class MailDAOImp implements DAOInterface<Mail> {
 	public int getLatestId() {
 		int latestId = 0;
 		try {	     
-			String query = "select* from mail order by id desc";
+			String query = "select* from mail order by id desc limit 1";
 	        PreparedStatement pst = connect.prepareStatement(query);
 	        
 	        ResultSet res = pst.executeQuery();

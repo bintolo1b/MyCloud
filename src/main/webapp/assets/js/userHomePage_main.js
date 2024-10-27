@@ -288,9 +288,12 @@ function initializeMainContent() {
 				.then(function(returnObject){
 					console.log(returnObject.message);
 					if (returnObject.message === 'Sent Successfully!'){
-		                alert("Sent successfully!")
 						document.getElementById("composeModal").style.display = 'none';
-					}			
+						alert("Sent successfully!");
+					}
+					else{
+						alert(returnObject.message);
+					}		
 				})
 				.catch(function(error){
 					console.log(error);
