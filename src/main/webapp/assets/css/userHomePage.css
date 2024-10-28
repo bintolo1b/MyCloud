@@ -91,12 +91,14 @@ form {
     margin: 0 -0.75rem;
   }
   .main {
-	background-color: white;
+    height: calc(100vh - 125px); /* Chiều cao cố định dựa vào chiều cao màn hình trừ phần cách top */
+    background-color: white;
     position: absolute;
     width: calc(100% - 250px);
     top: 125px;
     margin-left: 250px;
-  }
+    overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung vượt quá chiều cao */
+}
   .subheader {
     color: rgba(0, 0, 0, 0.54);
     font-weight: 500;
