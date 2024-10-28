@@ -6,16 +6,16 @@
     <meta charset="UTF-8">
     <title>Mail Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	  
 </head>
 <body>
+	<link href="<c:url value='/assets/css/userHomePage_mail.css'/>" rel="stylesheet">
 	<div class="main">
 	    <div class="inbox-container">
 	        <table id="inbox-table">
 	            <tbody id="inbox-body">
 	            	<c:forEach items="${mails}" var="mail">	     
-	            		<c:url value="/userhomepage/mail/read" var="readmailurl">
-							<%-- <c:param name="folderPath" value="${folder.path}"></c:param> --%>
+	            		<c:url value="/userhomepage/mail/readreceivedmail" var="readmailurl">
+							<c:param name="mailId" value="${mail.id}"></c:param>
 						</c:url>   
 						    					
 	            		<c:if test="${mail.status == 'Pending'}">
@@ -36,7 +36,6 @@
 	    </div>
 	    
 	</div>
-		
    <script src="<c:url value='/assets/js/userHomePage_mail.js'/>"></script>
 </body>
 </html>

@@ -26,6 +26,11 @@ public class MailBO {
 		return instance;
 	}
 	
+	public ArrayList<Mail> getAllMail(){
+		return MailDAOImp.getInstance().getAll();
+	}
+	
+	
 	public int generateNewMailId() {
 		return MailDAOImp.getInstance().getLatestId()+1;
 	}
@@ -38,6 +43,14 @@ public class MailBO {
 				receivedMails.add(mail);
 		return receivedMails;
 				
+	}
+	
+	public Mail getMailById(int id) {
+		ArrayList<Mail> mails = getAllMail();
+		for (Mail mail:mails)
+			if (mail.getId() == id)
+				return mail;
+		return null;
 	}
 	
 	public void saveMailAttachFilesOnServer(int mailId, String receiverUsername, Collection<Part> parts) {

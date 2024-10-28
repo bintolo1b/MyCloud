@@ -9,9 +9,7 @@
 		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-	<link rel="stylesheet"
-		href="<c:url value='/assets/css/userHomePage.css'/>" />
-	<link href="<c:url value='/assets/css/userHomePage_mail.css'/>" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/assets/css/userHomePage.css'/>" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 	<title>Insert title here</title>

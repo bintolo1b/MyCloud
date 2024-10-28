@@ -2,6 +2,7 @@ package model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -49,14 +50,29 @@ public class MailAttachFileDAOImp implements DAOInterface<MailAttachFile> {
 
 	@Override
 	public ArrayList<MailAttachFile> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return selectByCondition("select* from mailAttachFile");
 	}
 
 	@Override
 	public ArrayList<MailAttachFile> selectByCondition(String condition, Object... params) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<MailAttachFile> mailAttachFiles = new ArrayList<MailAttachFile>();
+	    try {	     
+	        PreparedStatement pst = connect.prepareStatement(condition);
+	        
+	        if (params!=null)
+		        for (int i = 0; i < params.length; i++) {
+		            pst.setObject(i + 1, params[i]);
+		        }
+	        
+	        ResultSet res = pst.executeQuery();
+	        while (res.next()) {
+	        	MailAttachFile mailAttachFile = new MailAttachFile(res.getInt(1), res.getInt(2), res.getString(3), res.getString(4));
+	        	mailAttachFiles.add(mailAttachFile);
+			}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return mailAttachFiles;
 	}
 
 }
