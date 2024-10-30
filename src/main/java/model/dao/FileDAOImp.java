@@ -38,8 +38,23 @@ public class FileDAOImp implements DAOInterface<File> {
 	}
 	@Override
 	public void Update(File obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "update file "
+				+ "set ownerUsername = ?, folderId = ?, name = ?, path = ?, size = ?, uploadDate = ? "
+				+ "where id = ?";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getOwnerUsername());
+			pst.setObject(2, obj.getFolderId());
+			pst.setObject(3, obj.getName());
+			pst.setObject(4, obj.getPath());
+			pst.setObject(5, obj.getSize());
+			pst.setObject(6, obj.getUploadDate());
+			pst.setObject(7, obj.getId());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void Delete(File obj) {

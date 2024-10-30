@@ -24,7 +24,7 @@ public class MailAttachFileBO {
 		ArrayList<MailAttachFile> mailAttachFiles = getAllMailAttachFile();
 		ArrayList<MailAttachFile> returnArrList = new ArrayList<MailAttachFile>();
 		for (MailAttachFile mailAttachFile:mailAttachFiles)
-			if (mailAttachFile.getMailId() == mailId)
+			if ((int)mailAttachFile.getMailId() == mailId)
 				returnArrList.add(mailAttachFile);
 		return returnArrList;
 	}

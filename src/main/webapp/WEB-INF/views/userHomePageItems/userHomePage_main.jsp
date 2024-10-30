@@ -210,9 +210,9 @@
     <div id="newFolderModal" class="newFolderModal" >
 	    <div class="new-folder-modal-content">
 	        <h2>New Folder</h2>
-	        <!-- Thay đổi từ div sang form -->
-	        <form id="newFolderForm" action="" method="POST">
-	            <input type="text" id="folderName" name="folderName" value="New Folder">
+	        <form id="newFolderForm" method="POST">
+	            <input type="text" id="folderName" value="New Folder" required="required">
+	            <input type="hidden" id="folderPath_createFolder" value="${folderPath}">
 	            <div class="new-folder-modal-buttons">
 	                <button type="button" id="cancel-new-folder-modal-btn" class="cancel-new-folder-modal-btn">Cancel</button>
 	                <button type="submit" id="create-new-folder-modal-btn" class="create-new-folder-modal-btn">Create</button>
@@ -226,7 +226,10 @@
 	        <h2>Rename</h2>
 	        <!-- Thay đổi từ div sang form -->
 	        <form id="renameForm" action="" method="POST">
-	            <input type="text" id="renameInput">
+	            <input type="text" id="renameInput" required>
+				<input type="hidden" id="oldName" value="">
+				<input type="hidden" id="folderPath_rename" value="${folderPath}">
+				<input type="hidden" id="isFolder" value="">
 	            <div class="rename-modal-buttons">
 	                <button type="button" id="cancel-rename-modal-btn" class="cancel-rename-modal-btn">Cancel</button>
 	                <button type="submit" id="confirm-rename-modal-btn" class="confirm-rename-modal-btn">OK</button>

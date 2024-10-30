@@ -48,7 +48,7 @@ public class MailBO {
 	public Mail getMailById(int id) {
 		ArrayList<Mail> mails = getAllMail();
 		for (Mail mail:mails)
-			if (mail.getId() == id)
+			if ((int)mail.getId() == id)
 				return mail;
 		return null;
 	}

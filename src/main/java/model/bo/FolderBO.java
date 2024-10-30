@@ -30,7 +30,7 @@ public class FolderBO {
 	public Folder getOriginFolder(String username) {
 		ArrayList<Folder> folderArrayList = FolderDAOImp.getInstance().getAll();
 		for (Folder folder:folderArrayList) {
-			if (folder.getOwnerUsername().equals(username) && folder.getParentFolderId()==0)
+			if (folder.getOwnerUsername().equals(username) && (int)folder.getParentFolderId()==0)
 				return folder;
 		}
 		return null;
@@ -45,27 +45,13 @@ public class FolderBO {
 		return null;
 	}
 	
-	public boolean doesFolderBelongToUser(Folder validateFolder, String username) {
-		ArrayList<Folder> folderArrayList = FolderDAOImp.getInstance().getAll();
-		for (Folder folder:folderArrayList) {
-			if (folder.getId() == validateFolder.getId()) {
-				if (folder.getOwnerUsername().equals(username))
-					return true;
-				else
-					return false;
-			}
-		}
-		return false;
-	}
-	
 	public ArrayList<Folder> getAllSubfolderOfFolder(Folder fatherFolder){
 		ArrayList<Folder> folderArrayList = FolderDAOImp.getInstance().getAll();
 		ArrayList<Folder> subFolerArrayList = new ArrayList<Folder>();
 		for (Folder folder:folderArrayList) {
-			if (folder.getParentFolderId()==fatherFolder.getId()) {
+			if ((int)folder.getParentFolderId()==(int)fatherFolder.getId()) {
 				subFolerArrayList.add(folder);
-			}
-				
+			}	
 		}
 		return subFolerArrayList;
 	}
@@ -74,7 +60,7 @@ public class FolderBO {
 		ArrayList<model.bean.File> fileArrayList = FileDAOImp.getInstance().getAll();
 		ArrayList<model.bean.File> filesOfFolder = new ArrayList<model.bean.File>();
 		for (model.bean.File file:fileArrayList)
-			if (file.getFolderId()==folder.getId()) {
+			if ((int)file.getFolderId()==(int)folder.getId()) {
 				filesOfFolder.add(file);
 			}
 		return filesOfFolder;
@@ -225,6 +211,64 @@ public class FolderBO {
 	
 	public void insertRootFolderOnDatabase(Folder folder) {
 		FolderDAOImp.getInstance().Insert(folder);
+	}
+	
+	public String createNewFolder(String folderPath, String folderName, String username) {
+		Folder fatherFolder = getFolderByPath(folderPath);
+		String returnMessage = "";
+		if (fatherFolder == null) {
+			returnMessage = "Wrong path!";
+		}
+		else if (fatherFolder != null) {
+			if (!fatherFolder.getOwnerUsername().equals(username))
+				returnMessage = "You have no permission to access this folder!";
+			else if (fatherFolder.getOwnerUsername().equals(username)) {
+				Folder newFolderOnDatabase = getFolderByPath(folderPath + File.separator + folderName);
+				if (newFolderOnDatabase != null)
+					returnMessage = "Folder name exists!";
+				else {
+					File newFolderOnServer = new File(folderPath + File.separator + folderName);
+					newFolderOnServer.mkdir();
+					newFolderOnDatabase = new Folder(null, fatherFolder.getOwnerUsername(), fatherFolder.getId(), folderName, newFolderOnServer.getPath()); 
+			        FolderDAOImp.getInstance().Insert(newFolderOnDatabase);
+			        returnMessage = "Created sucessfully!";
+				}
+			}
+		}
+		
+		return returnMessage;
+	}
+	
+	public String changeFolderName(String folderPath, String oldFolderName, String newFolderName, String username) {
+		String returnMessage = "";
+		Folder oldFolderOnDataBase = getFolderByPath(folderPath + File.separator + oldFolderName);
+		if (oldFolderOnDataBase == null) 
+			returnMessage = "Folder doesn't exists!";
+		else if (oldFolderOnDataBase != null) {
+			if (!oldFolderOnDataBase.getOwnerUsername().equals(username))
+				returnMessage = "You have no permission to access this folder!";
+			else if (oldFolderOnDataBase.getOwnerUsername().equals(username)) {
+				if (oldFolderOnDataBase.getName().equals(newFolderName))
+					returnMessage = "New name is the same with old one!";
+				else {
+					File oldFolderOnServer = new File(folderPath + File.separator + oldFolderName);
+					File newFolderOnServer = new File(folderPath + File.separator + newFolderName);
+					if (newFolderOnServer.exists()) {
+						returnMessage = "Folder name exists!";
+					}
+					else if (oldFolderOnServer.renameTo(newFolderOnServer)) {						
+						oldFolderOnDataBase.setName(newFolderName);
+						oldFolderOnDataBase.setPath(newFolderOnServer.getPath());
+						FolderDAOImp.getInstance().Update(oldFolderOnDataBase);						
+						returnMessage = "Rename successfully!";
+					}
+					else {
+						returnMessage = "Rename failed!";
+					}
+				}
+			}
+		}
+		return returnMessage;
 	}
 	
 }

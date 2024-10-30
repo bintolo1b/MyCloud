@@ -17,7 +17,7 @@ import model.bo.FileBO;
 import model.bo.FolderBO;
 
 
-@WebServlet(urlPatterns = "/userhomepage/main")
+@WebServlet(urlPatterns = {"/userhomepage/main"})
 public class UserHomePage_MainController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

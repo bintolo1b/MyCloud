@@ -102,6 +102,15 @@ function initializeMainContent() {
 	        //alert(fileName);
 	        document.getElementById('renameInput').value = fileName; // Đặt tên file vào input của modal
 	        document.getElementById('renameModal').classList.add('open'); // Thêm class .open để hiển thị modal
+            document.getElementById('oldName').value = fileName;
+
+            if (this.closest('.folder-container')) {
+                document.getElementById('isFolder').value = 'true';
+            } else if (this.closest('.file-container')) {
+                document.getElementById('isFolder').value = 'false';
+            } else {
+                document.getElementById('isFolder').value = 'undefined';
+            }
 	    });
 	});
 	
@@ -171,131 +180,213 @@ function initializeMainContent() {
         });
     });
 }
-		document.addEventListener('click', function(event) {
-		    const notifyIcon = document.querySelector('.notify');
-		    const notifyBlock = document.querySelector('.notify-block');
-		
-		    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
-		        notifyBlock.classList.remove('open'); 
-		    }
-		});
-		
-		document.querySelector('.notify').addEventListener('click', function(e) {
-		    const notifyBlock = document.querySelector('.notify-block'); 
-		
-		    notifyBlock.classList.toggle('open');
-		    
-		    e.stopPropagation();
-		});
+document.addEventListener('click', function(event) {
+    const notifyIcon = document.querySelector('.notify');
+    const notifyBlock = document.querySelector('.notify-block');
 
-		const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
-        const modal = document.querySelector('.js-modal');
-        const modalClose = document.querySelector('.js-modal-close');
-        const modalContainer = document.querySelector('.js-modal-container');
+    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
+        notifyBlock.classList.remove('open'); 
+    }
+});
+
+document.querySelector('.notify').addEventListener('click', function(e) {
+    const notifyBlock = document.querySelector('.notify-block'); 
+
+    notifyBlock.classList.toggle('open');
+    
+    e.stopPropagation();
+});
+
+const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
+const modal = document.querySelector('.js-modal');
+const modalClose = document.querySelector('.js-modal-close');
+const modalContainer = document.querySelector('.js-modal-container');
+
+const newFolderModal = document.getElementById("newFolderModal");
+const cancelNewFolderModalBtn = document.getElementById("cancel-new-folder-modal-btn");
+const createNewFolderBtn = document.getElementById("create-new-folder-modal-btn");
+
+function showModal() {
+    modal.classList.add('open');
+}
+
+function hideModal() {
+    modal.classList.remove('open');
+}
+
+newBtn.addEventListener('click', showModal);
+
+modalClose.addEventListener('click', hideModal);
+
+modal.addEventListener('click', hideModal);
+
+modalContainer.addEventListener('click', function(event) {
+    event.stopPropagation();
+});
+
+    document.querySelectorAll('.new-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+                                        
+        const inputFile = this.querySelector('input[type="file"]');
+                                                                        
+        if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
+            e.preventDefault(); 
+        }
         
-        const newFolderModal = document.getElementById("newFolderModal");
-        const cancelNewFolderModalBtn = document.getElementById("cancel-new-folder-modal-btn");
-		const createNewFolderBtn = document.getElementById("create-new-folder-modal-btn");
-		
-        function showModal() {
-            modal.classList.add('open');
+        if (this.id === 'create-new-folder') {
+            newFolderModal.classList.add('open');
+            hideModal();
+            return; // Stop further execution for this item
         }
 
-        function hideModal() {
-            modal.classList.remove('open');
+        if (inputFile) {
+            inputFile.click();
         }
+    });
+});
 
-        newBtn.addEventListener('click', showModal);
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInputs = document.querySelectorAll('.uploadItem');
 
-        modalClose.addEventListener('click', hideModal);
-
-        modal.addEventListener('click', hideModal);
-
-        modalContainer.addEventListener('click', function(event) {
-            event.stopPropagation();
-        });
-
-		 document.querySelectorAll('.new-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-												
-                const inputFile = this.querySelector('input[type="file"]');
-                                                                                
-                if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
-                    e.preventDefault(); 
-                }
-                
-                if (this.id === 'create-new-folder') {
-					newFolderModal.classList.add('open');
-	                hideModal();
-	                return; // Stop further execution for this item
-	            }
-
-                if (inputFile) {
-                    inputFile.click();
+        fileInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const form = this.closest('form');
+                    form.submit();
                 }
             });
         });
-		
-		 document.addEventListener('DOMContentLoaded', function() {
-		     const fileInputs = document.querySelectorAll('.uploadItem');
-		
-		     fileInputs.forEach(input => {
-		         input.addEventListener('change', function() {
-		             if (this.files.length > 0) {
-		                 const form = this.closest('form');
-		                 form.submit();
-		             }
-		         });
-		     });
-		 });
-		 
-		cancelNewFolderModalBtn.onclick = function() {
-			  newFolderModal.classList.remove('open');
-			  console.log(newFolderModal);
-		};
-		
-		window.onclick = function(e) {
-			newFolderModal.classList.remove('open');
-			if(e.target == newFolderModal) {
-				newFolderModal.classList.remove('open');
-			}
-		}
-		
-		document.getElementById('sendMailForm').addEventListener('submit', function(event){
-		    event.preventDefault();
-		    
-		    var fd = new FormData();
-		    fd.append("receiverUsername", document.getElementById('to').value);
-		    fd.append("topic", document.getElementById('subject').value);
-		    fd.append("content", document.getElementById('message').value);
-		  
-		  	var files = document.getElementById('attachment').files;
-		    for (var i = 0; i < files.length; i++) {
-		        fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
-		    }
-		   
-		    fetch('http://localhost:8080/PBL4/sendmail',{
-				method: 'POST',
-				body: fd
-				})
-				.then(function(response){
-					if (!response.ok) {
-		           	 	throw new Error('Network response was not ok');
-		       		}
-					else
-						return response.json();
-				})
-				.then(function(returnObject){
-					console.log(returnObject.message);
-					if (returnObject.message === 'Sent Successfully!'){
-						document.getElementById("composeModal").style.display = 'none';
-						alert("Sent successfully!");
-					}
-					else{
-						alert(returnObject.message);
-					}		
-				})
-				.catch(function(error){
-					console.log(error);
-			 	})
+    });
+    
+cancelNewFolderModalBtn.onclick = function() {
+        newFolderModal.classList.remove('open');
+        console.log(newFolderModal);
+};
+
+window.onclick = function(e) {
+    newFolderModal.classList.remove('open');
+    if(e.target == newFolderModal) {
+        newFolderModal.classList.remove('open');
+    }
+}
+
+document.getElementById('sendMailForm').addEventListener('submit', function(event){
+    event.preventDefault();
+    
+    var fd = new FormData();
+    fd.append("receiverUsername", document.getElementById('to').value);
+    fd.append("topic", document.getElementById('subject').value);
+    fd.append("content", document.getElementById('message').value);
+    
+    var files = document.getElementById('attachment').files;
+    for (var i = 0; i < files.length; i++) {
+        fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
+    }
+    
+    fetch('http://localhost:8080/PBL4/sendmail',{
+        method: 'POST',
+        body: fd
+        })
+        .then(function(response){
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            else
+                return response.json();
+        })
+        .then(function(returnObject){
+            console.log(returnObject.message);
+            if (returnObject.message === 'Sent Successfully!'){
+                document.getElementById("composeModal").style.display = 'none';
+                alert("Sent successfully!");
+            }
+            else{
+                alert(returnObject.message);
+            }		
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+})
+
+document.getElementById('newFolderForm').addEventListener('submit', function(event){
+    event.preventDefault();
+
+    var formData = {
+        folderName : document.getElementById('folderName').value,
+        folderPath : document.getElementById('folderPath_createFolder').value
+    }
+
+    fetch('http://localhost:8080/PBL4/createnewfolder',{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(formData)
 		})
+		.then(function(response){
+			if (!response.ok) {
+           	 	throw new Error('Network response was not ok');
+       		}
+			else
+				return response.json();
+		})
+		.then(function(returnObject){
+            alert(returnObject.message);
+			if (returnObject.message === 'Created sucessfully!'){
+                var folderPath = document.getElementById('folderPath_createFolder').value;
+                var encodedFolderPath = encodeURIComponent(folderPath);
+                window.location.href = `http://localhost:8080/PBL4/userhomepage/main?folderPath=${folderPath}`;
+			}
+		})
+		.catch(function(error){
+			console.log(error);
+		})
+})
+
+document.getElementById('renameForm').addEventListener('submit', function(event){
+    event.preventDefault();
+
+    var formData = {
+        folderPath : document.getElementById('folderPath_rename').value,
+        oldName : document.getElementById('oldName').value,
+        newName : document.getElementById('renameInput').value
+    }
+
+    var isFolder = document.getElementById('isFolder').value;
+    var url = '';
+    if (isFolder === 'true'){
+        url = 'http://localhost:8080/PBL4/renamefolder';
+    }
+    else if (isFolder === 'false'){
+        url = 'http://localhost:8080/PBL4/renamefile';
+    }
+
+    console.log(url)
+
+    fetch(url,{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(formData)
+		})
+		.then(function(response){
+			if (!response.ok) {
+           	 	throw new Error('Network response was not ok');
+       		}
+			else
+				return response.json();
+		})
+		.then(function(returnObject){
+            alert(returnObject.message);
+			if (returnObject.message === 'Rename successfully!'){
+                var folderPath = document.getElementById('folderPath_rename').value;
+                var encodedFolderPath = encodeURIComponent(folderPath);
+                window.location.href = `http://localhost:8080/PBL4/userhomepage/main?folderPath=${encodedFolderPath}`;
+			}
+		})
+		.catch(function(error){
+			console.log(error);
+		})
+})

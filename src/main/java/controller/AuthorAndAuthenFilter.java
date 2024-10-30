@@ -15,7 +15,7 @@ import model.bean.Folder;
 import model.bo.FolderBO;
 
 @WebFilter(urlPatterns = {"/userhomepage/*", "/uploadfilecontroller", "/uploadfoldercontroller", "/deletefoldercontroller", "/deletefilecontroller"
-		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl", "/sendmail"})
+		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl","/sendmail", "/createnewfolder" ,"/renamefile"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -28,8 +28,6 @@ public class AuthorAndAuthenFilter implements Filter {
 			return;
 		}
 		
-		
-		
 		String username = session.getAttribute("username").toString();
 		if (req.getParameter("folderPath")!=null) {
 			String folderPath = req.getParameter("folderPath");
@@ -38,7 +36,7 @@ public class AuthorAndAuthenFilter implements Filter {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				return;
 			}
-			else if (!FolderBO.getInstance().doesFolderBelongToUser(folder, username)) {
+			else if (!folder.getOwnerUsername().equals(username)) {
 				resp.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this folder.");
 				return;
 			}

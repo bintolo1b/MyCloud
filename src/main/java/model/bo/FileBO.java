@@ -28,7 +28,7 @@ public class FileBO {
 		ArrayList<File> fileArrayList = FileDAOImp.getInstance().getAll();
 		ArrayList<File> filesOfFolder = new ArrayList<File>();
 		for (File file:fileArrayList) {
-			if (file.getFolderId()==folder.getId())
+			if ((int)file.getFolderId()==(int)folder.getId())
 				filesOfFolder.add(file);
 		}
 		return filesOfFolder;
@@ -115,5 +115,37 @@ public class FileBO {
 				File newFile = new File(null, ownerUsername, folderId, fileName, filePath, size, uploadDatetime);
 				FileDAOImp.getInstance().Insert(newFile);
 		}
+	}
+
+	public String changeFileName(String folderPath, String oldFileName, String newFileName, String username) {
+		String returnMessage = "";
+		File oldFileOnDataBase = getFileByPath(folderPath + java.io.File.separator + oldFileName);
+		if (oldFileOnDataBase == null) 
+			returnMessage = "File doesn't exists!";
+		else if (oldFileOnDataBase != null) {
+			if (!oldFileOnDataBase.getOwnerUsername().equals(username))
+				returnMessage = "You have no permission to access this file!";
+			else if (oldFileOnDataBase.getOwnerUsername().equals(username)) {
+				if (oldFileOnDataBase.getName().equals(newFileName))
+					returnMessage = "New name is the same with old one!";
+				else {
+					java.io.File oldFileOnServer = new java.io.File(folderPath + java.io.File.separator + oldFileName);
+					java.io.File newFileOnServer = new java.io.File(folderPath + java.io.File.separator + newFileName);
+					if (newFileOnServer.exists()) {
+						returnMessage = "File name exists!";
+					}
+					else if (oldFileOnServer.renameTo(newFileOnServer)) {						
+						oldFileOnDataBase.setName(newFileName);
+						oldFileOnDataBase.setPath(newFileOnServer.getPath());
+						FileDAOImp.getInstance().Update(oldFileOnDataBase);
+						returnMessage = "Rename successfully!";
+					}
+					else {
+						returnMessage = "Rename failed!";
+					}
+				}
+			}
+		}
+		return returnMessage;
 	}
 }

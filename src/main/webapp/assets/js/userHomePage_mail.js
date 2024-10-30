@@ -9,6 +9,7 @@ rows.forEach(row => {
             const url = urlElement.textContent.trim();
             if (url) {
                 window.location.href = url;
+                
             }
         }
     });
