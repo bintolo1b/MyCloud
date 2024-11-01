@@ -8,7 +8,7 @@ document.getElementById('form').addEventListener('submit', function(event){
 		verifyPassword: document.getElementById('verifyPassword').value
 	}
 	
-	fetch('http://localhost:8080/PBL4/logup',{
+	fetch('/PBL4/logup',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ document.getElementById('form').addEventListener('submit', function(event){
 		.then(function(returnObject){
 			if (returnObject.message === "Logup successfully!") {
 	            showSuccessToast(returnObject.message);
-	            window.location.href = `http://localhost:8080/PBL4/userhomepage/main`;
+	            window.location.href = `userhomepage/main`;
 	        } else {
 	            if (returnObject.message === "Username exists!") {
 	                document.getElementById('username').value = '';

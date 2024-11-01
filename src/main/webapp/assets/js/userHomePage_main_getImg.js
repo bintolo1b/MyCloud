@@ -3,7 +3,7 @@ function assignPDFImgToImgTag(folderPath, fileName, imgTagId){
 	var folderPathEnc = encodeURIComponent(folderPath);
 	var fileNameEnc = encodeURIComponent(fileName);
 
-	var url = `http://localhost:8080/PBL4/gettemporarydemoimgurl?folderPath=${folderPathEnc}&fileName=${fileNameEnc}`;
+	var url = `/PBL4/gettemporarydemoimgurl?folderPath=${folderPathEnc}&fileName=${fileNameEnc}`;
 	fetch(url) 
 		.then(function(response){
 			if (!response.ok) {

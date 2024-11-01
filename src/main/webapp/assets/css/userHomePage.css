@@ -156,6 +156,7 @@ form {
     min-height: 56px !important;
   }
   .search-wrapper {
+	position: relative;
     margin-top: 10px;
     margin-left: -42px;
     left: 50%;
@@ -164,6 +165,7 @@ form {
     max-width: 650px;
     height: 46px;
     position: fixed;
+    z-index: 100;
   }
   .search-wrapper i {
     color: #757575;
@@ -187,6 +189,94 @@ form {
   .right li > a i.material-icons:hover {
     color: #1da1f2 !important; /* Change icon color on hover */
   }
+  
+  #suggestionsList::before {
+	  display: block;
+	  height: 50px;
+	  width: 730px;
+	  content: "";
+  }
+  
+  #suggestionsList {
+	padding-top: 10px;
+    position: absolute;
+    top: 5px;
+    right: 404px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 732px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    display: none;
+    z-index: 1;
+	}
+	
+	#suggestionsList li {
+		display: flex;
+		align-items: center;
+		height: 50px;
+		width: 100%;
+		color: #333;
+	    padding: 8px;
+	    cursor: pointer;
+	}
+	
+	#suggestionsList li:first-child {
+		border-top: 1px solid #ddd;
+	}
+	
+	#suggestionsList li .suggestInfor {
+		display: flex;
+		align-items: center;
+	}
+	
+	#suggestionsList li .suggestInfor_first {
+		display: flex;
+		flex-direction: column;
+		margin-left: -5px;
+		width: 590px;
+	}
+	
+	#suggestionsList li .SuggestInfor_second {
+		flex: 1;
+	}
+	
+	#suggestionsList li:hover {
+	    background-color: #f1f1f1;
+	}
+	
+	#suggestionsList li:last-child:hover{
+		border-bottom-left-radius: 20px;
+		border-bottom-right-radius: 20px;
+	}
+	
+	#suggestionsList li .suggestFileImg {
+		padding: 10px;
+		width: 36px;
+		object-fit: contain;
+	}
+	
+	#suggestionsList li .suggestFileName {
+		line-height: 14px;
+		font-size: 14px;
+		margin-left: 10px;
+		margin-right: auto;
+	}
+	
+	#suggestionsList li .suggestFileAuthor {
+		line-height: 12px;
+		font-size: 12px;
+		margin-left: 10px;
+		color: #999;
+		padding-top: 4px;
+		margin-right: auto;
+	}
+	
+	#suggestionsList li .suggestFileDate {
+		line-height: 14px;
+	}
   
 	/* Ẩn thẻ span mặc định */
 ul.right li .detail-item {
@@ -282,7 +372,7 @@ ul.right li .detail-item {
     display: block;
     padding: 11px 8px 11px 72px;
     width: 100%;
-    background: #f5f5f5;
+    background:#e9eef6;
     height: 24px;
     border: none;
     border-radius: 25px !important;
@@ -295,7 +385,7 @@ ul.right li .detail-item {
   input[type="search"]:focus {
     border: none !important;
     box-shadow: none !important;
-    background: #e9eef6;
+    background: white;
     color: #333;
   }
   input[type="search"]::placeholder {
@@ -916,6 +1006,48 @@ ul.right li .detail-item {
     cursor: pointer;
 }
 
+.suggest-receiver-container {
+	display: none;
+	position: absolute;
+	top: 240px;
+	right: 550px;
+	width: 450px;
+	padding: 5px 0;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.15);
+	background-color: white;
+	z-index: 10;
+}
+
+.suggest-receivers-list {
+	list-style: none;
+}
+
+.suggest-receiver-item {
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.suggest-receiver-item:hover {
+	background-color: #f1f1f1;
+	cursor: pointer;
+}
+
+.receiverAvt {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+
+.receiver-username {
+	font-size: 14px;
+	color: #333 !important;
+	margin-left: 5px;
+}
+
 input[type=email]:not(.browser-default),
 input[type=text]:not(.browser-default),
 textarea {
@@ -947,6 +1079,31 @@ textarea:focus + .composeLabel {
     color: black !important; /* Giữ nguyên màu sắc của label khi input được focus */
 }
 
+
+.attach-file {
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: #f5f5f5;
+	display: none;
+}
+
+.attach-file-name {
+	font-weight: 600;
+	color: #1155cc;
+}
+
+.close-attach-file {
+	color: #848484;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close-attach-file:hover {
+	color: #aaa;
+	cursor: pointer;
+}
 
 .compose-form-buttons {
     display: flex;

@@ -56,6 +56,13 @@ function initializeMainContent() {
     const closeComposeModal = document.getElementById("closeComposeModal");
     const composeModal = document.getElementById("composeModal");
     
+    const toInput = document.getElementById('to');
+	const suggestContainer = document.querySelector('.suggest-receiver-container');
+	const receiverItems = document.querySelectorAll('.suggest-receiver-item');
+	
+	const attachFile = document.querySelector('.attach-file');
+	const closeAttachFile = document.querySelector('.close-attach-file');
+	const attachBtn = document.querySelector('.attach-btn');
    
     if (composeBtn) {
         composeBtn.addEventListener("click", function() {
@@ -66,6 +73,7 @@ function initializeMainContent() {
     if (closeComposeModal) {
         closeComposeModal.addEventListener("click", function() {
             composeModal.style.display = "none";
+            attachFile.style.display = 'none';
         });
     }
 
@@ -75,6 +83,40 @@ function initializeMainContent() {
             composeModal.style.display = "none";
         }
     };
+    
+    		
+		
+		    // Hiển thị khi input 'to' được focus
+		    toInput.addEventListener('focus', () => {
+		        suggestContainer.style.display = 'block';
+		    });
+		
+		    // Ẩn khi input 'to' mất focus
+		    toInput.addEventListener('blur', () => {
+		        setTimeout(() => {
+		            suggestContainer.style.display = 'none';
+		        }, 200);
+		    });
+		
+		    // Lặp qua các suggest-receiver-item để lắng nghe sự kiện click
+		    receiverItems.forEach(item => {
+		        item.addEventListener('mousedown', () => {
+		            // Lấy giá trị của .receiver-username trong item
+		            const receiverName = item.querySelector('.receiver-username').textContent;
+		            // Gán giá trị này cho input #to
+		            toInput.value = receiverName;
+		            // Ẩn danh sách gợi ý sau khi chọn
+		            suggestContainer.style.display = 'none';
+		        });
+		    });
+		    
+		    attachBtn.addEventListener('click', () => {
+				attachFile.style.display = 'block';
+			});
+			
+			closeAttachFile.addEventListener('click', () => {
+				attachFile.style.display = 'none';
+			})
 	
     // Kebab menu click behavior
     document.querySelectorAll('.kebab-container').forEach(container => {
@@ -134,7 +176,7 @@ function initializeMainContent() {
     });
 
     // Double-click file card to view or open in a modal/new tab
-    document.querySelectorAll('.card-panel.file').forEach(card => {
+       document.querySelectorAll('.card-panel.file').forEach(card => {
         card.addEventListener('dblclick', function() {
             const url = this.getAttribute('data-url');
             const displayModal = document.querySelector('.display-modal');
@@ -180,6 +222,7 @@ function initializeMainContent() {
         });
     });
 }
+
 document.addEventListener('click', function(event) {
     const notifyIcon = document.querySelector('.notify');
     const notifyBlock = document.querySelector('.notify-block');
@@ -195,6 +238,31 @@ document.querySelector('.notify').addEventListener('click', function(e) {
     notifyBlock.classList.toggle('open');
     
     e.stopPropagation();
+});
+
+const searchInput = document.querySelector('input[type="search"]');
+const suggestionsList = document.getElementById('suggestionsList');
+
+// Show suggestions list when input is focused
+searchInput.addEventListener('focus', () => {
+    suggestionsList.style.display = 'block';
+});
+
+// Hide suggestions list when input loses focus, with a slight delay to allow item click
+searchInput.addEventListener('blur', () => {
+        suggestionsList.style.display = 'none';
+});
+
+// Handle the event when an li item is clicked
+suggestionsList.querySelectorAll('li').forEach((item) => {
+    item.addEventListener('mousedown', () => { 
+        // Get file name from .suggestFileName element
+        const fileName = item.querySelector('.suggestFileName').textContent;
+        // Set file name in the search input field
+        searchInput.value = fileName;
+        // Hide suggestions list
+        suggestionsList.style.display = 'none';
+    });
 });
 
 const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
@@ -224,15 +292,14 @@ modalContainer.addEventListener('click', function(event) {
     event.stopPropagation();
 });
 
-    document.querySelectorAll('.new-item').forEach(item => {
-    item.addEventListener('click', function(e) {
-                                        
+document.querySelectorAll('.new-item').forEach(item => {
+    item.addEventListener('click', function(e) {    
         const inputFile = this.querySelector('input[type="file"]');
                                                                         
         if (e.target.tagName.toLowerCase() === 'a' || e.target.tagName.toLowerCase() === 'i') {
             e.preventDefault(); 
         }
-        
+
         if (this.id === 'create-new-folder') {
             newFolderModal.classList.add('open');
             hideModal();
@@ -245,22 +312,22 @@ modalContainer.addEventListener('click', function(event) {
     });
 });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const fileInputs = document.querySelectorAll('.uploadItem');
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInputs = document.querySelectorAll('.uploadItem');
 
-        fileInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    const form = this.closest('form');
-                    form.submit();
-                }
-            });
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const form = this.closest('form');
+                form.submit();
+            }
         });
     });
-    
+});
+
 cancelNewFolderModalBtn.onclick = function() {
-        newFolderModal.classList.remove('open');
-        console.log(newFolderModal);
+    newFolderModal.classList.remove('open');
+    console.log(newFolderModal);
 };
 
 window.onclick = function(e) {
@@ -283,7 +350,7 @@ document.getElementById('sendMailForm').addEventListener('submit', function(even
         fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
     }
     
-    fetch('http://localhost:8080/PBL4/sendmail',{
+    fetch('/PBL4/sendmail',{
         method: 'POST',
         body: fd
         })
@@ -317,7 +384,7 @@ document.getElementById('newFolderForm').addEventListener('submit', function(eve
         folderPath : document.getElementById('folderPath_createFolder').value
     }
 
-    fetch('http://localhost:8080/PBL4/createnewfolder',{
+    fetch('../createnewfolder',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -336,7 +403,7 @@ document.getElementById('newFolderForm').addEventListener('submit', function(eve
 			if (returnObject.message === 'Created sucessfully!'){
                 var folderPath = document.getElementById('folderPath_createFolder').value;
                 var encodedFolderPath = encodeURIComponent(folderPath);
-                window.location.href = `http://localhost:8080/PBL4/userhomepage/main?folderPath=${folderPath}`;
+                window.location.href = `/PBL4/userhomepage/main?folderPath=${encodedFolderPath}`;
 			}
 		})
 		.catch(function(error){
@@ -356,10 +423,10 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
     var isFolder = document.getElementById('isFolder').value;
     var url = '';
     if (isFolder === 'true'){
-        url = 'http://localhost:8080/PBL4/renamefolder';
+        url = '/PBL4/renamefolder';
     }
     else if (isFolder === 'false'){
-        url = 'http://localhost:8080/PBL4/renamefile';
+        url = '/PBL4/renamefile';
     }
 
     console.log(url)
@@ -383,10 +450,11 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
 			if (returnObject.message === 'Rename successfully!'){
                 var folderPath = document.getElementById('folderPath_rename').value;
                 var encodedFolderPath = encodeURIComponent(folderPath);
-                window.location.href = `http://localhost:8080/PBL4/userhomepage/main?folderPath=${encodedFolderPath}`;
+                window.location.href = `/PBL4/userhomepage/main?folderPath=${encodedFolderPath}`;
 			}
 		})
 		.catch(function(error){
 			console.log(error);
 		})
 })
+        

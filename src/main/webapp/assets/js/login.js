@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		password: document.getElementById('password').value
 	}
 	
-	fetch('http://localhost:8080/PBL4/login',{
+	fetch('/PBL4/login',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 			console.log(returnObject.message);
 			if (returnObject.message === 'Login successfully!'){
 				showSuccessToast(returnObject.message);
-				window.location.href = `http://localhost:8080/PBL4/userhomepage/main`;
+				window.location.href = `/PBL4/userhomepage/main`;
 			}
 			else{
 				if(returnObject.message === "Account doesn't exist!") {

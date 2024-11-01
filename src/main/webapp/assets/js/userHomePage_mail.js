@@ -1,4 +1,3 @@
-
 const rows = document.querySelectorAll('#inbox-table tbody tr');
 
 rows.forEach(row => {

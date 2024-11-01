@@ -254,12 +254,30 @@
 	            <form id="sendMailForm">
 	                <label class="composeLabel" for="to">To:</label>
 	                <input type="text" id="to" name="to" placeholder="Address of receiver" required>
+	                
+	                <div class="suggest-receiver-container">
+	                	<ul class="suggest-receivers-list">
+	                		<li class="suggest-receiver-item">
+	                			<a href="#!"><img src='<c:url value='/assets/img/user.png'/>' alt="profile pic" class="receiverAvt" /></a>
+	                			<p class="receiver-username">username1</p>
+	                		</li>
+	                		<li class="suggest-receiver-item">
+	                			<a href="#!"><img src='<c:url value='/assets/img/user.png'/>' alt="profile pic" class="receiverAvt" /></a>
+	                			<p class="receiver-username">username2</p>
+	                		</li>
+	                	</ul>
+	                </div>
 	
 	                <label class="composeLabel" for="subject">Theme:</label>
 	                <input type="text" id="subject" name="subject" placeholder="Theme" required>
 	
 	                <label class="composeLabel" for="message">Content:</label>
 					<textarea id="message" name="message" rows="15" style="height: 150px;" placeholder="Content..."></textarea>
+					
+					<div class="attach-file">
+						<span class="attach-file-name">File1</span>
+						<span id="close-attach-file" class="close-attach-file">&times;</span>
+					</div>
 
 	                <div class="compose-form-buttons">
 	                    <button type="button" class="attach-btn">
@@ -270,7 +288,6 @@
 	                    <button type="submit" class="send-btn">Send</button>
 	                </div>
 	            </form>
-	            
 	        </div>
 	    </div>
 	</div>	
