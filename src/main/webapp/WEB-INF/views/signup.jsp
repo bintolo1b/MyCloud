@@ -12,6 +12,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
    </head>
    <body>
+   <div id="toast"></div>
       <div class="center">
          <input type="checkbox" id="show" style="display: none;">
 		 <label for="show" class="show-btn">Show</label>

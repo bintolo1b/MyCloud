@@ -34,7 +34,6 @@
 	            </tbody>
 	        </table>
 	    </div>
-	    
 	</div>
    <script src="<c:url value='/assets/js/userHomePage_mail.js'/>"></script>
 </body>

@@ -10,6 +10,12 @@
 				<i class="material-icons">mail</i>Mail
 			</a>
 		</li>
+		
+		<li class="userHomePageItem">
+			<a href="">
+				<i class="material-icons">outbox</i>Outbox
+			</a>
+		</li>
 		<!-- <li class="userHomePageItem"><a href="#"><i class="material-icons">people</i>Shared with me</a></li>
 		<li class="userHomePageItem"><a href="#"><i class="material-icons">access_time</i>Recent</a></li>
 		<li class="userHomePageItem"><a href="#"><i class="material-icons">star</i>Starred</a></li>

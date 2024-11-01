@@ -1,5 +1,6 @@
 
 const rows = document.querySelectorAll('#inbox-table tbody tr');
+console.log('hhehehe');
 
 rows.forEach(row => {
     row.addEventListener("click", function() {
