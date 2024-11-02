@@ -56,13 +56,19 @@ function initializeMainContent() {
     const closeComposeModal = document.getElementById("closeComposeModal");
     const composeModal = document.getElementById("composeModal");
     
-    const toInput = document.getElementById('to');
-	const suggestContainer = document.querySelector('.suggest-receiver-container');
-	const receiverItems = document.querySelectorAll('.suggest-receiver-item');
-	
+    const inputTo = document.getElementById('to');
+	const receiverName = document.querySelector('.receiverName');
+    	
 	const attachFile = document.querySelector('.attach-file');
-	const closeAttachFile = document.querySelector('.close-attach-file');
 	const attachBtn = document.querySelector('.attach-btn');
+	
+	function updateReceiverNameVisibility() {
+	    if (composeModal.style.display === 'none') {
+	        receiverName.style.display = 'none'; // Ẩn receiverName nếu composeModal không hiển thị
+	    } else {
+	        receiverName.style.removeProperty('display'); // Hiển thị receiverName nếu composeModal hiển thị
+	    }
+	}
    
     if (composeBtn) {
         composeBtn.addEventListener("click", function() {
@@ -73,7 +79,7 @@ function initializeMainContent() {
     if (closeComposeModal) {
         closeComposeModal.addEventListener("click", function() {
             composeModal.style.display = "none";
-            attachFile.style.display = 'none';
+                updateReceiverNameVisibility();
         });
     }
 
@@ -81,42 +87,76 @@ function initializeMainContent() {
     window.onclick = function(event) {
         if (event.target == composeModal) {
             composeModal.style.display = "none";
+                updateReceiverNameVisibility();
         }
     };
-    
-    		
 		
-		    // Hiển thị khi input 'to' được focus
-		    toInput.addEventListener('focus', () => {
-		        suggestContainer.style.display = 'block';
-		    });
-		
-		    // Ẩn khi input 'to' mất focus
-		    toInput.addEventListener('blur', () => {
-		        setTimeout(() => {
-		            suggestContainer.style.display = 'none';
-		        }, 200);
-		    });
-		
-		    // Lặp qua các suggest-receiver-item để lắng nghe sự kiện click
-		    receiverItems.forEach(item => {
-		        item.addEventListener('mousedown', () => {
-		            // Lấy giá trị của .receiver-username trong item
-		            const receiverName = item.querySelector('.receiver-username').textContent;
-		            // Gán giá trị này cho input #to
-		            toInput.value = receiverName;
-		            // Ẩn danh sách gợi ý sau khi chọn
-		            suggestContainer.style.display = 'none';
-		        });
-		    });
-		    
-		    attachBtn.addEventListener('click', () => {
-				attachFile.style.display = 'block';
+		    // Thêm sự kiện blur cho input
+			inputTo.addEventListener('blur', function() {
+			    // Hiển thị span khi input mất focus
+			    receiverName.style.display = 'block';
 			});
 			
-			closeAttachFile.addEventListener('click', () => {
-				attachFile.style.display = 'none';
-			})
+			// Lấy phần tử input file và container chứa tên file đính kèm
+			const attachmentInput = document.getElementById("attachment");
+			const attachedFilesContainer = document.getElementById("attachedFilesContainer");
+			
+			let selectedFiles = []; // Danh sách file đã chọn
+			
+			attachmentInput.addEventListener("change", function() {
+			    // Cập nhật danh sách file đã chọn
+			    selectedFiles = Array.from(attachmentInput.files); // Lưu trữ file đã chọn
+			    updateAttachedFiles(); // Gọi hàm để hiển thị các file
+			});
+			
+			function updateAttachedFiles() {
+			    attachedFilesContainer.innerHTML = ""; // Xóa nội dung cũ
+			
+			    if (selectedFiles.length > 0) {
+			        attachedFilesContainer.style.display = "flex"; // Hiện container
+			        attachedFilesContainer.style.flexDirection = "column"; // Sắp xếp theo chiều dọc
+			
+			        selectedFiles.forEach((file, index) => {
+			            // Tạo một thẻ div cho mỗi file
+			            const fileContainer = document.createElement("div");
+			            fileContainer.className = "attach-file"; // Áp dụng class để tạo kiểu
+			
+			            const fileNameSpan = document.createElement("span");
+			            fileNameSpan.textContent = file.name;
+			            fileNameSpan.className = "attach-file-name";
+			
+			            const closeButton = document.createElement("span");
+			            closeButton.className = "close-attach-file";
+			            closeButton.textContent = "×";
+			
+			            // Thêm sự kiện cho nút đóng
+			            closeButton.addEventListener("click", () => {
+			                // Xóa file khỏi danh sách đã chọn
+			                selectedFiles.splice(index, 1); // Xóa file theo chỉ số
+			                updateAttachedFiles(); // Cập nhật hiển thị
+			                updateInputFiles(); // Cập nhật lại input file
+			            });
+			
+			            // Gắn các phần tử vào fileContainer
+			            fileContainer.appendChild(fileNameSpan);
+			            fileContainer.appendChild(closeButton);
+			
+			            // Thêm fileContainer vào attachedFilesContainer
+			            attachedFilesContainer.appendChild(fileContainer);
+			        });
+			    } else {
+			        attachedFilesContainer.style.display = "none"; // Ẩn container nếu không còn file nào
+			    }
+			}
+
+function updateInputFiles() {
+    // Tạo một DataTransfer object để cập nhật danh sách file của input
+    const dataTransfer = new DataTransfer();
+    selectedFiles.forEach(file => dataTransfer.items.add(file)); // Thêm các file còn lại
+
+    attachmentInput.files = dataTransfer.files; // Cập nhật input file
+}
+
 	
     // Kebab menu click behavior
     document.querySelectorAll('.kebab-container').forEach(container => {

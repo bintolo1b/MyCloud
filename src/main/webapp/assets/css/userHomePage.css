@@ -26,7 +26,9 @@ body {
     background-color: #0650ef;
     border: none;
     color: #fff;
-    width: 100%;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
     font-size: 15px;
     text-transform: uppercase;
     padding: 4px 16px;
@@ -200,12 +202,12 @@ form {
   #suggestionsList {
 	padding-top: 10px;
     position: absolute;
-    top: 5px;
-    right: 404px;
+    top: 0;
+    right: -13%;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 732px;
+    width: 113%;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 20px;
@@ -262,15 +264,6 @@ form {
 		line-height: 14px;
 		font-size: 14px;
 		margin-left: 10px;
-		margin-right: auto;
-	}
-	
-	#suggestionsList li .suggestFileAuthor {
-		line-height: 12px;
-		font-size: 12px;
-		margin-left: 10px;
-		color: #999;
-		padding-top: 4px;
 		margin-right: auto;
 	}
 	
@@ -381,6 +374,7 @@ ul.right li .detail-item {
     outline: none;
     border-radius: 2px;
     color: #757575;
+    z-index: 50;
   }
   input[type="search"]:focus {
     border: none !important;
@@ -1006,48 +1000,6 @@ ul.right li .detail-item {
     cursor: pointer;
 }
 
-.suggest-receiver-container {
-	display: none;
-	position: absolute;
-	top: 240px;
-	right: 550px;
-	width: 450px;
-	padding: 5px 0;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	box-shadow: 5px 5px 10px 5px rgba(0, 0, 0, 0.15);
-	background-color: white;
-	z-index: 10;
-}
-
-.suggest-receivers-list {
-	list-style: none;
-}
-
-.suggest-receiver-item {
-	padding: 5px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
-.suggest-receiver-item:hover {
-	background-color: #f1f1f1;
-	cursor: pointer;
-}
-
-.receiverAvt {
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-}
-
-.receiver-username {
-	font-size: 14px;
-	color: #333 !important;
-	margin-left: 5px;
-}
-
 input[type=email]:not(.browser-default),
 input[type=text]:not(.browser-default),
 textarea {
@@ -1079,30 +1031,37 @@ textarea:focus + .composeLabel {
     color: black !important; /* Giữ nguyên màu sắc của label khi input được focus */
 }
 
-
-.attach-file {
-	width: 100%;
-	padding: 10px;
-	border-radius: 5px;
-	background-color: #f5f5f5;
+.receiverName {
+	font-weight: bold;
+	color: #1155cc;
+	font-size: 16px;
+	text-transform: uppercase;
 	display: none;
 }
 
+.attach-file {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    margin-bottom: 10px; /* Khoảng trắng giữa các file */
+}
+
 .attach-file-name {
-	font-weight: 600;
-	color: #1155cc;
+    font-weight: 600;
+    color: #1155cc;
 }
 
 .close-attach-file {
-	color: #848484;
-    float: right;
+    color: #848484;
     font-size: 20px;
     font-weight: bold;
+    float: right;
+    cursor: pointer;
 }
 
 .close-attach-file:hover {
-	color: #aaa;
-	cursor: pointer;
+    color: #aaa;
 }
 
 .compose-form-buttons {

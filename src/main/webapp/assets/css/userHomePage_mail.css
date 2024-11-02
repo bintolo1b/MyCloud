@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+.outbox-container,
 .inbox-container {
     margin: 0 auto;
     background-color: #fff;
@@ -65,11 +66,11 @@ td.subject-cell {
 }
 
 #email-subject {
+	font-size: 25px;
     font-weight: 500;
     color: #333;
-    margin-left: 50px;
-    margin-bottom: 20px;
-    font-size: 18px; /* Adjusted font size */
+    margin-left: 0px;
+    margin-bottom: 30px;
 }
 
 #sender-container {
@@ -89,11 +90,6 @@ td.subject-cell {
 #email-date {
 	font-size: 13px;
 	color: #999;
-}
-
-#email-subject {
-	font-size: 25px;
-	margin-bottom: 32px;
 }
 
 #email-content {

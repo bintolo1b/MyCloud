@@ -7,14 +7,12 @@
 				<div class="search-wrapper">
 					<i class="material-icons">search</i> <input type="search"
 						name="Search" placeholder="Search Drive" />
-				</div>
-				<ul id="suggestionsList">
+					<ul id="suggestionsList">
 					<li>
 						<img alt="" src="<c:url value='/assets/img/wordImage.png'/>" class="suggestFileImg">
 						<div class="suggestInfor">
 							<div class="suggestInfor_first">
 								<span class="suggestFileName">File 1</span>
-								<span class="suggestFileAuthor">Author</span>
 							</div>
 							<div class="SuggestInfor_second">							
 								<span class="suggestFileDate">2024/10/29</span>   
@@ -26,7 +24,6 @@
 						<div class="suggestInfor">
 							<div class="suggestInfor_first">
 								<span class="suggestFileName">File 2</span>
-								<span class="suggestFileAuthor">Author</span>
 							</div>
 							<div class="SuggestInfor_second">							
 								<span class="suggestFileDate">2024/10/29</span>   
@@ -38,14 +35,26 @@
 						<div class="suggestInfor">
 							<div class="suggestInfor_first">
 								<span class="suggestFileName">File 3</span>
-								<span class="suggestFileAuthor">Author</span>
 							</div>
 							<div class="SuggestInfor_second">							
 								<span class="suggestFileDate">2024/10/29</span>   
 							</div>
 						</div>
-					</li>					
+					</li>
+					<li>
+						<img alt="" src="<c:url value='/assets/img/folderImage.png'/>" class="suggestFileImg">
+						<div class="suggestInfor">
+							<div class="suggestInfor_first">
+								<span class="suggestFileName">Folder</span>
+							</div>
+							<div class="SuggestInfor_second">							
+								<span class="suggestFileDate">2024/10/29</span>   
+							</div>
+						</div>
+					</li>						
 				</ul>
+				</div>
+				
 				<ul class="right">
 					<li>
 						<a href="#!" class="notify"><i class="material-icons grey-text text-darken-1">notifications</i></a>

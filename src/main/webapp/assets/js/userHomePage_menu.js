@@ -1,5 +1,7 @@
 const currentUrl = window.location.pathname;
 
+console.log(currentUrl);
+
 const navLinks = document.querySelectorAll('.userHomePageItem a');
 
 navLinks.forEach(link => {
