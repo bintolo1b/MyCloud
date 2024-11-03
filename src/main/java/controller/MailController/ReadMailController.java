@@ -15,13 +15,14 @@ import model.bean.MailAttachFile;
 import model.bo.MailAttachFileBO;
 import model.bo.MailBO;
 
-@WebServlet(urlPatterns = "/userhomepage/mail/readreceivedmail")
-public class ReadReceivedMailController extends HttpServlet {
+@WebServlet(urlPatterns = "/userhomepage/mail/readmail")
+public class ReadMailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
+		System.out.println("ok");
 		if (req.getParameter("mailId")!=null) {
 			Integer mailId = null;
 			try {
@@ -37,10 +38,12 @@ public class ReadReceivedMailController extends HttpServlet {
 					resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 					return;
 				}
-				else if (mail!=null && !mail.getReceiverUsername().equals(username)) {
+				else if (mail!=null && !mail.getReceiverUsername().equals(username) && !mail.getSenderUsername().equals(username)) {
 					resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				}
-				else if (mail!=null && mail.getReceiverUsername().equals(username)){
+				else if (mail!=null && (mail.getReceiverUsername().equals(username) || mail.getSenderUsername().equals(username))){
+					if (mail.getStatus().equals("Pending") && mail.getReceiverUsername().equals(username))
+						MailBO.getInstance().markMailAsRead(mailId);
 					ArrayList<MailAttachFile> mailAttachFiles = MailAttachFileBO.getInstance().getAllMailAttachFileOfMail(mailId);
 					
 					req.setAttribute("mailAttachFiles", mailAttachFiles);

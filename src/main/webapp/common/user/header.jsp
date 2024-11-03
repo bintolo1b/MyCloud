@@ -67,8 +67,11 @@
 							src='<c:url value='/assets/img/user.png'/>' alt="profile pic" class="circle" /></a>
 							<ul class="listItems">
 								<li class="item">
-									<a href="#">Personal Information</a>
+								    <c:url value='/userinformation' var='userinforurl'>
+								    </c:url>
+								    <a href="${userinforurl}" target="_blank">Personal Information</a>
 								</li>
+
 								<li class="item">
 									<a href="#">Change Password</a>
 								</li>

@@ -2,6 +2,7 @@ package model.bo;
 
 import java.util.ArrayList;
 
+import model.bean.Mail;
 import model.bean.MailAttachFile;
 import model.dao.MailAttachFileDAOImp;
 
@@ -27,5 +28,20 @@ public class MailAttachFileBO {
 			if ((int)mailAttachFile.getMailId() == mailId)
 				returnArrList.add(mailAttachFile);
 		return returnArrList;
+	}
+	
+	public MailAttachFile getMailAttachFileByPath(String mailAttachFilePath) {
+		ArrayList<MailAttachFile> mailAttachFiles = getAllMailAttachFile();
+		for (MailAttachFile mailAttachFile : mailAttachFiles)
+			if (mailAttachFile.getPath().equals(mailAttachFilePath))
+				return mailAttachFile;
+		return null;
+	}
+
+	public boolean checkIfUserHavePermissionToDownloadMailAttachFile(String username, MailAttachFile mailAttachFile) {
+		Mail mail = MailBO.getInstance().getMailById(mailAttachFile.getMailId());
+		if (mail.getSenderUsername().equals(username) || mail.getReceiverUsername().equals(username))
+			return true;
+		return false;
 	}
 }

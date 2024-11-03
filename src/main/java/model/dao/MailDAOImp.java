@@ -41,8 +41,23 @@ public class MailDAOImp implements DAOInterface<Mail> {
 
 	@Override
 	public void Update(Mail obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "update mail "
+				+ "set senderUsername = ?, receiverUsername = ?, topic = ?, content = ?, sentDate = ?, status = ? "
+				+ "where id = ?";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getSenderUsername());
+			pst.setObject(2, obj.getReceiverUsername());
+			pst.setObject(3, obj.getTopic());
+			pst.setObject(4, obj.getContent());
+			pst.setObject(5, obj.getSentDate());
+			pst.setObject(6, obj.getStatus());
+			pst.setObject(7, obj.getId());
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

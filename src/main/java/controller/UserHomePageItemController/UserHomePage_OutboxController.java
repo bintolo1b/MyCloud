@@ -21,7 +21,7 @@ public class UserHomePage_OutboxController extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		if (session!=null && session.getAttribute("username")!=null) {
 			String username = session.getAttribute("username").toString();
-			ArrayList<Mail> mails = MailBO.getInstance().getAllReceivedMail(username);
+			ArrayList<Mail> mails = MailBO.getInstance().getAllSentMail(username);
 			req.setAttribute("mails", mails);
 			
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_outbox.jsp");

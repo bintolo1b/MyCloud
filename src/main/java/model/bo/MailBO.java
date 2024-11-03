@@ -105,4 +105,18 @@ public class MailBO {
 		
 		return "Sent Successfully!";
 	}
+	
+	public void markMailAsRead(Integer mailId) {
+		Mail mail = getMailById(mailId);
+        mail.setStatus("Read");
+        MailDAOImp.getInstance().Update(mail);
+	}
+	public ArrayList<Mail> getAllSentMail(String username) {
+		ArrayList<Mail> allMails = MailDAOImp.getInstance().getAll();
+        ArrayList<Mail> sentMails = new ArrayList<Mail>();
+        for (Mail mail:allMails)
+            if (mail.getSenderUsername().equals(username))
+                sentMails.add(mail);
+        return sentMails;
+	}
 }

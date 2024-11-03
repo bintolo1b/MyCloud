@@ -20,7 +20,10 @@
             <p id="email-content">${mail.content}</p>
 			<c:forEach items="${mailAttachFiles}" var="mailAttachFile">
 				 <div id="email-attachment">
-            	 	<a href="#">
+				 	<c:url value="/downloadmailattachfilecontroller" var="downloadattachfileurl">
+				 		<c:param name="mailAttachFilePath" value="${mailAttachFile.path}"></c:param>
+				 	</c:url>
+            	 	<a href="${downloadattachfileurl}">
 	            	 	<img class="fileDownload" src='<c:url value='/assets/img/fileDownload.png'/>'/>
 	            	 	${mailAttachFile.name}
             	 	</a>

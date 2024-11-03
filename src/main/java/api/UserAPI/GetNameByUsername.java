@@ -2,18 +2,13 @@ package api.UserAPI;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
 import model.bean.User;
-import model.bo.MailBO;
 import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/getnamebyusername")
