@@ -1,4 +1,4 @@
-package controller.FileController;
+package api.FileAPI;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = "/gettemporarydemoimgurl")
-public class FileImageController extends HttpServlet {
+public class GetTemporaryImgUrl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -24,7 +24,6 @@ public class FileImageController extends HttpServlet {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
 			PrintWriter pw = resp.getWriter();
-			
 			
 			try {
 				String folderPath = req.getParameter("folderPath");

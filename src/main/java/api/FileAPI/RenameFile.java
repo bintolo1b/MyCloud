@@ -1,4 +1,4 @@
-package controller.FileController;
+package api.FileAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,9 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.bo.FileBO;
 
-
 @WebServlet(urlPatterns = "/renamefile")
-public class RenameFileController extends HttpServlet {
+public class RenameFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ public class LogoutController extends HttpServlet {
 		if (session != null) {
 			session.invalidate();
 		}
-		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
-		dispatcher.forward(req, resp);
+		resp.sendRedirect(req.getContextPath() + "/login");
 	}
 }

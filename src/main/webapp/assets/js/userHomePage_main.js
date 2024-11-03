@@ -92,9 +92,37 @@ function initializeMainContent() {
     };
 		
 		    // Thêm sự kiện blur cho input
-			inputTo.addEventListener('blur', function() {
+			inputTo.addEventListener('blur', async function() {
 			    // Hiển thị span khi input mất focus
-			    receiverName.style.display = 'block';
+                var receiverUsername = document.getElementById('to').value;
+                try{
+                    const response = await fetch('/PBL4/getnamebyusername?username=' + receiverUsername);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const returnObject = await response.json();
+                    console.log(returnObject);
+                    if (returnObject != null) {
+                        receiverName.textContent = returnObject.message;
+                        const sendBtn = document.getElementsByClassName('send-btn')[0];
+                        if (returnObject.message !== "Username not found!"){
+                            sendBtn.disabled = false;
+                            sendBtn.style.backgroundColor = '#28a745';
+                            receiverName.style.color = '#1155cc';
+                        }
+                        else{
+                            sendBtn.disabled = true;
+                            sendBtn.style.backgroundColor = '#6c757d';
+                            receiverName.style.color = 'red';
+                        }
+                    }
+                    receiverName.style.display = 'block';
+
+                    }
+                catch (error){
+                    console.error(error);
+                }
 			});
 			
 			// Lấy phần tử input file và container chứa tên file đính kèm

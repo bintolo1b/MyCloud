@@ -1,4 +1,4 @@
-package controller;
+package api;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import model.bo.FolderBO;
 import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/logup")
-public class LogupController extends HttpServlet {
+public class Logup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

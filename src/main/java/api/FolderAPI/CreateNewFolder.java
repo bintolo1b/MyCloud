@@ -1,4 +1,4 @@
-package controller.FolderController;
+package api.FolderAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.bo.FolderBO;
 
 @WebServlet(urlPatterns = "/createnewfolder")
-public class CreateNewFolderController extends HttpServlet {
+public class CreateNewFolder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

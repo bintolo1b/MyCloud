@@ -1,4 +1,4 @@
-package controller;
+package api.FolderAPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,24 +6,22 @@ import java.io.PrintWriter;
 
 import org.json.JSONObject;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.bo.UserBO;
+import model.bo.FolderBO;
 
-@WebServlet(urlPatterns = "/login")
-public class LoginController extends HttpServlet {
+@WebServlet(urlPatterns = "/renamefolder")
+public class RenameFolder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
-	
+		
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = req.getReader();
 		String line;
@@ -35,30 +33,17 @@ public class LoginController extends HttpServlet {
 		
 		try {
 			JSONObject jsonRequest = new JSONObject(sb.toString());
-			String username = jsonRequest.getString("username");
-			String password = jsonRequest.getString("password");
+			String folderPath = jsonRequest.getString("folderPath");
+			String oldFolderName = jsonRequest.getString("oldName");
+			String newFolderName = jsonRequest.getString("newName");
+			String username = req.getSession(false).getAttribute("username").toString();
 			
-			String message = UserBO.getInstance().CheckLogin(username, password);
+			String message = FolderBO.getInstance().changeFolderName(folderPath, oldFolderName, newFolderName, username);
 			pw.write("{\"message\": \"" + message + "\"}");
-			if (message.equals("Login successfully!")) {
-				HttpSession session = req.getSession();
-		        session.setAttribute("username", username);
-		        session.setMaxInactiveInterval(30 * 60);
-			}
 		}
 		catch (Exception e) {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			e.printStackTrace();
-			pw.write("{\"message\": \"Exception occur!\"}");
 		}
-		
-		pw.flush();
-		pw.close();
-			
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/login.jsp");
-		dispatcher.forward(req, resp);
 	}
 }

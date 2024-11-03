@@ -1,4 +1,4 @@
-package controller.MailController;
+package api.MailAPI;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import model.bo.MailBO;
 
 @WebServlet(urlPatterns = "/sendmail")
 @MultipartConfig
-public class SendMailController extends HttpServlet {
+public class SendMail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override

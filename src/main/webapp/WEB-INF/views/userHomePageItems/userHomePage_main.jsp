@@ -273,7 +273,7 @@
 	                        <input type="file" id="attachment" name="attachment" multiple>
 	                    </button>
 	                   		
-	                    <button type="submit" class="send-btn">Send</button>
+	                    <button disabled type="submit" class="send-btn">Send</button>
 	                </div>
 	            </form>
 	        </div>

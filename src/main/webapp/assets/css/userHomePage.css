@@ -1110,7 +1110,7 @@ textarea:focus + .composeLabel {
 /* Style cho nút "Send" */
 .send-btn {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: #f8f8f8;
     color: white;
     border: none;
     cursor: pointer;
@@ -1120,7 +1120,7 @@ textarea:focus + .composeLabel {
 
 .send-btn {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: rgb(108, 117, 125);
     color: white;
     border: none;
     cursor: pointer;
@@ -1128,9 +1128,15 @@ textarea:focus + .composeLabel {
     transition: background-color 0.3s;
 }
 
-.send-btn:hover {
-    background-color: #218838;
+.send-btn:hover:not(:disabled) {
+  background-color: #218838;
 }
+
+.send-btn:disabled {
+  background-color: rgb(108, 117, 125); /* Màu nền cho button bị disabled */
+  cursor: not-allowed; /* Thay đổi con trỏ chuột để thể hiện button không thể click */
+}
+
 .renameModal,
 .newFolderModal {
   position: fixed;
