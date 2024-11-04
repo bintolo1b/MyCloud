@@ -15,7 +15,7 @@
 	            <tbody id="outbox-body">
 	            		<tr class="read">	           
 		            		<td>To</td>
-			            	<td class="subject-cell" style="width: 900px">Topic</td>
+			            	<td class="subject-cell" style="width: 75%">Topic</td>
 			            	<td>Datetime</td>
 		            	</tr>		            
 	            </tbody>

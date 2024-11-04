@@ -183,7 +183,7 @@ form {
 	    position: relative; /* Thêm thuộc tính này */
 	}
 
-  .search-wrapper i.material-icons:hover {
+  .search-wrapper .material-icons:hover {
     color: #4285f4; /* Màu icon khi hover */
     cursor: pointer;
   }
@@ -195,8 +195,13 @@ form {
   #suggestionsList::before {
 	  display: block;
 	  height: 50px;
-	  width: 730px;
+	  width: 114%;
 	  content: "";
+  }
+  
+  .search-icon {
+	  position: absolute;
+	  z-index: 70;
   }
   
   #suggestionsList {
@@ -207,12 +212,12 @@ form {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 113%;
+    width: 114%;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 20px;
     display: none;
-    z-index: 1;
+    z-index: 10;
 	}
 	
 	#suggestionsList li {
@@ -362,6 +367,7 @@ ul.right li .detail-item {
 }
 
   input[type="search"]:not(.browser-default) {
+	position: absolute;
     display: block;
     padding: 11px 8px 11px 72px;
     width: 100%;

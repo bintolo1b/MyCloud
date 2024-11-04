@@ -5,7 +5,7 @@
 					<li><a href='<c:url value='/userhomepage/main'/>' class="title grey-text text-darken-1">My Cloud</a></li>
 				</ul>
 				<div class="search-wrapper">
-					<i class="material-icons">search</i> <input type="search"
+					<i class="material-icons search-icon">search</i> <input type="search"
 						name="Search" placeholder="Search Drive" />
 					<ul id="suggestionsList">
 					<li>
