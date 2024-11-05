@@ -1,4 +1,5 @@
 const rows = document.querySelectorAll('#inbox-table tbody tr');
+const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
 
 rows.forEach(row => {
     row.addEventListener("click", function() {

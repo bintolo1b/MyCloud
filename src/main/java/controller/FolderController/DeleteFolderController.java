@@ -29,6 +29,7 @@ public class DeleteFolderController extends HttpServlet {
 				try {
 					FolderBO.getInstance().deleteFolderOnServer(new File(deletedFolder.getPath()));
 					FolderBO.getInstance().deleteFolderOnDatabase(deletedFolder);
+					FolderBO.getInstance().updateSizeOfFoldersInPathAfterDelete(currentFolderPath, deletedFolder.getSize());
 					
 					String encodedFolderPath = URLEncoder.encode(currentFolderPath, StandardCharsets.UTF_8.toString());
 	        		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);

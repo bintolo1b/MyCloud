@@ -5,54 +5,10 @@
 					<li><a href='<c:url value='/userhomepage/main'/>' class="title grey-text text-darken-1">My Cloud</a></li>
 				</ul>
 				<div class="search-wrapper">
-					<i class="material-icons">search</i> <input type="search"
+					<i class="material-icons search-icon">search</i> <input type="search"
 						name="Search" placeholder="Search Drive" />
-					<ul id="suggestionsList">
-					<li>
-						<img alt="" src="<c:url value='/assets/img/wordImage.png'/>" class="suggestFileImg">
-						<div class="suggestInfor">
-							<div class="suggestInfor_first">
-								<span class="suggestFileName">File 1</span>
-							</div>
-							<div class="SuggestInfor_second">							
-								<span class="suggestFileDate">2024/10/29</span>   
-							</div>
-						</div>
-					</li>
-					<li>
-						<img alt="" src="<c:url value='/assets/img/pdfImage.png'/>" class="suggestFileImg">
-						<div class="suggestInfor">
-							<div class="suggestInfor_first">
-								<span class="suggestFileName">File 2</span>
-							</div>
-							<div class="SuggestInfor_second">							
-								<span class="suggestFileDate">2024/10/29</span>   
-							</div>
-						</div>
-					</li>
-					<li>
-						<img alt="" src="<c:url value='/assets/img/jpegImage.png'/>" class="suggestFileImg">
-						<div class="suggestInfor">
-							<div class="suggestInfor_first">
-								<span class="suggestFileName">File 3</span>
-							</div>
-							<div class="SuggestInfor_second">							
-								<span class="suggestFileDate">2024/10/29</span>   
-							</div>
-						</div>
-					</li>
-					<li>
-						<img alt="" src="<c:url value='/assets/img/folderImage.png'/>" class="suggestFileImg">
-						<div class="suggestInfor">
-							<div class="suggestInfor_first">
-								<span class="suggestFileName">Folder</span>
-							</div>
-							<div class="SuggestInfor_second">							
-								<span class="suggestFileDate">2024/10/29</span>   
-							</div>
-						</div>
-					</li>						
-				</ul>
+					<ul id="suggestionsList">					
+					</ul>
 				</div>
 				
 				<ul class="right">

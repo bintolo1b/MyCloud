@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import model.bean.Folder;
 import model.bo.FolderBO;
 
 
@@ -31,6 +32,8 @@ public class UploadFolderController extends HttpServlet {
 			}
 			else {
         		FolderBO.getInstance().saveUploadedFolderOnDatabase(currentFolderPath, uploadedFolderName);
+        		Folder uploadedFolder = FolderBO.getInstance().getFolderByPath(currentFolderPath + "\\" + uploadedFolderName);
+        		FolderBO.getInstance().updateSizeOfFoldersInPathAfterUpload(currentFolderPath, uploadedFolder.getSize());
         		String encodedFolderPath = URLEncoder.encode(currentFolderPath, StandardCharsets.UTF_8.toString());
         		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);
         		return;

@@ -1,6 +1,7 @@
 package model.bean;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class File {
 	private Integer id;
@@ -65,6 +66,9 @@ public class File {
 	public void setUploadDate(LocalDateTime uploadDate) {
 		this.uploadDate = uploadDate;
 	}
-	
+	public String getFormattedUploadedDate() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	    return this.uploadDate.format(formatter);
+	}
 	
 }

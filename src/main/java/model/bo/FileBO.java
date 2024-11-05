@@ -148,4 +148,14 @@ public class FileBO {
 		}
 		return returnMessage;
 	}
+	
+	public ArrayList<File> searchFiles(String username, String searchContent) {
+		ArrayList<File> fileArrayList = FileDAOImp.getInstance().getAll();
+		ArrayList<File> searchResult = new ArrayList<File>();
+		for (File file : fileArrayList) {
+			if (file.getOwnerUsername().equals(username) && file.getName().toLowerCase().contains(searchContent.toLowerCase()))
+				searchResult.add(file);
+		}
+		return searchResult;
+	}
 }

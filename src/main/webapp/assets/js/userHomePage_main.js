@@ -308,31 +308,6 @@ document.querySelector('.notify').addEventListener('click', function(e) {
     e.stopPropagation();
 });
 
-const searchInput = document.querySelector('input[type="search"]');
-const suggestionsList = document.getElementById('suggestionsList');
-
-// Show suggestions list when input is focused
-searchInput.addEventListener('focus', () => {
-    suggestionsList.style.display = 'block';
-});
-
-// Hide suggestions list when input loses focus, with a slight delay to allow item click
-searchInput.addEventListener('blur', () => {
-        suggestionsList.style.display = 'none';
-});
-
-// Handle the event when an li item is clicked
-suggestionsList.querySelectorAll('li').forEach((item) => {
-    item.addEventListener('mousedown', () => { 
-        // Get file name from .suggestFileName element
-        const fileName = item.querySelector('.suggestFileName').textContent;
-        // Set file name in the search input field
-        searchInput.value = fileName;
-        // Hide suggestions list
-        suggestionsList.style.display = 'none';
-    });
-});
-
 const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
 const modal = document.querySelector('.js-modal');
 const modalClose = document.querySelector('.js-modal-close');

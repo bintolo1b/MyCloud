@@ -27,7 +27,7 @@
 	            		</c:if>
 	            			<td class="tr_url" style="display: none">${readmailurl}</td>
 		            		<td>${mail.senderUsername}</td>
-			            	<td class="subject-cell" style="width: 900px">${mail.topic}</td>
+			            	<td class="subject-cell" style="width: 75%">${mail.topic}</td>
 			            	<td>${mail.formattedSentDate}</td>
 		            	</tr>		            
 	            	</c:forEach>

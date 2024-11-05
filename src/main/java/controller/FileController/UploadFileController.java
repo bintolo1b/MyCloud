@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
+import model.bean.File;
 import model.bo.FileBO;
+import model.bo.FolderBO;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -29,6 +31,13 @@ public class UploadFileController extends HttpServlet {
         	ArrayList<String> fileNames = FileBO.getInstance().saveUploadedFilesOnServer(folderPath, parts);
   
     		FileBO.getInstance().saveUploadedFilesOnDatabase(folderPath, fileNames);
+    		
+    		long size = 0;
+    		for (String fileName : fileNames) {
+    			File uploadedFile = FileBO.getInstance().getFileByPath(folderPath + "\\" + fileName);
+    			size += uploadedFile.getSize();
+    		}
+    		FolderBO.getInstance().updateSizeOfFoldersInPathAfterUpload(folderPath, size);
     		
     		String encodedFolderPath = URLEncoder.encode(folderPath, StandardCharsets.UTF_8.toString());
     		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);

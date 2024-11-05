@@ -165,7 +165,7 @@ public class FolderBO {
 		
 		File uploadedFolder = new File(currentFolderPath + File.separator + uploadedFolderName);
 		
-		Folder uploadedBeanFolder = new Folder(null, ownerUsername, currentFolder.getId(), uploadedFolderName, uploadedFolder.getPath());
+		Folder uploadedBeanFolder = new Folder(null, ownerUsername, currentFolder.getId(), uploadedFolderName, uploadedFolder.getPath(), null, folderSize(uploadedFolder));
 		FolderDAOImp.getInstance().Insert(uploadedBeanFolder);
 		uploadedBeanFolder = FolderBO.getInstance().getFolderByPath(uploadedFolder.getPath());
 		
@@ -197,7 +197,7 @@ public class FolderBO {
 	
 	public void createRootFolder(User user) {
 		String newFolderPath = Server.SERVER_PATH+"\\"+user.getUsername();
-		Folder folder = new Folder(null, user.getUsername(), null, user.getUsername(), newFolderPath);
+		Folder folder = new Folder(null, user.getUsername(), null, user.getUsername(), newFolderPath, null, 0);
 		createRootFolderOnServer(newFolderPath);
 		insertRootFolderOnDatabase(folder);
 	}
@@ -229,7 +229,7 @@ public class FolderBO {
 				else {
 					File newFolderOnServer = new File(folderPath + File.separator + folderName);
 					newFolderOnServer.mkdir();
-					newFolderOnDatabase = new Folder(null, fatherFolder.getOwnerUsername(), fatherFolder.getId(), folderName, newFolderOnServer.getPath()); 
+					newFolderOnDatabase = new Folder(null, fatherFolder.getOwnerUsername(), fatherFolder.getId(), folderName, newFolderOnServer.getPath(), null, 0); 
 			        FolderDAOImp.getInstance().Insert(newFolderOnDatabase);
 			        returnMessage = "Created sucessfully!";
 				}
@@ -256,10 +256,11 @@ public class FolderBO {
 					if (newFolderOnServer.exists()) {
 						returnMessage = "Folder name exists!";
 					}
-					else if (oldFolderOnServer.renameTo(newFolderOnServer)) {						
+					else if (oldFolderOnServer.renameTo(newFolderOnServer)) {	
 						oldFolderOnDataBase.setName(newFolderName);
-						oldFolderOnDataBase.setPath(newFolderOnServer.getPath());
-						FolderDAOImp.getInstance().Update(oldFolderOnDataBase);						
+						FolderDAOImp.getInstance().Update(oldFolderOnDataBase);	
+						FolderDAOImp.getInstance().UpdateAllSubFoldersPathAfterRenameFolder(folderPath, oldFolderName, newFolderName);
+						FileDAOImp.getInstance().UpdateAllSubFilesPathAfterRenameFolder(folderPath, oldFolderName, newFolderName);
 						returnMessage = "Rename successfully!";
 					}
 					else {
@@ -269,6 +270,55 @@ public class FolderBO {
 			}
 		}
 		return returnMessage;
+	}
+	
+	public ArrayList<Folder> searchFolders(String username, String searchContent) {
+		ArrayList<Folder> folderArrayList = FolderDAOImp.getInstance().getAll();
+		ArrayList<Folder> searchResult = new ArrayList<Folder>();
+		for (Folder folder : folderArrayList) {
+			if (folder.getOwnerUsername().equals(username) && folder.getName().toLowerCase().contains(searchContent.toLowerCase()))
+				searchResult.add(folder);
+		}
+		return searchResult;
+	}
+	
+	public long folderSize(File directory) {
+	    long length = 0;
+	    for (File file : directory.listFiles()) {
+	        if (file.isFile())
+	            length += file.length();
+	        else
+	            length += folderSize(file);
+	    }
+	    return length;
+	}
+
+	public void updateSizeOfFoldersInPathAfterUpload(String currentFolderPath, long uploadSize) {
+		String rootPath = Server.USER_FOLDER_PATH;
+		File folderOnserver = new File(currentFolderPath);
+		
+		while (folderOnserver != null && folderOnserver.getPath().startsWith(rootPath)) {
+			Folder folderOnDatabase = getFolderByPath(folderOnserver.getPath());
+			if (folderOnDatabase != null) {
+				folderOnDatabase.setSize(folderOnDatabase.getSize() + uploadSize);
+				FolderDAOImp.getInstance().Update(folderOnDatabase);
+			}
+			folderOnserver = folderOnserver.getParentFile();
+		}
+	}
+	
+	public void updateSizeOfFoldersInPathAfterDelete(String currentFolderPath, long deleteSize) {
+		String rootPath = Server.USER_FOLDER_PATH;
+		File folderOnserver = new File(currentFolderPath);
+		
+		while (folderOnserver != null && folderOnserver.getPath().startsWith(rootPath)) {
+			Folder folderOnDatabase = getFolderByPath(folderOnserver.getPath());
+			if (folderOnDatabase != null) {
+				folderOnDatabase.setSize(folderOnDatabase.getSize() - deleteSize);
+				FolderDAOImp.getInstance().Update(folderOnDatabase);
+			}
+			folderOnserver = folderOnserver.getParentFile();
+		}
 	}
 	
 }

@@ -89,4 +89,25 @@ public class FileDAOImp implements DAOInterface<File> {
 		return null;
 	}
 	
+	public void UpdateAllSubFilesPathAfterRenameFolder(String folderPath, String oldFolderName, String newFolderName) {
+		String oldPath = folderPath + java.io.File.separator + oldFolderName;
+		String newPath = folderPath + java.io.File.separator + newFolderName;
+		
+		String query = "UPDATE file SET path = CONCAT(?, SUBSTRING(path, ?)) "
+		        + "WHERE path = ? OR (path LIKE ? AND SUBSTRING(path, ?, 1) = ?)";
+
+		   try {
+		       PreparedStatement pst = connect.prepareStatement(query);
+		       pst.setString(1, newPath); 
+		       pst.setInt(2, oldPath.length() + 1);
+		       pst.setString(3, oldPath); 
+		       pst.setString(4, oldPath.replace("\\", "\\\\") + "%"); 
+		       pst.setInt(5, oldPath.length() + 1);
+		       pst.setString(6, java.io.File.separator);
+		       pst.executeUpdate();
+		       
+		   } catch (SQLException e) {
+		       e.printStackTrace();
+		   }
+	}
 }
