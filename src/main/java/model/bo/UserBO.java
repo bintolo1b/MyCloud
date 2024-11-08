@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import constant.Server;
+import model.bean.Folder;
 import model.bean.User;
+import model.dao.MailAttachFileDAOImp;
 import model.dao.UserDAOImp;
 
 public class UserBO {
@@ -45,7 +48,10 @@ public class UserBO {
 	
 	public String CheckLogupNewUser(String username, String password, String verifyPassword, String FullName) {
 		String returnMessage = "Logup successfully!";
-		if (username.equals("") || password.equals("") || verifyPassword.equals("") || FullName.equals("")) {
+		if (!checkIfEnoughSpaceToCreateUser()) {
+			returnMessage = "Not enough space to create new user!";
+		} 
+		else if (username.equals("") || password.equals("") || verifyPassword.equals("") || FullName.equals("")) {
 			returnMessage = "Lack of information!";
 		}
 		else if (UserBO.instance.doesUserExits(username)) {
@@ -57,6 +63,21 @@ public class UserBO {
 			}
 		}
 		return returnMessage;
+	}
+	
+	public boolean checkIfEnoughSpaceToCreateUser() {
+		java.io.File disk = new java.io.File(Server.DISK_PATH);
+		long totalSize = disk.getTotalSpace();
+		totalSize = (long)Math.floor(totalSize*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
+		
+		long currentSize = Server.SIZE_FOR_A_USER * UserBO.getInstance().getNumberOfUsers();
+		long freeSizeLeft = totalSize - currentSize;
+		
+		long numberOfUserCanBeCreated = freeSizeLeft / Server.SIZE_FOR_A_USER;
+		if (numberOfUserCanBeCreated > 0)
+			return true;
+		else
+			return false;
 	}
 	
 	public String CheckLogin(String username, String password) {
@@ -87,5 +108,15 @@ public class UserBO {
 				return user;
 		}
 		return null;
+	}
+	
+	public long getNumberOfUsers() {
+		return UserDAOImp.getInstance().getAll().size();
+	}
+	
+	public long getTotalSizeUsedOfAUser(String username) {
+		Folder folder = FolderBO.getInstance().getFolderByPath(Server.USER_FOLDER_PATH + "\\" + username);
+		long mailAttachFileSize = MailAttachFileDAOImp.getInstance().getMailAttachFileSizeOfUser(username);
+		return folder.getSize() + mailAttachFileSize;
 	}
 }

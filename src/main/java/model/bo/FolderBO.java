@@ -196,7 +196,7 @@ public class FolderBO {
 	}
 	
 	public void createRootFolder(User user) {
-		String newFolderPath = Server.SERVER_PATH+"\\"+user.getUsername();
+		String newFolderPath = Server.USER_FOLDER_PATH+"\\"+user.getUsername();
 		Folder folder = new Folder(null, user.getUsername(), null, user.getUsername(), newFolderPath, null, 0);
 		createRootFolderOnServer(newFolderPath);
 		insertRootFolderOnDatabase(folder);

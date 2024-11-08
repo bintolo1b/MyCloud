@@ -22,13 +22,14 @@ public class MailAttachFileDAOImp implements DAOInterface<MailAttachFile> {
 	
 	@Override
 	public void Insert(MailAttachFile obj) {
-		String query = "insert into mailattachfile(mailId, path, name) value"
-				+ "(?,?,?)";
+		String query = "insert into mailattachfile(mailId, path, name, size) value"
+				+ "(?,?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setObject(1, obj.getMailId());
 			pst.setObject(2, obj.getPath());
 			pst.setObject(3, obj.getName());
+			pst.setObject(4, obj.getSize());
 			
 			pst.executeUpdate();
 		} catch (SQLException e) {
@@ -38,8 +39,19 @@ public class MailAttachFileDAOImp implements DAOInterface<MailAttachFile> {
 
 	@Override
 	public void Update(MailAttachFile obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "update mailattachfile " + "set mailId = ?, path = ?, name = ?, size = ? " + "where id = ?";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, obj.getMailId());
+			pst.setObject(2, obj.getPath());
+			pst.setObject(3, obj.getName());
+			pst.setObject(4, obj.getSize());
+			pst.setObject(5, obj.getId());
+
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -51,6 +63,29 @@ public class MailAttachFileDAOImp implements DAOInterface<MailAttachFile> {
 	@Override
 	public ArrayList<MailAttachFile> getAll() {
 		return selectByCondition("select* from mailAttachFile");
+	}
+	
+	public long getMailAttachFileSizeOfUser(String username) {
+		long size = -1;
+		String query = "select sum(ma.size) "
+				+ "from mailattachfile ma "
+				+ "where ma.mailId in ( "
+				+ "					   select id "
+				+ "                    from mail "
+				+ "                    where senderUsername = ? "
+				+ "				      )";
+		try {
+			PreparedStatement pst = connect.prepareStatement(query);
+			pst.setObject(1, username);
+			ResultSet res = pst.executeQuery();
+			while (res.next()) {
+				size = res.getLong(1);
+			}
+		} catch (SQLException e) {
+
+		}
+		return size;
+		
 	}
 
 	@Override
@@ -66,7 +101,7 @@ public class MailAttachFileDAOImp implements DAOInterface<MailAttachFile> {
 	        
 	        ResultSet res = pst.executeQuery();
 	        while (res.next()) {
-	        	MailAttachFile mailAttachFile = new MailAttachFile(res.getInt(1), res.getInt(2), res.getString(3), res.getString(4));
+	        	MailAttachFile mailAttachFile = new MailAttachFile(res.getInt(1), res.getInt(2), res.getString(3), res.getString(4) ,res.getLong(5));
 	        	mailAttachFiles.add(mailAttachFile);
 			}
 	    } catch (SQLException e) {

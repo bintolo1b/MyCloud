@@ -22,7 +22,7 @@ public class ReadMailController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
-		System.out.println("ok");
+
 		if (req.getParameter("mailId")!=null) {
 			Integer mailId = null;
 			try {

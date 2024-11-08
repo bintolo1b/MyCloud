@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import constant.Server;
+
 public class TemporaryFileCleaner {
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -13,7 +15,7 @@ public class TemporaryFileCleaner {
     }
 
     private void cleanTemporaryFiles() {
-        File tempDir = new File("D:\\Java\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp2\\wtpwebapps\\PBL4\\temporary\\img");
+        File tempDir = new File(Server.TEMPORARY_IMG_PATH);
         for (File file : tempDir.listFiles()) {
             if (!file.isDirectory()) {
                 file.delete();

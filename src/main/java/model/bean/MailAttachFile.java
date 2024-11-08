@@ -5,13 +5,15 @@ public class MailAttachFile {
 	private Integer mailId;
 	private String path;
 	private String name;
+	private long size;
 	
-	public MailAttachFile(Integer id, Integer mailId, String path, String name) {
+	public MailAttachFile(Integer id, Integer mailId, String path, String name, long size) {
 		super();
 		this.id = id;
 		this.mailId = mailId;
 		this.path = path;
 		this.name = name;
+		this.size = size;
 	}
 
 	public Integer getId() {
@@ -45,7 +47,14 @@ public class MailAttachFile {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+	public long getSize() {
+		return size;
+	}
+
+	public void setSize(long size) {
+		this.size = size;
+	}
 	
 	
 }

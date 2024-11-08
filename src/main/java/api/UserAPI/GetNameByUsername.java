@@ -32,7 +32,6 @@ public class GetNameByUsername extends HttpServlet {
             else {
                 message = "Username not found!";
             }
-			System.out.println(message);
 			pw.write("{\"message\": \"" + message + "\"}");
 			
 		}

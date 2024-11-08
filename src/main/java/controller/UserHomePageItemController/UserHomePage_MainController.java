@@ -13,10 +13,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.bean.File;
 import model.bean.Folder;
+import model.bean.MailAttachFile;
 import model.bo.FileBO;
 import model.bo.FolderBO;
+import model.bo.UserBO;
 import model.dao.FileDAOImp;
 import model.dao.FolderDAOImp;
+import model.dao.MailAttachFileDAOImp;
 
 
 @WebServlet(urlPatterns = {"/userhomepage/main"})
@@ -25,12 +28,17 @@ public class UserHomePage_MainController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		myfun();
-		myfun2();
-		myfunc3();
+		//myfun();
+		//myfun2();
+		//myfunc3();
+		//myfunc4();
+		//myfunc5();
+		
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
 		String folderPath = "";
+		
+														System.out.println(UserBO.getInstance().getTotalSizeUsedOfAUser(username));
 		
 		if (req.getParameter("folderPath")!=null)
 			folderPath = req.getParameter("folderPath");
@@ -78,7 +86,6 @@ public class UserHomePage_MainController extends HttpServlet {
 	 public void myfun2() {
 		 System.out.println("folder");
 		    ArrayList<Folder> folders = FolderDAOImp.getInstance().getAll();
-		    ArrayList<File> files = FileDAOImp.getInstance().getAll();
 
 
 		    for (Folder folder : folders) {
@@ -119,7 +126,34 @@ public class UserHomePage_MainController extends HttpServlet {
 			 }
 		 }
 	 }
+	 
+	 public void myfunc4() {
+		 ArrayList<MailAttachFile> mailatts = MailAttachFileDAOImp.getInstance().getAll();
+		 for(MailAttachFile mailatt : mailatts) {
+             String path = mailatt.getPath();
+             java.io.File svfile = new java.io.File(path);
+             if (svfile.isFile()) {
+                long size = svfile.length();
+                mailatt.setSize(size);
+                MailAttachFileDAOImp.getInstance().Update(mailatt);
+             }
+		 }
+		 
+	 }
 
-	
+	public void myfunc5() {
+		java.io.File disk = new java.io.File(Server.DISK_PATH);
+		long totalSize = disk.getTotalSpace();
+		System.out.println("Total size before cut " + totalSize);
+		totalSize = (long)Math.floor(totalSize*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
+		System.out.println("Total size after cut " + totalSize);
+		
+		long currentSize = Server.SIZE_FOR_A_USER * UserBO.getInstance().getNumberOfUsers();
+		long freeSizeLeft = totalSize - currentSize;
+		
+		long numberOfUserCanBeCreated = freeSizeLeft / Server.SIZE_FOR_A_USER;
+		System.out.println("free size left: "+ freeSizeLeft);
+		System.out.println("number of user can be created: "+ numberOfUserCanBeCreated);
+	}
 	
 }

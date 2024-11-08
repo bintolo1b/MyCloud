@@ -77,7 +77,7 @@ public class MailBO {
 					}
 					out.flush();
 					
-					MailAttachFile newMailAttachFile = new MailAttachFile(null, mailId, attachFile.getPath(), attachFileName);
+					MailAttachFile newMailAttachFile = new MailAttachFile(null, mailId, attachFile.getPath(), attachFileName, attachFile.length());
 					MailAttachFileDAOImp.getInstance().Insert(newMailAttachFile);
 				}
 				catch (Exception e) {

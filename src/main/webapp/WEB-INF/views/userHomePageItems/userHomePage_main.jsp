@@ -16,7 +16,7 @@
 			<% 
 			    String folderPath = (String) request.getAttribute("folderPath");
 			
-			    String displayPath = folderPath.replace("D:\\MyPBL4Server\\UserFolder\\", "");
+			    String displayPath = folderPath.replace("E:\\MyPBL4Server\\UserFolder\\", "");
 			
 			    String[] pathSegments = displayPath.split("\\\\");
 			%>
@@ -24,7 +24,7 @@
 			<% if (pathSegments.length > 0) { %>  
 			    <div class="breadcrumb-container" style="margin-bottom: 10px;">
 			        <%
-			        String cumulativePath = "D:\\MyPBL4Server\\UserFolder";
+			        String cumulativePath = "E:\\MyPBL4Server\\UserFolder";
 			        for (int i = 0; i < pathSegments.length; i++) {
 			            cumulativePath += "\\" + pathSegments[i];
 			
