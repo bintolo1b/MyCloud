@@ -184,10 +184,10 @@
                         <i class="FFicon material-icons">drive_folder_upload</i>
                         Upload folder
                     </a>
-                    <c:url value="/uploadfoldercontroller" var="uploadfolderurl">
+                    <c:url value="/uploadfolder" var="uploadfolderurl">
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
-					<form action="${uploadfolderurl}" method="post" enctype="multipart/form-data">
+					<form action="${uploadfolderurl}" enctype="multipart/form-data">
 					    <input class="uploadItem" type="file" name="files" webkitdirectory directory multiple>
 					</form>
                 </li>
@@ -196,10 +196,10 @@
                         <i class="FFicon material-icons">upload_file</i>
                         Upload file
                     </a> 
-					<c:url value="/uploadfilecontroller" var="uploadfileurl">
+					<c:url value="/uploadfile" var="uploadfileurl">
 						<c:param name="folderPath" value="${folderPath}"></c:param>
 					</c:url>
-					<form action="${uploadfileurl}" method="post" enctype="multipart/form-data">
+					<form action="${uploadfileurl}" enctype="multipart/form-data">
 						<input class="uploadItem" type="file" name="files" multiple required="required"/>
 					</form>
                 </li>

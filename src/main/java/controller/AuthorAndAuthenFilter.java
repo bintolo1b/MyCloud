@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.Folder;
 import model.bo.FolderBO;
 
-@WebFilter(urlPatterns = {"/userhomepage/*", "/uploadfilecontroller", "/uploadfoldercontroller", "/deletefoldercontroller", "/deletefilecontroller"
+@WebFilter(urlPatterns = {"/userhomepage/*", "/uploadfile", "/uploadfolder", "/deletefoldercontroller", "/deletefilecontroller"
 		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl","/sendmail", "/createnewfolder" ,"/renamefile" 
 		,"/downloadmailattachfilecontroller", "/search"})
 public class AuthorAndAuthenFilter implements Filter {

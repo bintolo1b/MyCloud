@@ -361,8 +361,35 @@ document.addEventListener('DOMContentLoaded', function() {
     fileInputs.forEach(input => {
         input.addEventListener('change', function() {
             if (this.files.length > 0) {
+                var fd = new FormData();
+                var files = this.files;
+                for (var i = 0; i < files.length; i++) {
+                    fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
+                }
+
                 const form = this.closest('form');
-                form.submit();
+                var url = form.action;
+               
+                fetch(url,{
+                    method: 'POST',
+                    body: fd
+                    })
+                    .then(function(response){
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        else
+                            return response.json();
+                    })
+                    .then(function(returnObject){
+                        alert(returnObject.message);
+                        if (returnObject.message === 'Uploaded successfully!'){
+                            window.location.reload();
+                        }	
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
             }
         });
     });

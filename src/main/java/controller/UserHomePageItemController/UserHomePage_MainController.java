@@ -37,8 +37,7 @@ public class UserHomePage_MainController extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
 		String folderPath = "";
-		
-														System.out.println(UserBO.getInstance().getTotalSizeUsedOfAUser(username));
+					System.out.println(UserBO.getInstance().getTotalSizeUsedOfAUser(username) *1.0/(Server.SIZE_FOR_A_USER));
 		
 		if (req.getParameter("folderPath")!=null)
 			folderPath = req.getParameter("folderPath");

@@ -1,10 +1,12 @@
 package model.bo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import constant.Server;
+import jakarta.servlet.http.Part;
 import model.bean.Folder;
 import model.bean.User;
 import model.dao.MailAttachFileDAOImp;
@@ -118,5 +120,22 @@ public class UserBO {
 		Folder folder = FolderBO.getInstance().getFolderByPath(Server.USER_FOLDER_PATH + "\\" + username);
 		long mailAttachFileSize = MailAttachFileDAOImp.getInstance().getMailAttachFileSizeOfUser(username);
 		return folder.getSize() + mailAttachFileSize;
+	}
+	
+	public long getFreeSpaceLeftOfUser(String username) {
+		return Server.SIZE_FOR_A_USER - getTotalSizeUsedOfAUser(username);
+	}
+	
+	public boolean checkIfEnoughSpaceToUpload(String username, Collection<Part> parts) {
+		long size = 0;
+		for (Part part : parts) {
+			if (part.getSubmittedFileName() != null)
+				size += part.getSize();
+		}
+		
+		if (getFreeSpaceLeftOfUser(username)<size){
+			return false;
+		}
+		return true;
 	}
 }

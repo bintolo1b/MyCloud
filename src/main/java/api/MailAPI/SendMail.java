@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import model.bo.MailBO;
+import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/sendmail")
 @MultipartConfig
@@ -33,6 +34,12 @@ public class SendMail extends HttpServlet {
 			String content = req.getParameter("content");
 			
 			Collection<Part> parts = req.getParts();
+			
+			if (UserBO.getInstance().checkIfEnoughSpaceToUpload(senderUsername, parts) == false){
+				pw.write("{\"message\": \"Not enough space to store mail attach file!\"}");
+                return;
+			}
+			
 			String message = MailBO.getInstance().sendMail(senderUsername, receiverUsername, topic, content, parts);
 			pw.write("{\"message\": \"" + message + "\"}");
 			

@@ -1,4 +1,4 @@
-package controller.FileController;
+package api.FileAPI;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -7,46 +7,56 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import model.bean.File;
 import model.bo.FileBO;
 import model.bo.FolderBO;
+import model.bo.UserBO;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@WebServlet(urlPatterns = "/uploadfilecontroller")
+@WebServlet(urlPatterns = "/uploadfile")
 @MultipartConfig
-public class UploadFileController extends HttpServlet {
+public class UploadFile extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+    	resp.setContentType("application/json");
+		resp.setCharacterEncoding("UTF-8");
+		
+		PrintWriter pw = resp.getWriter();
+		
         String folderPath = req.getParameter("folderPath");
         if (folderPath!=null) {
         	Collection<Part> parts = req.getParts();
+        	
+			String username = req.getSession(false).getAttribute("username").toString();
+			
+			if (UserBO.getInstance().checkIfEnoughSpaceToUpload(username, parts) == false){
+				pw.write("{\"message\": \"Not enough space to upload!\"}");
+                return;
+			}
+        	
         	ArrayList<String> fileNames = FileBO.getInstance().saveUploadedFilesOnServer(folderPath, parts);
-  
+        	
     		FileBO.getInstance().saveUploadedFilesOnDatabase(folderPath, fileNames);
     		
     		long size = 0;
-    		for (String fileName : fileNames) {
-    			File uploadedFile = FileBO.getInstance().getFileByPath(folderPath + "\\" + fileName);
-    			size += uploadedFile.getSize();
-    		}
-    		FolderBO.getInstance().updateSizeOfFoldersInPathAfterUpload(folderPath, size);
+			for (Part part : parts) {
+				if (part.getSubmittedFileName() != null)
+					size += part.getSize();
+			}
     		
-    		String encodedFolderPath = URLEncoder.encode(folderPath, StandardCharsets.UTF_8.toString());
-    		resp.sendRedirect(req.getContextPath()+"/userhomepage/main?folderPath=" + encodedFolderPath);
-    		return;
+    		FolderBO.getInstance().updateSizeOfFoldersInPathAfterUpload(folderPath, size);
+    		   		
+    		pw.write("{\"message\": \"Uploaded successfully!\"}");
         	
         }
         else {
-        	resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return;
+        	pw.write("{\"message\": \"Folder not found!\"}");
         }
     }
 }
