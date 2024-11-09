@@ -66,7 +66,7 @@
                                     </a>
                                 </li>
                                 <li class="kebab-item">
-                                    <a href="">
+                                    <a href="" class="share-btn">
                                         <i class="material-icons">share</i>
                                         Share
                                     </a>
@@ -122,12 +122,6 @@
 	                                        Download
 	                                    </a>
                                 	</li>
-		                            <li class="kebab-item">
-		                                <a href="">
-		                                    <i class="material-icons">share</i>
-		                                    Share
-		                                </a>
-		                            </li>
 		                            <li class="kebab-item">
 		                                <a href="#" class="rename-btn" data-file-name="${file.name}">
 		                                    <i class="material-icons">edit</i>
@@ -224,6 +218,9 @@
 	<div id="renameModal" class="renameModal">
 	    <div class="rename-modal-content">
 	        <h2>Rename</h2>
+	        <div class="rename-notice">
+	        	<span>A file name can't contain any of the following characters:<br> \ / : * ? " &lt; &gt; |</span>
+	        </div>
 	        <!-- Thay đổi từ div sang form -->
 	        <form id="renameForm" action="" method="POST">
 	            <input type="text" id="renameInput" required>
@@ -237,6 +234,28 @@
 	        </form>
 	    </div>
 	</div>
+	
+	<div class="shareModal" id="shareModal">
+        <div class="share-modal-content">
+            <h2>Share "Folder"</h2>
+            <form action="" method="POST">
+                <input type="text" class="usernameInput" placeholder="Enter username to share">
+                <h3>Access permit</h3>
+                <div class="radio-group">
+                    <div class="access-group">
+                        <input type="radio" id="private" name="access" checked> <label class="private-access-label" for="private">Private</label>
+                    </div>
+                    <div class="access-group">
+                        <input type="radio" id="public" name="access"> <label class="public-access-label" for="public">Public</label>
+                    </div>
+                </div>
+                <div class="share-modal-button-group">
+                    <button type="button" id="cancel-share-modal-btn" class="cancel-share-modal-btn">Cancel</button>
+                    <button type="submit" id="ok-to-share-btn" class="ok-to-share-btn">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <div class = "display-modal">
     	<iframe scr = ""></iframe>
@@ -278,6 +297,10 @@
 	            </form>
 	        </div>
 	    </div>
+	</div>
+	
+	<div class="loading-container">
+	  <div class="loader"></div>
 	</div>	
     
     <script src="<c:url value='/assets/js/userHomePage_main.js'/>"></script>

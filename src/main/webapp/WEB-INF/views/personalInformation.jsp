@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+		href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 </head>
 <body>
 	<link href="<c:url value='/assets/css/personalInformation.css'/>" rel="stylesheet">
@@ -24,6 +26,7 @@
                 <div class="profile-info-row">
                     <strong>Full name:</strong>
                     <span>Tran Van A</span>
+                    <i class="material-icons edit-icon" onclick="updateFullName()">edit</i>
                 </div>
                 <div class="profile-info-row">
                     <strong>Username:</strong>
@@ -31,23 +34,64 @@
                 </div>
                 <div class="profile-info-row">
                     <strong>Password:</strong>
-                    <input type="password" value="yourpassword" readonly>
+                    <span>************</span>
+                    <i class="material-icons edit-icon" onclick="changePassword()">edit</i>
                 </div>
             </div>
         </div>
     </div>
+    <div class="update-container">
+	    <form action="" method="POST" class="update-form">
+	        <div class="update-fullname update-card">
+	            <h1>UPDATE FULLNAME</h1>
+	            <div class="update-row">
+	                <label><strong>Your fullname:</strong></label>
+	                <input type="text" name="fullname" class="update-input" required />
+	            </div>
+	        </div>
+	
+	        <div class="update-password update-card">
+	            <h1>CHANGE PASSWORD</h1>
+	            <div class="update-row">
+	                <label><strong>Your current password:</strong></label>
+	                <input type="password" name="currentPassword" class="update-input" required />
+	            </div>
+	            <div class="update-row">
+	                <label><strong>Your new password:</strong></label>
+	                <input type="password" name="newPassword" class="update-input" required />
+	            </div>
+	            <div class="update-row">
+	                <label><strong>Verify your new password:</strong></label>
+	                <input type="password" name="verifyNewPassword" class="update-input" required />
+	            </div>
+	        </div>
+	
+	        <button type="submit" class="save-button">Save changes</button>
+	    </form>
+	</div>
+
 </body>
 <script>
         function updateAvatar(event) {
-        const avatar = document.getElementById('avatar');
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                avatar.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+	        const avatar = document.getElementById('avatar');
+	        const file = event.target.files[0];
+	        if (file) {
+	            const reader = new FileReader();
+	            reader.onload = function (e) {
+	                avatar.src = e.target.result;
+	            };
+	            reader.readAsDataURL(file);
+	        }
+	    }
+        
+        function updateFullName() {
+        	document.querySelector('.update-fullname').style.display = 'block';
+        	document.querySelector('.save-button').style.display = 'block';
         }
-    }
+        
+        function changePassword() {
+        	document.querySelector('.update-password').style.display = 'block';
+        	document.querySelector('.save-button').style.display = 'block';
+        }
 </script>
 </html>
