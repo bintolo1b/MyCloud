@@ -36,8 +36,17 @@ public class UserDAOImp implements DAOInterface<User> {
 
 	@Override
 	public void Update(User obj) {
-		// TODO Auto-generated method stub
-		
+		String query = "update user set hashedPassword = ?, fullName = ? where username = ?";
+		try {
+            PreparedStatement pst = connect.prepareStatement(query);
+            pst.setObject(1, obj.getHashedPassword());
+            pst.setObject(2, obj.getFullName());
+            pst.setObject(3, obj.getUsername());
+            
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 	}
 
 	@Override

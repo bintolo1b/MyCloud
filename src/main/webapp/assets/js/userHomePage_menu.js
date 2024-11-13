@@ -25,3 +25,47 @@ navLinks.forEach(link => {
     }
 });
 
+let circularProgress = document.querySelector(".circular-progress"),
+    progressValue = document.querySelector(".progress-value");
+
+let progressStartValue = 0,
+    progressEndValue,
+    speed = 25;
+
+async function updateProgress() {
+	try {
+		const response = await fetch('/PBL4/getPercentSpaceUsed');
+		if (!response.ok) {
+			throw new Error('Network response was not ok');
+		}
+		const returnObject = await response.json();
+		progressEndValue = returnObject.percentSpaceUsed;
+
+		document.getElementById('used-space-percent').textContent = `Used: ${returnObject.totalSizeUsed}GB / ${returnObject.totalSize}GB`;
+		
+		let progress = setInterval(() => {
+			if (Math.floor(progressStartValue) < Math.floor(progressEndValue)) {
+				progressStartValue += 1;
+			} else {
+				progressStartValue += 0.1;
+				progressStartValue = Math.min(progressStartValue, progressEndValue);
+			}
+
+			progressValue.textContent = `${progressStartValue.toFixed(1)}%`;
+
+			circularProgress.style.background = `conic-gradient(#7d2ae8 ${progressStartValue * 3.6}deg, #ededed 0deg)`;
+
+			if (progressStartValue >= progressEndValue) {
+				clearInterval(progress);
+			}
+		}, speed);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+updateProgress();	
+
+
+    
+

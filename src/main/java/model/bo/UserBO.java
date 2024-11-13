@@ -1,5 +1,11 @@
 package model.bo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -126,6 +132,20 @@ public class UserBO {
 		return Server.SIZE_FOR_A_USER - getTotalSizeUsedOfAUser(username);
 	}
 	
+	public double getPercetSpaceUsedOfAUser(String username) {
+		return getTotalSizeUsedOfAUser(username) * 1.0 / Server.SIZE_FOR_A_USER;
+	}
+	
+	public double roundToTheFirstDecimal(double number) {
+		DecimalFormat df = new DecimalFormat("0.0");
+		return Double.parseDouble(df.format(number));
+	}
+	
+	public double roundToTheSecondDecimal(double number) {
+		DecimalFormat df = new DecimalFormat("0.00");
+		return Double.parseDouble(df.format(number));
+	}
+	
 	public boolean checkIfEnoughSpaceToUpload(String username, Collection<Part> parts) {
 		long size = 0;
 		for (Part part : parts) {
@@ -138,4 +158,68 @@ public class UserBO {
 		}
 		return true;
 	}
+
+	public String updateFullName(String username, String newFullName) {
+		String message = "";
+		User user = UserBO.getInstance().getUser(username);
+		user.setFullName(newFullName);
+		UserDAOImp.getInstance().Update(user);
+		message = "Update successfully!";
+		return message;
+	}
+
+	public String updatePassword(String currentPassword, String newPassword, String verifyNewPassword, String username) {
+		String message = "";
+		if (!doesPasswordCorrect(username, currentPassword)) {
+			message = "Current password is incorrect!";
+		} else if (!newPassword.equals(verifyNewPassword)) {
+			message = "Verify password is incorrect!";
+		} else {
+			User user = UserBO.getInstance().getUser(username);
+			user.setHashedPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+			UserDAOImp.getInstance().Update(user);
+			message = "Update successfully!";
+		}
+		return message;
+	}
+
+	public String updateAvatar(String username, Part part) {
+		String message = "";
+		if (part.getSubmittedFileName() == null)
+			message = "No file choosen!";
+		else if (part.getContentType().equals("image/jpeg") || part.getContentType().equals("image/png") || part.getContentType().equals("image/jpg")) {
+            File file = new File(Server.USER_AVATAR_PATH + "\\" + username + ".jpg");
+			try {
+				part.write(file.getAbsolutePath());
+				message = "Update successfully!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = "Exception occur when writing file!";
+			}
+        } else {
+            message = "File type is not supported!";
+        }
+		return message;
+	}
+
+	public void createDefaultAvatar(String username) {
+		File userAvatar = new File(Server.DEFAULT_USER_AVATAR);
+		File defaultUserAvatar = new File(Server.USER_AVATAR_PATH + "\\" + username + ".jpg");
+		try {
+			 InputStream input = new FileInputStream(userAvatar);
+			 OutputStream output = new FileOutputStream(defaultUserAvatar);
+			 byte[] buffer = new byte[1024];
+			 int bytesRead;
+			 while ((bytesRead = input.read(buffer)) != -1) {
+				 output.write(buffer, 0, bytesRead);
+			 }
+			 input.close();
+			 output.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+
 }

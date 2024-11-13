@@ -46,6 +46,7 @@ public class Logup extends HttpServlet {
 			if (message.equals("Logup successfully!")) {
 				UserBO.getInstance().addNewUser(username, password, fullName);
 				User newUser = UserBO.getInstance().getUser(username);
+				UserBO.getInstance().createDefaultAvatar(username);
 				FolderBO.getInstance().createRootFolder(newUser);
 			}
 		}

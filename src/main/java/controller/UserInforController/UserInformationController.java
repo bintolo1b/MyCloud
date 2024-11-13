@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.bean.User;
+import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/userinformation")
 public class UserInformationController extends HttpServlet {
@@ -14,6 +16,9 @@ public class UserInformationController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String username = req.getSession().getAttribute("username").toString();
+		User user = UserBO.getInstance().getUser(username);
+		req.setAttribute("user", user);
 		req.getRequestDispatcher("/WEB-INF/views/personalInformation.jsp").forward(req, resp);
 	}
 }

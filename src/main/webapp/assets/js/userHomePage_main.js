@@ -224,6 +224,57 @@ function updateInputFiles() {
 	    });
 	});
 	
+		const renameInput = document.getElementById("renameInput");
+		const renameNotice = document.querySelector(".rename-notice span");
+		const oldNameInput = document.getElementById("oldName");
+		const isFolderInput = document.getElementById("isFolder");
+		
+		const fileNamePattern = /^[\p{L}a-zA-Z0-9\s_-]+\.[a-zA-Z0-9]{2,4}$/u;
+		const folderNamePattern = /^[\p{L}a-zA-Z0-9\s_-]+$/u; // Kiểm tra tên thư mục (không có dấu chấm)
+		const invalidCharsPattern = /[\\/:*?"<>|]/; // Kiểm tra ký tự không hợp lệ
+		
+		renameInput.addEventListener("blur", function () {
+		    renameNotice.parentElement.classList.remove("visible");
+		});
+		
+		// Khi mở modal, kiểm tra xem oldName có phải là file hay folder
+		const oldName = oldNameInput.value;
+		if (oldName.includes('.')) {
+		    isFolderInput.value = "false"; // Đặt giá trị là file
+		} else {
+		    isFolderInput.value = "true"; // Đặt giá trị là folder
+		}
+		
+		// Sự kiện input: Kiểm tra tên tệp mỗi khi người dùng nhập liệu
+		renameInput.addEventListener("input", function() {
+		    const inputName = this.value;
+		    
+		    // Nếu là file
+		    if (isFolderInput.value === "false") {
+		        if (invalidCharsPattern.test(inputName)) {
+		            renameNotice.textContent = "File name can't contain any of the following characters:\n \\ / : * ? \" < > |";
+		            renameNotice.parentElement.classList.add("visible");
+		        } else if (!fileNamePattern.test(inputName)) {
+		            renameNotice.textContent = "Filename is invalid.";
+		            renameNotice.parentElement.classList.add("visible");
+		        } else {
+		            renameNotice.parentElement.classList.remove("visible");
+		        }
+		    }
+		    // Nếu là folder
+		    else if (isFolderInput.value === "true") {
+		        if (invalidCharsPattern.test(inputName)) {
+		            renameNotice.textContent = "Folder name can't contain any of the following characters:\n \\ / : * ? \" < > |";
+		            renameNotice.parentElement.classList.add("visible");
+		        } else if (!folderNamePattern.test(inputName)) {
+		            renameNotice.textContent = "Folder name is invalid.";
+		            renameNotice.parentElement.classList.add("visible");
+		        } else {
+		            renameNotice.parentElement.classList.remove("visible");
+		        }
+		    }
+		});
+			
 	document.getElementById('cancel-rename-modal-btn').addEventListener('click', function() {
 	    document.getElementById('renameModal').classList.remove('open'); // Xóa class .open để ẩn modal
 	});
@@ -233,7 +284,26 @@ function updateInputFiles() {
 			renameModal.classList.remove('open');
 		}
 	}
-
+	
+	 const shareModal = document.getElementById('shareModal');
+	 
+	 document.querySelectorAll('.share-btn').forEach(button => {
+	    button.addEventListener('click', function(event) {
+	        event.preventDefault();
+	        shareModal.style.display = "flex";
+	    });
+	});
+	
+	document.querySelector('#cancel-share-modal-btn').addEventListener('click', function() {
+		shareModal.style.display = "none";
+	})
+	
+	window.onclick = (e) => {
+        if (e.target === shareModal) {
+            shareModal.style.display = "none";
+        }
+    };
+	
     // Close kebab menu when clicking outside
     document.addEventListener('click', function(event) {
         document.querySelectorAll('.kebab-items-list').forEach(menu => {
@@ -498,8 +568,6 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
     else if (isFolder === 'false'){
         url = '/PBL4/renamefile';
     }
-
-    console.log(url)
 
     fetch(url,{
 		method: 'POST',

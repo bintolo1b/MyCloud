@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.File;
 import model.bean.Folder;
 import model.bean.MailAttachFile;
+import model.bean.User;
 import model.bo.FileBO;
 import model.bo.FolderBO;
 import model.bo.UserBO;
@@ -37,7 +38,6 @@ public class UserHomePage_MainController extends HttpServlet {
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
 		String folderPath = "";
-					System.out.println(UserBO.getInstance().getTotalSizeUsedOfAUser(username) *1.0/(Server.SIZE_FOR_A_USER));
 		
 		if (req.getParameter("folderPath")!=null)
 			folderPath = req.getParameter("folderPath");
@@ -50,10 +50,12 @@ public class UserHomePage_MainController extends HttpServlet {
 		Folder currentFolder = FolderBO.getInstance().getFolderByPath(folderPath);
 		subFolders = FolderBO.getInstance().getAllSubfolderOfFolder(currentFolder);
 		files = FileBO.getInstance().getAllFilesOfFolder(currentFolder);
+		User user = UserBO.getInstance().getUser(username);
 		
 		req.setAttribute("folderPath", folderPath);
 		req.setAttribute("subFolders", subFolders);
 		req.setAttribute("files", files);
+		req.setAttribute("user", user);
 		
 		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_main.jsp");
 		requestDispatcher.forward(req, resp);

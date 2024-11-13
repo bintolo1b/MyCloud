@@ -24,5 +24,12 @@
 		<li class="userHomePageItem"><a href="#"><i class="material-icons">cloud</i>Backup</a></li>
 		<li><div class="divider"></div></li>
 		<li class="userHomePageItem"><a href="#"><i class="material-icons">storage</i>Upgrade Storage</a></li> -->
-	
+		<div class="circular-progress">
+			<span class="progress-value">0%</span>
+		</div>
+		<div id="used-space-percent"></div>
 </ul>
+
+<script>
+	const username= "${user.username}";
+</script>

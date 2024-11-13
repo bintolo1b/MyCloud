@@ -4,8 +4,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             text-align: center;
+            margin-bottom: 25px;
         }
 
         .profile-container h1 {
@@ -107,9 +107,97 @@
             margin-left: 20px;
             color: #555;
             font-size: 16px;
+            width: 80%;
         }
 
         .profile-info-row input[type="password"] {
             border: none;
             background-color: transparent;
         }
+        
+  		.edit-icon {
+		    font-size: 18px;
+		    color: #0d47a1;
+		    cursor: pointer;
+		    margin-left: 10px;
+		    transition: color 0.3s ease;
+		}
+		
+		.edit-icon:hover {
+		    color: #1565c0;
+		}
+		
+		.update-container {
+			display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    align-items: center;
+		    text-align: center;
+		}
+		
+		.update-container h1 {
+            color: #0d47a1;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+		
+		.update-card {
+			text-align: left;
+            padding-top: 20px;
+            width: 800px;
+		}
+		
+		.update-row {
+			display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            margin-bottom: 30px;
+		}
+		
+		.update-fullname {
+			display: none;
+		}
+		
+		.update-password {
+			display: none;
+		}
+		
+		.update-row strong {
+			 color: #0d47a1;
+            width: 200px;
+            display: inline-block; 
+		}
+		
+		.update-row .update-input {
+			border: none;
+			border-bottom: 1px solid #ccc;
+			width: 300px;
+			font-size: 14px;
+		}
+		
+		.update-row .update-input:focus {
+			outline: none;
+		}
+		
+		.update-row span {
+            margin-left: 20px;
+            color: #555;
+            font-size: 16px;
+            width: 80%;
+        }
+        
+        .save-button {
+		    padding: 10px 20px;
+		    background-color: #1976d2;
+		    color: #fff;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    font-size: 1em;
+		    display: none;
+		}
+		
+		.save-button:hover {
+		    background-color: #155a9b;
+		}
