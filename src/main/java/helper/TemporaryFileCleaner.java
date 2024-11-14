@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import constant.Server;
+import config.WebPaths;
 
 public class TemporaryFileCleaner {
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -15,7 +15,7 @@ public class TemporaryFileCleaner {
     }
 
     private void cleanTemporaryFiles() {
-        File tempDir = new File(Server.TEMPORARY_IMG_PATH);
+        File tempDir = new File(WebPaths.TEMPORARY_IMG_PATH);
         for (File file : tempDir.listFiles()) {
             if (!file.isDirectory()) {
                 file.delete();

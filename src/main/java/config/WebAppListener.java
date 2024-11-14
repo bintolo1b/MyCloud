@@ -11,6 +11,9 @@ public class WebAppListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+    	WebPaths.TEMPORARY_IMG_PATH = sce.getServletContext().getRealPath("/temporary/img");
+        WebPaths.USER_AVATAR_PATH = sce.getServletContext().getRealPath("/avatar");
+        WebPaths.DEFAULT_USER_AVATAR = sce.getServletContext().getRealPath("/assets/img/user.png");
         fileCleaner = new TemporaryFileCleaner();
     }
 
