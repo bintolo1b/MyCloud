@@ -11,8 +11,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.bean.Mail;
+import model.bean.Notification;
 import model.bean.User;
 import model.bo.MailBO;
+import model.bo.NotificationBO;
 import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/userhomepage/outbox")
@@ -25,8 +27,10 @@ public class UserHomePage_OutboxController extends HttpServlet {
 			String username = session.getAttribute("username").toString();
 			ArrayList<Mail> mails = MailBO.getInstance().getAllSentMail(username);
 			User user = UserBO.getInstance().getUser(username);
+			ArrayList<Notification> notifications = NotificationBO.getInstance().getAllNotification(username);
 			
 			req.setAttribute("mails", mails);
+			req.setAttribute("notifications", notifications);
 			req.setAttribute("user", user);
 			
 			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_outbox.jsp");

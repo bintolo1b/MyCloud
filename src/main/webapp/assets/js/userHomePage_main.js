@@ -102,7 +102,6 @@ function initializeMainContent() {
                     }
 
                     const returnObject = await response.json();
-                    console.log(returnObject);
                     if (returnObject != null) {
                         receiverName.textContent = returnObject.message;
                         const sendBtn = document.getElementsByClassName('send-btn')[0];
@@ -467,7 +466,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 cancelNewFolderModalBtn.onclick = function() {
     newFolderModal.classList.remove('open');
-    console.log(newFolderModal);
 };
 
 window.onclick = function(e) {
@@ -502,10 +500,16 @@ document.getElementById('sendMailForm').addEventListener('submit', function(even
                 return response.json();
         })
         .then(function(returnObject){
-            console.log(returnObject.message);
             if (returnObject.message === 'Sent Successfully!'){
                 document.getElementById("composeModal").style.display = 'none';
                 alert("Sent successfully!");
+
+                var receiverUsername = document.getElementById('to').value;
+                var content = `${username}` + " has sent you a letter: " + document.getElementById('subject').value;
+                var sentUsername = `${username}`;
+                var accessLink = `/PBL4/userhomepage/mail/readmail?mailId=${returnObject.mailId}`;
+
+                sendMailNotification(receiverUsername, content, sentUsername, accessLink);
             }
             else{
                 alert(returnObject.message);
@@ -595,4 +599,25 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
 			console.log(error);
 		})
 })
+
+
+
+// notificationWS.onmessage = function(event) {
+//     const notification = JSON.parse(event.data);
+//     const notifyBlock = document.querySelector('.notify-block');
+//     const notifyList = document.querySelector('.notify-list');
+
+//     const notificationItem = document.createElement('li');
+//     notificationItem.className = 'notify-item';
+//     notificationItem.innerHTML = `
+//         <a href="/PBL4/userhomepage/main?folderPath=${notification.folderPath}">
+//             <i class="material-icons">mail</i>
+//             <span>${notification.topic}</span>
+//         </a>
+//     `;
+
+//     notifyList.prepend(notificationItem);
+
+//     notifyBlock.classList.add('open');
+// };
         

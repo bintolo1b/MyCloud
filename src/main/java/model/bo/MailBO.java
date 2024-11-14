@@ -86,7 +86,7 @@ public class MailBO {
 			}
 	}
 	
-	public String sendMail(String senderUsername, String receiverUsername, String topic, String content, Collection<Part> parts) {
+	public String sendMail(String senderUsername, String receiverUsername, String topic, String content, Collection<Part> parts, Integer[] returnMailId) {
 		if (senderUsername.equals("") || receiverUsername.equals("") || topic.equals("") || content.equals("")) {
 			return "Lack of information!";
 		}
@@ -101,8 +101,13 @@ public class MailBO {
 		Mail newMail = new Mail(newMailId, senderUsername, receiverUsername, topic, content, LocalDateTime.now() ,"Pending");
 		MailDAOImp.getInstance().Insert(newMail);
 		
-		saveMailAttachFilesOnServer(newMailId, receiverUsername ,parts);
+		for (Part part:parts)
+			if (part.getSubmittedFileName()!=null) {
+				saveMailAttachFilesOnServer(newMailId, receiverUsername ,parts);
+				break;
+			}
 		
+		returnMailId[0] = newMailId;
 		return "Sent Successfully!";
 	}
 	

@@ -12,8 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.bean.Mail;
 import model.bean.MailAttachFile;
+import model.bean.User;
 import model.bo.MailAttachFileBO;
 import model.bo.MailBO;
+import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/userhomepage/mail/readmail")
 public class ReadMailController extends HttpServlet {
@@ -44,10 +46,13 @@ public class ReadMailController extends HttpServlet {
 				else if (mail!=null && (mail.getReceiverUsername().equals(username) || mail.getSenderUsername().equals(username))){
 					if (mail.getStatus().equals("Pending") && mail.getReceiverUsername().equals(username))
 						MailBO.getInstance().markMailAsRead(mailId);
+					
 					ArrayList<MailAttachFile> mailAttachFiles = MailAttachFileBO.getInstance().getAllMailAttachFileOfMail(mailId);
+					User user = UserBO.getInstance().getUser(username);
 					
 					req.setAttribute("mailAttachFiles", mailAttachFiles);
 					req.setAttribute("mail", mail);
+					req.setAttribute("user", user);
 					RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_mail_read.jsp");
 					requestDispatcher.forward(req, resp);
 				}

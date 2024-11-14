@@ -10,7 +10,7 @@
 				</ul>
 				<div class="search-wrapper">
 					<i class="material-icons search-icon">search</i> <input type="search"
-						name="Search" placeholder="Search Drive" />
+						name="Search" placeholder="Search Drive" autocomplete="off" />
 					<ul id="suggestionsList">					
 					</ul>
 				</div>
@@ -22,40 +22,20 @@
 						<div class="notify-block">
 							<!-- <h3>You don't have any notifications</h3> -->
 							<ul id="notifyList">
-								<li class="notify-item">
-									<img alt="" src="<c:url value='/assets/img/user.png'/>" class="notifyAvt">
-			                        <div class="notifyInfor">
-			                            <div class="notifyInfor_first">
-			                                <span class="notifyContent">This is notify content</span>
-			                            </div>
-			                            <div class="notifyInfor_second">							
-			                                <span class="notifyDate">2024/11/08 23:29:30 </span>   
-			                            </div>
-			                        </div>
+							<c:forEach items="${notifications}" var="notify">
+								<li class="notify-item ${notify.status}" onclick="window.location.href='${notify.accessLink}'">
+									<img alt="" src="/PBL4/avatar/${notify.sentUsername}.jpg" class="notifyAvt">
+									<div class="notifyInfor">
+										<div class="notifyInfor_first">
+											<span class="notifyContent">${notify.content}</span>
+										</div>
+										<div class="notifyInfor_second">
+											<span class="notifyDate">${notify.getFormattedTime()}</span>
+										</div>
+									</div>
 								</li>
-								<li class="notify-item">
-									<img alt="" src="<c:url value='/assets/img/user.png'/>" class="notifyAvt">
-			                        <div class="notifyInfor">
-			                            <div class="notifyInfor_first">
-			                                <span class="notifyContent">This is notify content</span>
-			                            </div>
-			                            <div class="notifyInfor_second">							
-			                                <span class="notifyDate">2024/11/08 23:29:30 </span>   
-			                            </div>
-			                        </div>
-								</li>
-								<li class="notify-item">
-									<img alt="" src="<c:url value='/assets/img/user.png'/>" class="notifyAvt">
-			                        <div class="notifyInfor">
-			                            <div class="notifyInfor_first">
-			                                <span class="notifyContent">This is notify content</span>
-			                            </div>
-			                            <div class="notifyInfor_second">							
-			                                <span class="notifyDate">2024/11/08 23:29:30 </span>   
-			                            </div>
-			                        </div>
-								</li>
-							</ul>
+							</c:forEach>							
+						</ul>
 						</div>
 					</li>
 					<li class="account"><a href="#!"><img

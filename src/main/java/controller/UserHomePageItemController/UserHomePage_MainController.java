@@ -14,9 +14,11 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.File;
 import model.bean.Folder;
 import model.bean.MailAttachFile;
+import model.bean.Notification;
 import model.bean.User;
 import model.bo.FileBO;
 import model.bo.FolderBO;
+import model.bo.NotificationBO;
 import model.bo.UserBO;
 import model.dao.FileDAOImp;
 import model.dao.FolderDAOImp;
@@ -50,8 +52,10 @@ public class UserHomePage_MainController extends HttpServlet {
 		Folder currentFolder = FolderBO.getInstance().getFolderByPath(folderPath);
 		subFolders = FolderBO.getInstance().getAllSubfolderOfFolder(currentFolder);
 		files = FileBO.getInstance().getAllFilesOfFolder(currentFolder);
+		ArrayList<Notification> notifications = NotificationBO.getInstance().getAllNotification(username);
 		User user = UserBO.getInstance().getUser(username);
 		
+		req.setAttribute("notifications", notifications);
 		req.setAttribute("folderPath", folderPath);
 		req.setAttribute("subFolders", subFolders);
 		req.setAttribute("files", files);

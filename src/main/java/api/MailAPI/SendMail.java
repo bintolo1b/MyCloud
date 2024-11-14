@@ -40,8 +40,14 @@ public class SendMail extends HttpServlet {
                 return;
 			}
 			
-			String message = MailBO.getInstance().sendMail(senderUsername, receiverUsername, topic, content, parts);
-			pw.write("{\"message\": \"" + message + "\"}");
+			Integer[] returnMailIdIfSuccess = new Integer[1];
+			String message = MailBO.getInstance().sendMail(senderUsername, receiverUsername, topic, content, parts, returnMailIdIfSuccess);
+			
+			if (message.equals("Sent Successfully!")) {
+				pw.write("{\"message\": \"" + message + "\", \"mailId\": " + returnMailIdIfSuccess[0] + "}");
+			}
+			else
+				pw.write("{\"message\": \"" + message + "\"}");
 			
 		}
 		catch (Exception e) {

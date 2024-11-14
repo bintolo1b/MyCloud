@@ -82,3 +82,44 @@ document.querySelector('input[type="search"]').addEventListener('input', functio
 
     }
 });
+
+const notificationWS = new WebSocket(`ws://${window.location.host}/PBL4/notification?username=${username}`);
+
+function sendMailNotification(receiverUsername, content, sentUsername, accessLink) {
+    const notification = {
+        receiverUsername : receiverUsername,
+        content : content,
+        sentUsername : sentUsername,
+        accessLink : accessLink
+    };
+    notificationWS.send(JSON.stringify(notification));
+}
+
+notificationWS.onmessage = function(event) {
+    const notification = JSON.parse(event.data);
+    const notifyList = document.getElementById('notifyList');
+
+    const notificationItem = document.createElement('li');
+    notificationItem.className = 'notify-item unread';
+    notificationItem.onclick = function() {
+        window.location.href = notification.accessLink;
+    }
+    notificationItem.innerHTML = `    
+                                <img alt="" src="/PBL4/avatar/${notification.sentUsername}.jpg" class="notifyAvt">
+                                <div class="notifyInfor">
+                                    <div class="notifyInfor_first">
+                                        <span class="notifyContent">${notification.content}</span>
+                                    </div>
+                                    <div class="notifyInfor_second">
+                                        <span class="notifyDate">${notification.time}</span>
+                                    </div>
+                                </div>
+    `;
+
+    if (notifyList.firstChild) {
+        notifyList.insertBefore(notificationItem, notifyList.firstChild);
+    } else {
+        notifyList.appendChild(notificationItem);
+    }
+}
+

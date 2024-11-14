@@ -302,7 +302,6 @@
 	<div class="loading-container">
 	  <div class="loader"></div>
 	</div>	
-    
     <script src="<c:url value='/assets/js/userHomePage_main.js'/>"></script>
 </body>
 </html>
