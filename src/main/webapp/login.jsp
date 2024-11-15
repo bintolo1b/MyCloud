@@ -4,16 +4,24 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
 <!DOCTYPE html>
 
+<%@ page import="constant.AdminAccount" %>
+
 <%
-    String username = null;
+	String username = null;
     if (session != null) {
         username = (String) session.getAttribute("username");
     }
     
     if (username != null) {
-        response.sendRedirect(request.getContextPath() + "/userhomepage/main");
-        return;
-    }
+    	if (username.equals(AdminAccount.ADMIN_USERNAME)) {
+    		response.sendRedirect(request.getContextPath() + "/admin/home");
+			return;
+		}
+    	else{
+    		response.sendRedirect(request.getContextPath() + "/userhomepage/main");
+    		return;
+    	}
+	}
 %>
 
 <html lang="en" dir="ltr">

@@ -35,8 +35,8 @@ public class UploadFile extends HttpServlet {
         	
 			String username = req.getSession(false).getAttribute("username").toString();
 			
-			if (UserBO.getInstance().checkIfEnoughSpaceToUpload(username, parts) == false){
-				pw.write("{\"message\": \"Not enough space to upload!\"}");
+			if (UserBO.getInstance().checkIfEnoughCapacityToUpload(username, parts) == false){
+				pw.write("{\"message\": \"Not enough capacity to upload!\"}");
                 return;
 			}
         	

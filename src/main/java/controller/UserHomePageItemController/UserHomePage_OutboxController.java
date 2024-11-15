@@ -23,18 +23,17 @@ public class UserHomePage_OutboxController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession(false);
-		if (session!=null && session.getAttribute("username")!=null) {
-			String username = session.getAttribute("username").toString();
-			ArrayList<Mail> mails = MailBO.getInstance().getAllSentMail(username);
-			User user = UserBO.getInstance().getUser(username);
-			ArrayList<Notification> notifications = NotificationBO.getInstance().getAllNotification(username);
-			
-			req.setAttribute("mails", mails);
-			req.setAttribute("notifications", notifications);
-			req.setAttribute("user", user);
-			
-			RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_outbox.jsp");
-			requestDispatcher.forward(req, resp);
-		}
+		
+		String username = session.getAttribute("username").toString();
+		ArrayList<Mail> mails = MailBO.getInstance().getAllSentMail(username);
+		User user = UserBO.getInstance().getUser(username);
+		ArrayList<Notification> notifications = NotificationBO.getInstance().getAllNotification(username);
+		
+		req.setAttribute("mails", mails);
+		req.setAttribute("notifications", notifications);
+		req.setAttribute("user", user);
+		
+		RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/views/userHomePageItems/userHomePage_outbox.jsp");
+		requestDispatcher.forward(req, resp);
 	}
 }

@@ -5,7 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import config.WebPaths;
+import webInitation.WebPaths;
 
 public class TemporaryFileCleaner {
 	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

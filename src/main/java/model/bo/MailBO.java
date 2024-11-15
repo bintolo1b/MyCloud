@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import constant.AdminAccount;
 import constant.Server;
 import jakarta.servlet.http.Part;
 import model.bean.Mail;
@@ -90,6 +91,9 @@ public class MailBO {
 		if (senderUsername.equals("") || receiverUsername.equals("") || topic.equals("") || content.equals("")) {
 			return "Lack of information!";
 		}
+		
+		if (senderUsername.equals(AdminAccount.ADMIN_USERNAME))
+			return "Username doesn't exists!";
 		
 		if (UserBO.getInstance().getUser(receiverUsername) == null)
 			return "Username doesn't exist!";

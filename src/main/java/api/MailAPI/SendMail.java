@@ -35,7 +35,7 @@ public class SendMail extends HttpServlet {
 			
 			Collection<Part> parts = req.getParts();
 			
-			if (UserBO.getInstance().checkIfEnoughSpaceToUpload(senderUsername, parts) == false){
+			if (UserBO.getInstance().checkIfEnoughCapacityToUpload(senderUsername, parts) == false){
 				pw.write("{\"message\": \"Not enough space to store mail attach file!\"}");
                 return;
 			}

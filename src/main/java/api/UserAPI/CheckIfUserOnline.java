@@ -3,7 +3,6 @@ package api.UserAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import constant.AdminAccount;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,10 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.bean.User;
 import model.bo.UserBO;
 
-@WebServlet(urlPatterns = "/getnamebyusername")
-public class GetNameByUsername extends HttpServlet {
+@WebServlet(urlPatterns = "/admin/checkifuseronline")
+public class CheckIfUserOnline extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
@@ -27,12 +26,12 @@ public class GetNameByUsername extends HttpServlet {
 			String username = req.getParameter("username");
 			User user = UserBO.getInstance().getUser(username);
 			String message;
-			if (user != null && !user.getUsername().equals(AdminAccount.ADMIN_USERNAME)) {
-                message = user.getFullName();
-            }
-            else {
-                message = "Username not found!";
-            }
+			
+            if (user == null)
+            	message= "Username not found!";
+            else
+            	message = UserBO.getInstance().checkIfUserOnline(username) ? "Online" : "Offline";
+            
 			pw.write("{\"message\": \"" + message + "\"}");
 			
 		}

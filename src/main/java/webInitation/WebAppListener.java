@@ -1,4 +1,4 @@
-package config;
+package webInitation;
 
 import helper.TemporaryFileCleaner;
 import jakarta.servlet.ServletContextEvent;

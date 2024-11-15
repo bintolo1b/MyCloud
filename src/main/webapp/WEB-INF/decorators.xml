@@ -3,4 +3,8 @@
     <decorator name="userHomePage" page="/decorators/user/userHomePage.jsp">
         <pattern>/userhomepage/*</pattern>
     </decorator>
+    
+    <decorator name="adminPage" page="/decorators/admin/adminPage.jsp">
+        <pattern>/admin/*</pattern>
+    </decorator>
 </decorators>

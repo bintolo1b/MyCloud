@@ -1,4 +1,4 @@
-package config;
+package webInitation;
 
 public class WebPaths {
 	public static String TEMPORARY_IMG_PATH;

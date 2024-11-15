@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.json.JSONObject;
 
-import constant.Server;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,19 +20,19 @@ public class GetPercentSpaceUsed extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		
 		String username = req.getSession().getAttribute("username").toString();
-		double percentSpaceUsed = UserBO.getInstance().getPercetSpaceUsedOfAUser(username);
-		percentSpaceUsed = UserBO.getInstance().roundToTheFirstDecimal(percentSpaceUsed*100);
+		double percentCapacityUsed = UserBO.getInstance().getPercentCapacityUsedOfAUser(username);
+		percentCapacityUsed = UserBO.getInstance().roundToTheFirstDecimal(percentCapacityUsed*100);
 		
-		double totalSizeUsed = UserBO.getInstance().getTotalSizeUsedOfAUser(username)*1.0/(1024*1024*1024);
-		totalSizeUsed = UserBO.getInstance().roundToTheSecondDecimal(totalSizeUsed);
+		double totalCapacityUsed = UserBO.getInstance().getTotalCapacityUsedOfAUser(username)*1.0/(1024*1024*1024);
+		totalCapacityUsed = UserBO.getInstance().roundToTheSecondDecimal(totalCapacityUsed);
 		
-		double totalSize = Server.SIZE_FOR_A_USER*1.0/(1024*1024*1024);
-		totalSize = UserBO.getInstance().roundToTheSecondDecimal(totalSize);
+		double totalCapacity = UserBO.getInstance().getMaxCapacityOfAUser(username)*1.0/(1024*1024*1024);
+		totalCapacity = UserBO.getInstance().roundToTheSecondDecimal(totalCapacity);
 		
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("percentSpaceUsed", percentSpaceUsed);
-		jsonObject.put("totalSizeUsed", totalSizeUsed);
-		jsonObject.put("totalSize", totalSize);
+		jsonObject.put("percentCapacityUsed", percentCapacityUsed);
+		jsonObject.put("totalCapacityUsed", totalCapacityUsed);
+		jsonObject.put("totalCapacity", totalCapacity);
 		
 		resp.getWriter().write(jsonObject.toString());
 	}

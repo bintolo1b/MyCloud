@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import constant.AdminAccount;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,9 +15,10 @@ import jakarta.servlet.http.HttpSession;
 import model.bean.Folder;
 import model.bo.FolderBO;
 
-@WebFilter(urlPatterns = {"/userhomepage/*", "/uploadfile", "/uploadfolder", "/deletefoldercontroller", "/deletefilecontroller"
+@WebFilter(urlPatterns = {"/userhomepage/*", "/admin/*", "/uploadfile", "/uploadfolder", "/deletefoldercontroller", "/deletefilecontroller"
 		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl","/sendmail", "/createnewfolder" ,"/renamefile" 
-		,"/downloadmailattachfilecontroller", "/search" , "/userinformation", "/updatePassword" ,"/updateAvatar", "/getPercentSpaceUsed"})
+		, "/renamefolder","/downloadmailattachfilecontroller", "/search" , "/userinformation", "/updatePassword" ,"/updateAvatar"
+		, "/updateFullName", "/getPercentSpaceUsed" ,"/displayfilecontroller"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -30,6 +32,20 @@ public class AuthorAndAuthenFilter implements Filter {
 		}
 		
 		String username = session.getAttribute("username").toString();
+		String requestURI = req.getRequestURI();
+
+		if (requestURI.startsWith(req.getContextPath() + "/admin/")) {
+			if (!AdminAccount.ADMIN_USERNAME.equals(username)) {
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Source for admin only.");
+				return;
+			}
+		} else {
+			if (AdminAccount.ADMIN_USERNAME.equals(username)) {
+				resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Source for user only.");
+				return;
+			}
+		}
+		
 		if (req.getParameter("folderPath")!=null) {
 			String folderPath = req.getParameter("folderPath");
 			Folder folder = FolderBO.getInstance().getFolderByPath(folderPath);

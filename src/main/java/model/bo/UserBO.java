@@ -11,13 +11,16 @@ import java.util.Collection;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import config.WebPaths;
+import constant.AdminAccount;
 import constant.Server;
 import jakarta.servlet.http.Part;
 import model.bean.Folder;
 import model.bean.User;
 import model.dao.MailAttachFileDAOImp;
 import model.dao.UserDAOImp;
+import model.dto.UserWithCapacityInfoDTO;
+import webInitation.SessionManager;
+import webInitation.WebPaths;
 
 public class UserBO {
 	private static UserBO instance;
@@ -57,8 +60,8 @@ public class UserBO {
 	
 	public String CheckLogupNewUser(String username, String password, String verifyPassword, String FullName) {
 		String returnMessage = "Logup successfully!";
-		if (!checkIfEnoughSpaceToCreateUser()) {
-			returnMessage = "Not enough space to create new user!";
+		if (!checkIfEnoughCapacityToCreateUser()) {
+			returnMessage = "Not enough capacity to create new user!";
 		} 
 		else if (username.equals("") || password.equals("") || verifyPassword.equals("") || FullName.equals("")) {
 			returnMessage = "Lack of information!";
@@ -74,15 +77,24 @@ public class UserBO {
 		return returnMessage;
 	}
 	
-	public boolean checkIfEnoughSpaceToCreateUser() {
+	public long getToTalCapacityAllocatedForUser() {
+		long totalCapacity = 0;
+		ArrayList<User> users = UserDAOImp.getInstance().getAll();
+		for (User user : users) {
+			totalCapacity += user.getMaxCapacity();
+		}
+		return totalCapacity;
+	}
+	
+	public boolean checkIfEnoughCapacityToCreateUser() {
 		java.io.File disk = new java.io.File(Server.DISK_PATH);
-		long totalSize = disk.getTotalSpace();
-		totalSize = (long)Math.floor(totalSize*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
+		long totalCapacity = disk.getTotalSpace();
+		totalCapacity = (long)Math.floor(totalCapacity*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
 		
-		long currentSize = Server.SIZE_FOR_A_USER * UserBO.getInstance().getNumberOfUsers();
-		long freeSizeLeft = totalSize - currentSize;
+		long currentCapacityAllocatedForUser = getToTalCapacityAllocatedForUser();
+		long freeCapacityLeft = totalCapacity - currentCapacityAllocatedForUser;
 		
-		long numberOfUserCanBeCreated = freeSizeLeft / Server.SIZE_FOR_A_USER;
+		long numberOfUserCanBeCreated = freeCapacityLeft / Server.DEFAULT_CAPACITY_FOR_A_USER;
 		if (numberOfUserCanBeCreated > 0)
 			return true;
 		else
@@ -106,7 +118,7 @@ public class UserBO {
 	
 	public void addNewUser(String username, String password, String fullName) {
 		String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-		User newUser = new User(username, hashedPassword, fullName);
+		User newUser = new User(username, hashedPassword, fullName, "user", Server.DEFAULT_CAPACITY_FOR_A_USER);
 		UserDAOImp.getInstance().Insert(newUser);
 	}
 	
@@ -119,22 +131,23 @@ public class UserBO {
 		return null;
 	}
 	
-	public long getNumberOfUsers() {
-		return UserDAOImp.getInstance().getAll().size();
+	public long getMaxCapacityOfAUser(String username) {
+		User user = UserBO.getInstance().getUser(username);
+		return user.getMaxCapacity();
 	}
 	
-	public long getTotalSizeUsedOfAUser(String username) {
+	public long getTotalCapacityUsedOfAUser(String username) {
 		Folder folder = FolderBO.getInstance().getFolderByPath(Server.USER_FOLDER_PATH + "\\" + username);
 		long mailAttachFileSize = MailAttachFileDAOImp.getInstance().getMailAttachFileSizeOfUser(username);
 		return folder.getSize() + mailAttachFileSize;
 	}
 	
-	public long getFreeSpaceLeftOfUser(String username) {
-		return Server.SIZE_FOR_A_USER - getTotalSizeUsedOfAUser(username);
+	public long getFreeCapacityLeftOfUser(String username) {
+		return getMaxCapacityOfAUser(username) - getTotalCapacityUsedOfAUser(username);
 	}
 	
-	public double getPercetSpaceUsedOfAUser(String username) {
-		return getTotalSizeUsedOfAUser(username) * 1.0 / Server.SIZE_FOR_A_USER;
+	public double getPercentCapacityUsedOfAUser(String username) {
+		return getTotalCapacityUsedOfAUser(username) * 1.0 / getMaxCapacityOfAUser(username);
 	}
 	
 	public double roundToTheFirstDecimal(double number) {
@@ -147,17 +160,21 @@ public class UserBO {
 		return Double.parseDouble(df.format(number));
 	}
 	
-	public boolean checkIfEnoughSpaceToUpload(String username, Collection<Part> parts) {
+	public boolean checkIfEnoughCapacityToUpload(String username, Collection<Part> parts) {
 		long size = 0;
 		for (Part part : parts) {
 			if (part.getSubmittedFileName() != null)
 				size += part.getSize();
 		}
 		
-		if (getFreeSpaceLeftOfUser(username)<size){
+		if (getFreeCapacityLeftOfUser(username)<size){
 			return false;
 		}
 		return true;
+	}
+	
+	public ArrayList<User> getAllUsers() {
+		return UserDAOImp.getInstance().getAll();
 	}
 
 	public String updateFullName(String username, String newFullName) {
@@ -221,6 +238,39 @@ public class UserBO {
 		}
 	}
 
+	public ArrayList<UserWithCapacityInfoDTO> getAllUsersWithCapacityInfo() {
+		ArrayList<User> users = UserDAOImp.getInstance().getAll();
+		ArrayList<UserWithCapacityInfoDTO> userWithCapacityInfoDTOs = new ArrayList<UserWithCapacityInfoDTO>();
+		for (User user : users) {
+			String username = user.getUsername();
+			String fullName = user.getFullName();
+			String status = SessionManager.isUserOnline(username) ? "Online" : "Offline";
+			String role = user.getRole();
+			
+			double percentCapacityUsed = 0;
+			double totalCapacityUsed = 0;
+			double totalCapacity = 0;
+			
+			if (!username.equals(AdminAccount.ADMIN_USERNAME)) {
+				percentCapacityUsed = UserBO.getInstance().getPercentCapacityUsedOfAUser(username);
+				percentCapacityUsed = UserBO.getInstance().roundToTheFirstDecimal(percentCapacityUsed*100);
+				
+				totalCapacityUsed = UserBO.getInstance().getTotalCapacityUsedOfAUser(username)*1.0/(1024*1024*1024);
+				totalCapacityUsed = UserBO.getInstance().roundToTheSecondDecimal(totalCapacityUsed);
+				
+				totalCapacity = UserBO.getInstance().getMaxCapacityOfAUser(username)*1.0/(1024*1024*1024);
+				totalCapacity = UserBO.getInstance().roundToTheSecondDecimal(totalCapacity);
+			}
+			
+			UserWithCapacityInfoDTO userWithCapacityInfoDTO = new UserWithCapacityInfoDTO(username, fullName, status, role, totalCapacityUsed, totalCapacity, percentCapacityUsed);
+			
+			userWithCapacityInfoDTOs.add(userWithCapacityInfoDTO);
+		}
+		return userWithCapacityInfoDTOs;
+	}
 	
+	public boolean checkIfUserOnline(String username) {
+		return SessionManager.isUserOnline(username);
+	}
 
 }

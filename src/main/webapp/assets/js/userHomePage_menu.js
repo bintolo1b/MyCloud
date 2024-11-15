@@ -56,9 +56,9 @@ async function updateProgress() {
 			throw new Error('Network response was not ok');
 		}
 		const returnObject = await response.json();
-		progressEndValue = returnObject.percentSpaceUsed;
+		progressEndValue = returnObject.percentCapacityUsed;
 
-		document.getElementById('used-space-percent').textContent = `Used: ${returnObject.totalSizeUsed}GB / ${returnObject.totalSize}GB`;
+		document.getElementById('used-space-percent').textContent = `Used: ${returnObject.totalCapacityUsed}GB / ${returnObject.totalCapacity}GB`;
 		
 		let progress = setInterval(() => {
 			if (Math.floor(progressStartValue) < Math.floor(progressEndValue)) {

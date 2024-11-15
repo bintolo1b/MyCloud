@@ -145,20 +145,4 @@ public class UserHomePage_MainController extends HttpServlet {
 		 }
 		 
 	 }
-
-	public void myfunc5() {
-		java.io.File disk = new java.io.File(Server.DISK_PATH);
-		long totalSize = disk.getTotalSpace();
-		System.out.println("Total size before cut " + totalSize);
-		totalSize = (long)Math.floor(totalSize*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
-		System.out.println("Total size after cut " + totalSize);
-		
-		long currentSize = Server.SIZE_FOR_A_USER * UserBO.getInstance().getNumberOfUsers();
-		long freeSizeLeft = totalSize - currentSize;
-		
-		long numberOfUserCanBeCreated = freeSizeLeft / Server.SIZE_FOR_A_USER;
-		System.out.println("free size left: "+ freeSizeLeft);
-		System.out.println("number of user can be created: "+ numberOfUserCanBeCreated);
-	}
-	
 }

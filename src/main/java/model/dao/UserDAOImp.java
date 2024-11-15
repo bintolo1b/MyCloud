@@ -20,13 +20,15 @@ public class UserDAOImp implements DAOInterface<User> {
 	}
 	@Override
 	public void Insert(User obj) {
-		String query = "insert into user(username, hashedPassword, fullName) value"
-				+ "(?,?,?)";
+		String query = "insert into user(username, hashedPassword, fullName, role, maxCapacity) value"
+				+ "(?,?,?,?,?)";
 		try {
 			PreparedStatement pst = connect.prepareStatement(query);
 			pst.setObject(1, obj.getUsername());
 			pst.setObject(2, obj.getHashedPassword());
 			pst.setObject(3, obj.getFullName());
+			pst.setObject(4, obj.getRole());
+			pst.setObject(5, obj.getMaxCapacity());
 			
 			pst.executeUpdate();
 		} catch (SQLException e) {
@@ -36,12 +38,14 @@ public class UserDAOImp implements DAOInterface<User> {
 
 	@Override
 	public void Update(User obj) {
-		String query = "update user set hashedPassword = ?, fullName = ? where username = ?";
+		String query = "update user set hashedPassword = ?, fullName = ?, role = ?, maxCapacity = ? where username = ?";
 		try {
             PreparedStatement pst = connect.prepareStatement(query);
             pst.setObject(1, obj.getHashedPassword());
             pst.setObject(2, obj.getFullName());
             pst.setObject(3, obj.getUsername());
+            pst.setObject(4, obj.getRole());
+            pst.setObject(5, obj.getMaxCapacity());
             
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -63,7 +67,7 @@ public class UserDAOImp implements DAOInterface<User> {
 			PreparedStatement pst = connect.prepareStatement(sqlQuery);
 			ResultSet res = pst.executeQuery();
 			while (res.next()) {
-				User user = new User(res.getString(1), res.getString(2), res.getString(3));
+				User user = new User(res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getLong(5));
 				userArrayList.add(user);
 			}
 		} catch (SQLException e) {
@@ -77,5 +81,4 @@ public class UserDAOImp implements DAOInterface<User> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

@@ -24,7 +24,10 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 			console.log(returnObject.message);
 			if (returnObject.message === 'Login successfully!'){
 				showSuccessToast(returnObject.message);
-				window.location.href = `/PBL4/userhomepage/main`;
+				if (returnObject.role === 'admin')
+					window.location.href = `/PBL4/admin/home`;
+				else
+					window.location.href = `/PBL4/userhomepage/main`;
 			}
 			else{
 				if(returnObject.message === "Account doesn't exist!") {

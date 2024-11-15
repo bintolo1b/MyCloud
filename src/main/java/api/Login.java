@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 
 import org.json.JSONObject;
 
+import constant.AdminAccount;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -39,11 +40,15 @@ public class Login extends HttpServlet {
 			String password = jsonRequest.getString("password");
 			
 			String message = UserBO.getInstance().CheckLogin(username, password);
-			pw.write("{\"message\": \"" + message + "\"}");
 			if (message.equals("Login successfully!")) {
+				String role = username.equals(AdminAccount.ADMIN_USERNAME) ? "admin" : "user";
+				pw.write("{\"message\": \"" + message + "\" , \"role\": \"" + role + "\"}");
 				HttpSession session = req.getSession();
 		        session.setAttribute("username", username);
 		        session.setMaxInactiveInterval(30 * 60);
+			}
+			else {
+				pw.write("{\"message\": \"" + message + "\"}");
 			}
 		}
 		catch (Exception e) {
