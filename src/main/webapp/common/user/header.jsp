@@ -18,6 +18,7 @@
 				<ul class="right">
 					<li>
 						<a href="#!" class="notify"><i class="material-icons grey-text text-darken-1">notifications</i></a>
+						<span class="new-notify"></span>
 						<span class="detail-item">Notifications</span>
 						<div class="notify-block">
 							<!-- <h3>You don't have any notifications</h3> -->

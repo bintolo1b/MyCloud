@@ -302,6 +302,16 @@ ul.right li .detail-item {
     cursor: default;
 }
 
+ul.right li .new-notify {
+	position: absolute;
+	top: 22px;
+	right: 18px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: red;
+}
+
 	ul.right li a:hover + .detail-item {
 	    display: flex;
 	}
@@ -424,6 +434,14 @@ ul.right li .detail-item {
 		white-space: nowrap !important;
 	    text-overflow: ellipsis; /* Thêm dấu ba chấm khi nội dung dài */
 	    position: relative;
+	}
+	
+	.unread .notifyContent {
+		font-weight: bold;
+	}
+	
+	.unread .notifyDate {
+		font-weight: bold;
 	}
 	
 	#notifyList li .notifyDate {

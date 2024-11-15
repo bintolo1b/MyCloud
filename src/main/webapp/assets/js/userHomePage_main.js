@@ -227,9 +227,10 @@ function updateInputFiles() {
 		const renameNotice = document.querySelector(".rename-notice span");
 		const oldNameInput = document.getElementById("oldName");
 		const isFolderInput = document.getElementById("isFolder");
+		const confirmRenameButton = document.querySelector(".confirm-rename-modal-btn");
 		
-		const fileNamePattern = /^[\p{L}a-zA-Z0-9\s_-]+\.[a-zA-Z0-9]{2,4}$/u;
-		const folderNamePattern = /^[\p{L}a-zA-Z0-9\s_-]+$/u; // Kiểm tra tên thư mục (không có dấu chấm)
+		const fileNamePattern = /^[\p{L}a-zA-Z0-9\s_()\/-]+(\.[a-zA-Z0-9]{2,4})$/u;
+		const folderNamePattern = /^[\p{L}a-zA-Z0-9\s_()\/-]+$/u;
 		const invalidCharsPattern = /[\\/:*?"<>|]/; // Kiểm tra ký tự không hợp lệ
 		
 		renameInput.addEventListener("blur", function () {
@@ -247,15 +248,18 @@ function updateInputFiles() {
 		// Sự kiện input: Kiểm tra tên tệp mỗi khi người dùng nhập liệu
 		renameInput.addEventListener("input", function() {
 		    const inputName = this.value;
-		    
+		    let isValid = true; // Flag to track validity
+		
 		    // Nếu là file
 		    if (isFolderInput.value === "false") {
 		        if (invalidCharsPattern.test(inputName)) {
 		            renameNotice.textContent = "File name can't contain any of the following characters:\n \\ / : * ? \" < > |";
 		            renameNotice.parentElement.classList.add("visible");
+		            isValid = false;
 		        } else if (!fileNamePattern.test(inputName)) {
 		            renameNotice.textContent = "Filename is invalid.";
 		            renameNotice.parentElement.classList.add("visible");
+		            isValid = false;
 		        } else {
 		            renameNotice.parentElement.classList.remove("visible");
 		        }
@@ -265,14 +269,20 @@ function updateInputFiles() {
 		        if (invalidCharsPattern.test(inputName)) {
 		            renameNotice.textContent = "Folder name can't contain any of the following characters:\n \\ / : * ? \" < > |";
 		            renameNotice.parentElement.classList.add("visible");
+		            isValid = false;
 		        } else if (!folderNamePattern.test(inputName)) {
 		            renameNotice.textContent = "Folder name is invalid.";
 		            renameNotice.parentElement.classList.add("visible");
+		            isValid = false;
 		        } else {
 		            renameNotice.parentElement.classList.remove("visible");
 		        }
 		    }
+		
+		    // Enable/disable the confirm button based on validity
+		    confirmRenameButton.disabled = !isValid;
 		});
+
 			
 	document.getElementById('cancel-rename-modal-btn').addEventListener('click', function() {
 	    document.getElementById('renameModal').classList.remove('open'); // Xóa class .open để ẩn modal
