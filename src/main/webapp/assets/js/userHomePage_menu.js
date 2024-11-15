@@ -25,6 +25,23 @@ navLinks.forEach(link => {
     }
 });
 
+document.addEventListener('click', function(event) {
+    const notifyIcon = document.querySelector('.notify');
+    const notifyBlock = document.querySelector('.notify-block');
+
+    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
+        notifyBlock.classList.remove('open'); 
+    }
+});
+
+document.querySelector('.notify').addEventListener('click', function(e) {
+    const notifyBlock = document.querySelector('.notify-block'); 
+
+    notifyBlock.classList.toggle('open');
+    
+    e.stopPropagation();
+});
+
 let circularProgress = document.querySelector(".circular-progress"),
     progressValue = document.querySelector(".progress-value");
 

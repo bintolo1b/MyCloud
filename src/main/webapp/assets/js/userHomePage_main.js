@@ -370,22 +370,22 @@ function updateInputFiles() {
     });
 }
 
-document.addEventListener('click', function(event) {
-    const notifyIcon = document.querySelector('.notify');
-    const notifyBlock = document.querySelector('.notify-block');
+/*document.addEventListener('click', function(event) {
+    const notifyBell = document.querySelector('.notify');
+    const notifyContainer = document.querySelector('.notify-block');
 
-    if (!notifyIcon.contains(event.target) && !notifyBlock.contains(event.target)) {
-        notifyBlock.classList.remove('open'); 
+    if (!notifyBell.contains(event.target) && !notifyContainer.contains(event.target)) {
+        notifyContainer.classList.remove('open'); 
     }
 });
 
 document.querySelector('.notify').addEventListener('click', function(e) {
-    const notifyBlock = document.querySelector('.notify-block'); 
+    const notifyContainer = document.querySelector('.notify-block'); 
 
-    notifyBlock.classList.toggle('open');
+    notifyContainer.classList.toggle('open');
     
     e.stopPropagation();
-});
+});*/
 
 const newBtn = document.querySelector('a.waves-effect.waves-light.btn.btn-flat.white-text');
 const modal = document.querySelector('.js-modal');
