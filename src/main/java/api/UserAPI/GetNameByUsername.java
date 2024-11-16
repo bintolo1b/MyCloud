@@ -3,7 +3,6 @@ package api.UserAPI;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import constant.AdminAccount;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +26,7 @@ public class GetNameByUsername extends HttpServlet {
 			String username = req.getParameter("username");
 			User user = UserBO.getInstance().getUser(username);
 			String message;
-			if (user != null && !user.getUsername().equals(AdminAccount.ADMIN_USERNAME)) {
+			if (user != null) {
                 message = user.getFullName();
             }
             else {

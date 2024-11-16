@@ -92,8 +92,8 @@ public class MailBO {
 			return "Lack of information!";
 		}
 		
-		if (senderUsername.equals(AdminAccount.ADMIN_USERNAME))
-			return "Username doesn't exists!";
+		if (receiverUsername.equals(AdminAccount.ADMIN_USERNAME))
+			return "Can not send mail to admin!";
 		
 		if (UserBO.getInstance().getUser(receiverUsername) == null)
 			return "Username doesn't exist!";

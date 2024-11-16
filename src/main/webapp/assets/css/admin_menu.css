@@ -1,78 +1,112 @@
 @charset "UTF-8";
  * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f9;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidenav {
+        width: 250px;
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+    }
+    .home_logo {
+        width: 100px;
+        height: 50px;
+        vertical-align: middle;
+        margin-left: 40px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+    .sidenav a {
+        color: #fff;
+        padding: 15px 20px;
+        text-decoration: none;
+        display: flex;
+        align-items: center 
+    }
+    
+    .sidenav a .material-icons {
+        vertical-align: middle;
+        margin-right: 15px;
+    }
 
-        /* Sidebar */
-        .sidenav {
-            width: 250px;
-            background-color: #333;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            padding-top: 20px;
-        }
-        .home_logo {
-			width: 100px;
-			height: 50px;
-		    vertical-align: middle;
-		    margin-left: 40px;
-		  }
+    .sidenav .admin_item:hover {
+        background-color: #575757;
+    }
 
-        .sidenav a {
-            color: #fff;
-            padding: 15px 20px;
-            text-decoration: none;
-            display: flex;
-    		align-items: center 
-        }
-        
-        .sidenav a .material-icons {
-			vertical-align: middle;
-			margin-right: 15px;
-		}
+    /* Active link styling */
+    .sidenav .admin_item.active {
+        background-color: #4d4c4c;
+    }
+    
+    .logout_form {
+        margin-top: auto; /* Đẩy form xuống cuối */
+    }
+    
+    .logout_button {
+        width: 100%;
+        color: #fff;
+        background: none;
+        border: none;
+        padding: 15px 20px;
+        text-align: left;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .logout_button:hover {
+        background-color: #575757;
+    }
+    
+    .logout_button i {
+        margin-right: 15px;
+    }
 
-        .sidenav .admin_item:hover {
-            background-color: #575757;
-        }
-
-        /* Active link styling */
-        .sidenav .admin_item.active {
-            background-color: #4d4c4c;
-        }
-        
-        .logout_form {
-		    margin-top: auto; /* Đẩy form xuống cuối */
-		}
-		
-		.logout_button {
-		    width: 100%;
-		    color: #fff;
-		    background: none;
-		    border: none;
-		    padding: 15px 20px;
-		    text-align: left;
-		    text-decoration: none;
-		    display: flex;
-		    align-items: center;
-		    cursor: pointer;
-		    transition: background-color 0.3s ease;
-		}
-		
-		.logout_button:hover {
-		    background-color: #575757;
-		}
-		
-		.logout_button i {
-		    margin-right: 15px;
-		}
+    .circular-progress{
+        position: relative;
+        margin-top: 125px;
+        height: 150px; 
+        width: 150px; 
+        border-radius: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: conic-gradient(#7d2ae8 3.6deg, #ededed 0deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    
+    .circular-progress::before{
+        content: "";
+        position: absolute;
+        height: 130px; 
+        width: 130px;   
+        border-radius: 50%;
+        background-color: #333;
+     }
+    .progress-value{
+        position: relative;
+        font-size: 40px;
+        font-weight: 600;
+        color: #fff;
+      }
+      
+     #used-space-percent{
+      margin-top: 10px;
+      text-align: center;
+     }

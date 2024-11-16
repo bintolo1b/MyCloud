@@ -51,7 +51,7 @@ let progressStartValue = 0,
 
 async function updateProgress() {
 	try {
-		const response = await fetch('/PBL4/getPercentSpaceUsed');
+		const response = await fetch('/PBL4/getPercentCapacityUsed');
 		if (!response.ok) {
 			throw new Error('Network response was not ok');
 		}

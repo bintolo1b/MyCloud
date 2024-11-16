@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.bo.UserBO;
 
-@WebServlet(urlPatterns = "/getPercentSpaceUsed")
-public class GetPercentSpaceUsed extends HttpServlet {
+@WebServlet(urlPatterns = "/getPercentCapacityUsed")
+public class GetPercentCapacityUsed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

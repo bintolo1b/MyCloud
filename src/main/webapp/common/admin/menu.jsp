@@ -10,7 +10,12 @@
 	Update Password</a>
 	<a href="/PBL4/admin/addcapacity" class="admin_item" onclick="showSection('add-storage', this)">
 		<i class="material-icons grey-text text-darken-1">memory</i>
-	Add Storage</a>
+	Add Capacity</a>
+
+	<div class="circular-progress">
+		<span class="progress-value">0%</span>
+	</div>
+	<div id="used-space-percent"></div>
 	
 	<form action="/PBL4/logout" method="POST" class="logout_form">
 		<button type="submit" class="logout_button">

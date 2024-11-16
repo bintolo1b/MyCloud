@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="<c:url value='/assets/css/admin_addCapacity.css'/>" />
 <div class="main-content">
     <div id="add-storage" class="container">
-        <h1>Add Storage for User</h1>
+        <h1>Add Capacity for User</h1>
         <form class="add-storage-form">
             <div class="form-control">
                 <label for="storage-username">Username:</label>
@@ -16,13 +16,13 @@
                 </div>
 
                 <div class="form-control" id="current-storage">
-                    <label>Current Storage:</label>
+                    <label>Current capacity:</label>
                     <input id="storage-capacity" disabled>
                 </div>
 
                 <div class="form-control" id="add-storage-amount">
-                    <label for="additional-storage">Additional Storage (GB):</label>
-                    <input type="number" id="additional-storage" name="additional-storage" min="0" required>
+                    <label for="additional-storage">Additional capacity (GB):</label>
+                    <input type="number" id="additional-storage" name="additional-storage" step="1" required>
                 </div>
 
                 <button type="submit" class="save-storage-change">Save Changes</button>

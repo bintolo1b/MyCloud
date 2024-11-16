@@ -87,9 +87,7 @@ public class UserBO {
 	}
 	
 	public boolean checkIfEnoughCapacityToCreateUser() {
-		java.io.File disk = new java.io.File(Server.DISK_PATH);
-		long totalCapacity = disk.getTotalSpace();
-		totalCapacity = (long)Math.floor(totalCapacity*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
+		long totalCapacity = getTotalCapacityOnDisk();
 		
 		long currentCapacityAllocatedForUser = getToTalCapacityAllocatedForUser();
 		long freeCapacityLeft = totalCapacity - currentCapacityAllocatedForUser;
@@ -150,6 +148,21 @@ public class UserBO {
 		return getTotalCapacityUsedOfAUser(username) * 1.0 / getMaxCapacityOfAUser(username);
 	}
 	
+	public long getTotalCapacityOnDisk() {
+		java.io.File disk = new java.io.File(Server.DISK_PATH);
+		long totalCapacity = disk.getTotalSpace();
+		totalCapacity = (long)Math.floor(totalCapacity*1.0/(1024*1024*1024)) * 1024 * 1024 * 1024;
+		return totalCapacity;
+	}
+	
+	public double getFreeCapacityLeftOfCloud() {
+		return getTotalCapacityOnDisk() - getToTalCapacityAllocatedForUser();
+	}
+	
+	public double getPercentCapacityUsedOfCloud() {
+		return  getToTalCapacityAllocatedForUser()* 1.0 / getTotalCapacityOnDisk();
+	}
+
 	public double roundToTheFirstDecimal(double number) {
 		DecimalFormat df = new DecimalFormat("0.0");
 		return Double.parseDouble(df.format(number));
@@ -197,6 +210,24 @@ public class UserBO {
 			user.setHashedPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
 			UserDAOImp.getInstance().Update(user);
 			message = "Update successfully!";
+		}
+		return message;
+	}
+	
+	public String updatePassword(String newPassword, String verifyNewPassword, String username) {
+		String message = "";
+		if (!newPassword.equals(verifyNewPassword)) {
+			message = "Verify password is incorrect!";
+		} else {
+			User user = UserBO.getInstance().getUser(username);
+			if (user == null) {
+				message = "Username not found!";
+			}
+			else {
+				user.setHashedPassword(BCrypt.hashpw(newPassword, BCrypt.gensalt()));
+				UserDAOImp.getInstance().Update(user);
+				message = "Update successfully!";
+			}
 		}
 		return message;
 	}
@@ -271,6 +302,41 @@ public class UserBO {
 	
 	public boolean checkIfUserOnline(String username) {
 		return SessionManager.isUserOnline(username);
+	}
+
+	public String addCapacity(String username, int addedCapacity) {
+		String message = "";
+		long addedCapacityInGb = addedCapacity * 1024L * 1024 * 1024;
+		User user = UserBO.getInstance().getUser(username);
+		if (user == null) {
+			message = "Username not found!";
+		} else {
+			if (user.getUsername().equals(AdminAccount.ADMIN_USERNAME)) {
+				message = "Cannot add capacity for admin!";
+			}
+			else if (addedCapacityInGb == 0) {
+				message = "No capacity added!";
+			}
+			else if (addedCapacityInGb < 0) {
+				if (getFreeCapacityLeftOfUser(username) < -addedCapacityInGb) {
+					message = "Not enough user capacity to remove!";
+				} else {
+					user.setMaxCapacity(user.getMaxCapacity() + addedCapacityInGb);
+					UserDAOImp.getInstance().Update(user);
+					message = "Remove capacity successfully!";
+				}
+			} 
+			else if (addedCapacityInGb > 0){
+				if (getFreeCapacityLeftOfCloud() < addedCapacityInGb) {
+					message = "Not enough cloud capacity to add!";
+				} else {
+					user.setMaxCapacity(user.getMaxCapacity() + addedCapacityInGb);
+					UserDAOImp.getInstance().Update(user);
+					message = "Add capacity successfully!";
+				}
+			}
+		}
+		return message;
 	}
 
 }

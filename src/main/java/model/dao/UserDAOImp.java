@@ -43,9 +43,9 @@ public class UserDAOImp implements DAOInterface<User> {
             PreparedStatement pst = connect.prepareStatement(query);
             pst.setObject(1, obj.getHashedPassword());
             pst.setObject(2, obj.getFullName());
-            pst.setObject(3, obj.getUsername());
-            pst.setObject(4, obj.getRole());
-            pst.setObject(5, obj.getMaxCapacity());
+            pst.setObject(3, obj.getRole());
+            pst.setObject(4, obj.getMaxCapacity());
+            pst.setObject(5, obj.getUsername());
             
             pst.executeUpdate();
         } catch (SQLException e) {
