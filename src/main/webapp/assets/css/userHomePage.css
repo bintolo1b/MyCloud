@@ -303,6 +303,7 @@ ul.right li .detail-item {
 }
 
 ul.right li .new-notify {
+  display: none;
 	position: absolute;
 	top: 22px;
 	right: 18px;

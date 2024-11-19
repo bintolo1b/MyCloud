@@ -12,9 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.bean.Mail;
 import model.bean.MailAttachFile;
+import model.bean.Notification;
 import model.bean.User;
 import model.bo.MailAttachFileBO;
 import model.bo.MailBO;
+import model.bo.NotificationBO;
 import model.bo.UserBO;
 
 @WebServlet(urlPatterns = "/userhomepage/mail/readmail")
@@ -49,7 +51,9 @@ public class ReadMailController extends HttpServlet {
 					
 					ArrayList<MailAttachFile> mailAttachFiles = MailAttachFileBO.getInstance().getAllMailAttachFileOfMail(mailId);
 					User user = UserBO.getInstance().getUser(username);
+					ArrayList<Notification> notifications = NotificationBO.getInstance().getAllNotification(username);
 					
+					req.setAttribute("notifications", notifications);
 					req.setAttribute("mailAttachFiles", mailAttachFiles);
 					req.setAttribute("mail", mail);
 					req.setAttribute("user", user);

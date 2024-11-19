@@ -28,12 +28,14 @@ public class NotificationEndPoint {
 		String content = jsonOb.getString("content");
 		String sentUsername = jsonOb.getString("sentUsername");
 		String accessLink = jsonOb.getString("accessLink");
-		NotificationBO.getInstance().insertNotification(receiverUsername, content, sentUsername, accessLink);
+		int newId = NotificationBO.getInstance().insertNotification(receiverUsername, content, sentUsername, accessLink);
+		
 		Session receiverSession = clients.get(receiverUsername);
 		if (receiverSession != null) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		    String time = LocalDateTime.now().format(formatter);
 		    JSONObject notification = new JSONObject();
+		    notification.put("id", newId);
 		    notification.put("sentUsername", sentUsername);
 		    notification.put("content", content);
 		    notification.put("time", time);

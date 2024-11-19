@@ -24,7 +24,7 @@
 							<!-- <h3>You don't have any notifications</h3> -->
 							<ul id="notifyList">
 							<c:forEach items="${notifications}" var="notify">
-								<li class="notify-item ${notify.status}" onclick="window.location.href='${notify.accessLink}'">
+								<li class="notify-item ${notify.status}" data-id="${notify.id}" data-url="${notify.accessLink}">
 									<img alt="" src="/PBL4/avatar/${notify.sentUsername}.jpg" class="notifyAvt">
 									<div class="notifyInfor">
 										<div class="notifyInfor_first">

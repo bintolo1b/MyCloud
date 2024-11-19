@@ -83,6 +83,26 @@ document.querySelector('input[type="search"]').addEventListener('input', functio
     }
 });
 
+document.querySelectorAll('.notify-item').forEach(function(item) {
+    item.addEventListener('click', async function() {
+        var url = this.attributes['data-url'].value;
+        var id = this.attributes['data-id'].value;
+        const response = await fetch('/PBL4/checkreadnotification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ notificationId: id})
+        });
+        window.location.href = url;
+    }); 
+});
+
+const notifyList = document.getElementById('notifyList');
+if (notifyList && notifyList.querySelector('.unread')) {
+    document.querySelector('.new-notify').style.display = 'block';
+}
+
 const notificationWS = new WebSocket(`ws://${window.location.host}/PBL4/notification?username=${username}`);
 
 function sendMailNotification(receiverUsername, content, sentUsername, accessLink) {
@@ -97,11 +117,17 @@ function sendMailNotification(receiverUsername, content, sentUsername, accessLin
 
 notificationWS.onmessage = function(event) {
     const notification = JSON.parse(event.data);
-    const notifyList = document.getElementById('notifyList');
-
     const notificationItem = document.createElement('li');
     notificationItem.className = 'notify-item unread';
-    notificationItem.onclick = function() {
+
+    notificationItem.onclick = async function() { 
+        const response = await fetch('/PBL4/checkreadnotification', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ notificationId: notification.id })
+        });
         window.location.href = notification.accessLink;
     }
     notificationItem.innerHTML = `    
@@ -121,5 +147,7 @@ notificationWS.onmessage = function(event) {
     } else {
         notifyList.appendChild(notificationItem);
     }
+
+    document.querySelector('.new-notify').style.display = 'block';
 }
 

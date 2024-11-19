@@ -18,7 +18,7 @@ import model.bo.FolderBO;
 @WebFilter(urlPatterns = {"/userhomepage/*", "/admin/*", "/uploadfile", "/uploadfolder", "/deletefoldercontroller", "/deletefilecontroller"
 		, "/downloadfilecontroller", "/downloadfoldercontroller", "/gettemporarydemoimgurl","/sendmail", "/createnewfolder" ,"/renamefile" 
 		, "/renamefolder","/downloadmailattachfilecontroller", "/search" , "/userinformation", "/updatePassword" ,"/updateAvatar"
-		, "/updateFullName", "/getPercentCapacityUsed" ,"/displayfilecontroller"})
+		, "/updateFullName", "/getPercentCapacityUsed" ,"/displayfilecontroller", "/checkreadnotification"})
 public class AuthorAndAuthenFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
