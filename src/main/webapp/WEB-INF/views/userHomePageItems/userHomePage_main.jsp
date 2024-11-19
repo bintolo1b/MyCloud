@@ -55,12 +55,12 @@
 									Download
 								</a>
 							</li>
-							<li class="kebab-item">
+							<!-- <li class="kebab-item">
 								<a href="" class="share-btn">
 									<i class="material-icons">share</i>
 									Share
 								</a>
-							</li>
+							</li> -->
 							<li class="kebab-item">
 								<a href="#" class="rename-btn" data-file-name="${folder.name}">
 									<i class="material-icons">edit</i>
@@ -73,7 +73,7 @@
 									<c:param name="folderPath" value="${folderPath}"></c:param>
 									<c:param name="deletedFolderName" value="${folder.name}"></c:param>
 								</c:url>
-								<form action="${deletefolderurl}" method="post">
+								<form class="delete-form" action="${deletefolderurl}" method="post">
 									<input type="submit" value="Delete">
 								</form>
 							</li>
@@ -124,7 +124,7 @@
 										<c:param name="folderPath" value="${folderPath}"></c:param>
 										<c:param name="deletedFileName" value="${file.name}"></c:param>
 									</c:url>
-									<form action="${deletefilerurl}" method="post">
+									<form class="delete-form" action="${deletefilerurl}" method="post">
 										<input type="submit" value="Delete">
 									</form>
 								</li>

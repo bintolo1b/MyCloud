@@ -14,7 +14,7 @@ document.querySelectorAll('.admin_item').forEach(function(item) {
 let circularProgress = document.querySelector(".circular-progress"),
     progressValue = document.querySelector(".progress-value");
 
-let progressStartValue = 0,
+let progressStartValue,
     progressEndValue,
     speed = 25;
 

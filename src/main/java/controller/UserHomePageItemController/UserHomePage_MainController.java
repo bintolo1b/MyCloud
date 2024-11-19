@@ -31,11 +31,10 @@ public class UserHomePage_MainController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//myfun();
-		//myfun2();
-		//myfunc3();
-		//myfunc4();
-		//myfunc5();
+//		myfun();
+//		myfun2();
+//		myfunc3();
+//		myfunc4();
 		
 		HttpSession session = req.getSession(false);
 		String username = session.getAttribute("username").toString();
@@ -126,8 +125,8 @@ public class UserHomePage_MainController extends HttpServlet {
 				if (size != folder.getSize()) {
 					System.out.println(folder.getPath() + "not match size");
 				}
-				folder.setSize(size);
-				FolderDAOImp.getInstance().Update(folder);
+//				folder.setSize(size);
+//				FolderDAOImp.getInstance().Update(folder);
 			 }
 		 }
 	 }
@@ -139,8 +138,8 @@ public class UserHomePage_MainController extends HttpServlet {
              java.io.File svfile = new java.io.File(path);
              if (svfile.isFile()) {
                 long size = svfile.length();
-                mailatt.setSize(size);
-                MailAttachFileDAOImp.getInstance().Update(mailatt);
+//                mailatt.setSize(size);
+//                MailAttachFileDAOImp.getInstance().Update(mailatt);
              }
 		 }
 		 

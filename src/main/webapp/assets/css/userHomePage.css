@@ -1354,7 +1354,7 @@ textarea:focus + .composeLabel {
 }
 
 .loading-container {
-	position: fixed;
+	  position: fixed;
     display: none;
     top: 0;
     left: 0;

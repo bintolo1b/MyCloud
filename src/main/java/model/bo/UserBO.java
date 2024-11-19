@@ -186,6 +186,13 @@ public class UserBO {
 		return true;
 	}
 	
+	public boolean checkIfEnoughCapacityToUpload(String username, long size) {
+		if (getFreeCapacityLeftOfUser(username) < size) {
+			return false;
+		}
+		return true;
+	}
+	
 	public ArrayList<User> getAllUsers() {
 		return UserDAOImp.getInstance().getAll();
 	}

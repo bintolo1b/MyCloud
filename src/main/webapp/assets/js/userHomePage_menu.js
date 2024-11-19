@@ -45,11 +45,12 @@ document.querySelector('.notify').addEventListener('click', function(e) {
 let circularProgress = document.querySelector(".circular-progress"),
     progressValue = document.querySelector(".progress-value");
 
-let progressStartValue = 0,
+let progressStartValue,
     progressEndValue,
     speed = 25;
 
 async function updateProgress() {
+	progressStartValue = 0
 	try {
 		const response = await fetch('/PBL4/getPercentCapacityUsed');
 		if (!response.ok) {

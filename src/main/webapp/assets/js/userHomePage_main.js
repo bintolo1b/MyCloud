@@ -434,41 +434,70 @@ document.querySelectorAll('.new-item').forEach(item => {
     });
 });
 
+document.querySelectorAll('.delete-form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        document.querySelector('.loading-container').style.display = 'flex';
+        form.submit();
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const fileInputs = document.querySelectorAll('.uploadItem');
 
     fileInputs.forEach(input => {
-        input.addEventListener('change', function() {
+        input.addEventListener('change', async function() {
             if (this.files.length > 0) {
                 var fd = new FormData();
                 var files = this.files;
+                var count = 0;
+                var size = 0;
+
+                document.querySelector('.loading-container').style.display = 'flex';
                 for (var i = 0; i < files.length; i++) {
+                    count++;
+                    size += files[i].size;
                     fd.append("attachment", files[i]); // Sử dụng "attachments[]" để gửi như một mảng
                 }
 
-                const form = this.closest('form');
-                var url = form.action;
-               
-                fetch(url,{
-                    method: 'POST',
-                    body: fd
-                    })
-                    .then(function(response){
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        else
-                            return response.json();
-                    })
-                    .then(function(returnObject){
-                        alert(returnObject.message);
-                        if (returnObject.message === 'Uploaded successfully!'){
-                            window.location.reload();
-                        }	
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
+                const preUploadResponse = await fetch (`/PBL4/checkifuploadpossible?size=${size}&fileQuantity=${count}`);
+
+                const preUploadReturnObject = await preUploadResponse.json();
+
+                if (preUploadReturnObject.message === 'Upload possible!'){
+                    const form = this.closest('form');
+                    var url = form.action;
+                    
+                    fetch(url,{
+                        method: 'POST',
+                        body: fd
+                        })
+                        .then(function(response){
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            else
+                                return response.json();
+                        })
+                        .then(function(returnObject){
+                            document.querySelector('.loading-container').style.display = 'none';
+                            setTimeout(function() {
+                                alert(returnObject.message);
+                                if (returnObject.message === 'Uploaded successfully!') {
+                                    window.location.reload();
+                                }
+                            }, 100);	
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        }) 
+                }
+                else{
+                    document.querySelector('.loading-container').style.display = 'none';
+                    setTimeout(function() {
+                        alert(preUploadReturnObject.message);
+                    }, 100);
+                }
             }
         });
     });
@@ -520,6 +549,9 @@ document.getElementById('sendMailForm').addEventListener('submit', function(even
                 var accessLink = `/PBL4/userhomepage/mail/readmail?mailId=${returnObject.mailId}`;
 
                 sendMailNotification(receiverUsername, content, sentUsername, accessLink);
+                updateProgress();
+
+
             }
             else{
                 alert(returnObject.message);
@@ -538,7 +570,7 @@ document.getElementById('newFolderForm').addEventListener('submit', function(eve
         folderPath : document.getElementById('folderPath_createFolder').value
     }
 
-    fetch('../createnewfolder',{
+    fetch('/PBL4/createnewfolder',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -610,24 +642,4 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
 		})
 })
 
-
-
-// notificationWS.onmessage = function(event) {
-//     const notification = JSON.parse(event.data);
-//     const notifyBlock = document.querySelector('.notify-block');
-//     const notifyList = document.querySelector('.notify-list');
-
-//     const notificationItem = document.createElement('li');
-//     notificationItem.className = 'notify-item';
-//     notificationItem.innerHTML = `
-//         <a href="/PBL4/userhomepage/main?folderPath=${notification.folderPath}">
-//             <i class="material-icons">mail</i>
-//             <span>${notification.topic}</span>
-//         </a>
-//     `;
-
-//     notifyList.prepend(notificationItem);
-
-//     notifyBlock.classList.add('open');
-// };
         
