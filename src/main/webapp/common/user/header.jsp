@@ -17,7 +17,7 @@
 				
 				<ul class="right">
 					<li>
-						<span class="user-fullname">Nguyen Van An</span>
+						<span class="user-fullname">${user.fullName}</span>
 					</li>
 					<li>
 						<a href="#!" class="notify"><i class="material-icons grey-text text-darken-1">notifications</i></a>
