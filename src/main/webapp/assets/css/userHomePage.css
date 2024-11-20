@@ -302,6 +302,12 @@ ul.right li .detail-item {
     cursor: default;
 }
 
+ul.right li .user-fullname {
+	font-size: 15px;
+	font-weight: 500;
+	color: #333;
+}
+
 ul.right li .new-notify {
   display: none;
 	position: absolute;
@@ -322,7 +328,7 @@ ul.right li .new-notify {
     position: absolute;
     z-index: 50;
     top: 100%;
-    right: -6px;
+    right: 0;
     width: 404px;
     height: 253px;
     border-radius: 2px;
@@ -645,7 +651,7 @@ ul.right li .new-notify {
     z-index: 1;
     position: absolute;
     top: calc(100% + 5px);
-    right: 0;
+    right: 8px;
     width: 170px;
     padding: 0px;
     border-radius: 2px;

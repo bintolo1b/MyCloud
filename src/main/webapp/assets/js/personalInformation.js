@@ -40,11 +40,15 @@ function updateAvatar(event) {
 function updateFullName() {
 	document.querySelector('.update-fullname').style.display = 'block';
 	document.querySelector('.save-fullname-button').style.display = 'block';
+	document.querySelector('.update-password').style.display = 'none';
+	document.querySelector('.save-new-password-button').style.display = 'none';
 }
 
 function changePassword() {
 	document.querySelector('.update-password').style.display = 'block';
 	document.querySelector('.save-new-password-button').style.display = 'block';
+	document.querySelector('.update-fullname').style.display = 'none';
+	document.querySelector('.save-fullname-button').style.display = 'none';
 }
 
 document.getElementById('update-name-form').onsubmit = function(event) {

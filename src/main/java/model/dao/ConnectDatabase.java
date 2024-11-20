@@ -12,7 +12,7 @@ public class ConnectDatabase {
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
 			String url = "jdbc:mySQL://localhost:3306/mycloud";
 			String username = "root";
-			String password = "Trantai25022004";
+			String password = "bulletsilver";
 			c = DriverManager.getConnection(url, username, password);
 			
 		} catch (SQLException e) {
