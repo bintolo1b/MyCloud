@@ -1,5 +1,6 @@
 package WebSocket;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -7,18 +8,28 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONObject;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.*;
 import jakarta.websocket.server.ServerEndpoint;
 import model.bo.NotificationBO;
 
-@ServerEndpoint("/notification")
+@ServerEndpoint(value = "/notification", configurator = CustomConfigurator.class)
 public class NotificationEndPoint {
 	private static final Map<String, Session> clients = new ConcurrentHashMap<>();
 	
 	@OnOpen
 	public void onOpen(Session session) {
-		String clientUsername = session.getRequestParameterMap().get("username").get(0);
-		clients.put(clientUsername, session);
+		HttpSession httpSession = (HttpSession) session.getUserProperties().get("httpSession");
+		String username = httpSession.getAttribute("username").toString();
+		if (username == null) {
+			try {
+				session.close(new CloseReason(CloseReason.CloseCodes.VIOLATED_POLICY, "No username in session."));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			clients.put(username, session);
+		}
 	}
 	
 	@OnMessage

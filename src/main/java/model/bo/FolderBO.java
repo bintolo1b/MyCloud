@@ -77,7 +77,9 @@ public class FolderBO {
 			for (int i = 0 ;  i < parts.size() ; i++) {
 				String fileName = parts.get(i).getSubmittedFileName();
 	        	uploadFolderName = fileName.substring(0, fileName.indexOf('/'));
+	        	//System.out.print(fileName +" "+ uploadFolderName);
 	        	fileName = fileName.substring(fileName.indexOf('/')+1);
+	        	//System.out.println(" "+fileName);
 	        	filePathsComponents.add(fileName.split("/")); 
 			}
 			

@@ -137,7 +137,7 @@ public class UserHomePage_MainController extends HttpServlet {
              String path = mailatt.getPath();
              java.io.File svfile = new java.io.File(path);
              if (svfile.isFile()) {
-                long size = svfile.length();
+//               long size = svfile.length();
 //                mailatt.setSize(size);
 //                MailAttachFileDAOImp.getInstance().Update(mailatt);
              }

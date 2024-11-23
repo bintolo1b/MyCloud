@@ -103,7 +103,7 @@ if (notifyList && notifyList.querySelector('.unread')) {
     document.querySelector('.new-notify').style.display = 'block';
 }
 
-const notificationWS = new WebSocket(`ws://${window.location.host}/PBL4/notification?username=${username}`);
+const notificationWS = new WebSocket(`ws://${window.location.host}/PBL4/notification`);
 
 function sendMailNotification(receiverUsername, content, sentUsername, accessLink) {
     const notification = {

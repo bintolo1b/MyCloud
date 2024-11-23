@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const preUploadReturnObject = await preUploadResponse.json();
 
-                if (preUploadReturnObject.message === 'Upload possible!'){
+                if (preUploadReturnObject.message === 'Upload possible!'){ //Tiến hành upload
                     const form = this.closest('form');
                     var url = form.action;
                     

@@ -32,6 +32,5 @@ public class CompressFolder {
 				fis.close();
 			}
 		}
-		
 	}
 }

@@ -75,16 +75,12 @@ public class ConvertFileToPdfByteArray {
 	
 	public static byte[] convertDocxToPdfByteArr(String docxPath) {
 	    try {
-	        // Tạo đối tượng Document từ file DOCX
 	    	com.aspose.words.Document doc = new com.aspose.words.Document(docxPath);
 	        
-	        // Sử dụng ByteArrayOutputStream để lưu file PDF vào bộ nhớ
 	        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	        
-	        // Lưu tài liệu dưới dạng PDF vào ByteArrayOutputStream
 	        doc.save(outputStream, com.aspose.words.SaveFormat.PDF);
 	        
-	        // Trả về dữ liệu PDF dưới dạng mảng byte
 	        return outputStream.toByteArray();
 	    } catch (Exception e) {
 	        e.printStackTrace();
