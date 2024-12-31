@@ -16,7 +16,7 @@
         <div class="profile-card">
             <div class="profile-left">
             	<div class="avatar-container">
-		            <img id="avatar" alt="" src="<c:url value='/avatar/${user.username}.jpg'/>">
+		            <img id="avatar" alt="" src="/PBL4/getAvatar?username=${user.username}">
 		            <input type="file" id="avatar-upload" accept="image/*" onchange="updateAvatar(event)">
 		            <label for="avatar-upload" class="upload-overlay">Cập nhật ảnh</label>
 		        </div>

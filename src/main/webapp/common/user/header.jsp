@@ -28,7 +28,7 @@
 							<ul id="notifyList">
 							<c:forEach items="${notifications}" var="notify">
 								<li class="notify-item ${notify.status}" data-id="${notify.id}" data-url="${notify.accessLink}">
-									<img alt="" src="/PBL4/avatar/${notify.sentUsername}.jpg" class="notifyAvt">
+									<img alt="" src="/PBL4/getAvatar?username=${notify.sentUsername}" class="notifyAvt">
 									<div class="notifyInfor">
 										<div class="notifyInfor_first">
 											<span class="notifyContent">${notify.content}</span>
@@ -43,7 +43,7 @@
 						</div>
 					</li>
 					<li class="account"><a href="#!"><img
-							src='<c:url value='/avatar/${user.username}.jpg'/>' alt="profile pic" class="circle avatar" /></a>
+							src='/PBL4/getAvatar?username=${user.username}' alt="profile pic" class="circle avatar" /></a>
 							<ul class="listItems">
 								<li class="item">
 								    <c:url value='/userinformation' var='userinforurl'>

@@ -244,7 +244,7 @@ public class UserBO {
 		if (part.getSubmittedFileName() == null)
 			message = "No file choosen!";
 		else if (part.getContentType().equals("image/jpeg") || part.getContentType().equals("image/png") || part.getContentType().equals("image/jpg")) {
-            File file = new File(WebPaths.USER_AVATAR_PATH + "\\" + username + ".jpg");
+            File file = new File(Server.USER_AVATAR_PATH + "\\" + username + ".jpg");
 			try {
 				part.write(file.getAbsolutePath());
 				message = "Update successfully!";
@@ -260,7 +260,7 @@ public class UserBO {
 
 	public void createDefaultAvatar(String username) {
 		File userAvatar = new File(WebPaths.DEFAULT_USER_AVATAR);
-		File defaultUserAvatar = new File(WebPaths.USER_AVATAR_PATH + "\\" + username + ".jpg");
+		File defaultUserAvatar = new File(Server.USER_AVATAR_PATH + "\\" + username + ".jpg");
 		try {
 			 InputStream input = new FileInputStream(userAvatar);
 			 OutputStream output = new FileOutputStream(defaultUserAvatar);
