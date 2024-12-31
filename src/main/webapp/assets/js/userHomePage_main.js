@@ -312,6 +312,24 @@ function updateInputFiles() {
             shareModal.style.display = "none";
         }
     };
+    
+    const informationModal = document.querySelector('.folder-information-modal');
+	
+	document.querySelector('.close-modal').addEventListener('click', () => {
+	  document.querySelector('.folder-information-modal').style.display = 'none';
+	});
+	
+	 document.querySelectorAll('.information-btn').forEach(button => {
+	    button.addEventListener('click', function(event) {
+			document.querySelector('.folder-information-modal').style.display = 'flex';
+	    });
+	});
+	
+	window.onclick = function(e) {
+		if(e.target == informationModal) {
+			renameModal.style.display = 'none';
+		}
+	}
 	
     // Close kebab menu when clicking outside
     document.addEventListener('click', function(event) {

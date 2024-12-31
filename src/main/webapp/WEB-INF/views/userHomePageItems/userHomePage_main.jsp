@@ -55,16 +55,16 @@
 									Download
 								</a>
 							</li>
-							<!-- <li class="kebab-item">
-								<a href="" class="share-btn">
-									<i class="material-icons">share</i>
-									Share
-								</a>
-							</li> -->
 							<li class="kebab-item">
 								<a href="#" class="rename-btn" data-file-name="${folder.name}">
 									<i class="material-icons">edit</i>
 									Rename
+								</a>
+							</li>
+							<li class="kebab-item">
+								<a href="#" class="information-btn">
+									<i class="material-icons">info</i>
+									Folder information
 								</a>
 							</li>
 							<li class="kebab-item">
@@ -246,6 +246,30 @@
 		</form>
 	</div>
 </div>
+
+<div class="folder-information-modal">
+  <div class="folder-information-modal-content">
+    <h2>Folder Information</h2>
+    <form>
+      <div class="form-group">
+        <label for="folderName">Folder Name:</label>
+        <input type="text" value="Folder name" id="folderName" name="folderName" readonly>
+      </div>
+      <div class="form-group">
+        <label for="uploadDate">Upload Date:</label>
+        <input type="text" value="2024/12/31" id="uploadDate" name="uploadDate" readonly>
+      </div>
+      <div class="form-group">
+        <label for="capacity">Capacity:</label>
+        <input type="text" value="3MB" id="capacity" name="capacity" readonly>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="close-modal">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 <div class = "display-modal">
 	<iframe scr = ""></iframe>
