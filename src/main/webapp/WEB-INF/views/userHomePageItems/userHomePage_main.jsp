@@ -62,7 +62,7 @@
 								</a>
 							</li>
 							<li class="kebab-item">
-								<a href="#" class="information-btn">
+								<a href="#" class="information-btn" onclick="showFolderFileInformation('${folder.name}','${folder.getFormattedUploadedDate()}','${folder.size}')">
 									<i class="material-icons">info</i>
 									Folder information
 								</a>
@@ -93,7 +93,7 @@
 			</c:url>
 	
 			<div data-url="${displayfileurl}" class="card-panel file">
-				<!-- Div chứa tên file, icon và kebab menu -->
+				<!-- Div chá»©a tÃªn file, icon vÃ  kebab menu -->
 				<div class="file-details">
 					<i class="material-icons left">description</i>
 					<span>${file.name}</span>
@@ -119,7 +119,7 @@
 									</a>
 								</li>
 								<li class="kebab-item">
-									<a href="#" class="information-btn">
+									<a href="#" class="information-btn" onclick="showFolderFileInformation('${file.name}','${file.getFormattedUploadedDate()}','${file.size}')">
 										<i class="material-icons">info</i>
 										File information
 									</a>
@@ -217,7 +217,7 @@
 		<div class="rename-notice">
 			<span>A file name can't contain any of the following characters:<br> \ / : * ? " &lt; &gt; |</span>
 		</div>
-		<!-- Thay đổi từ div sang form -->
+		<!-- Thay Äá»i tá»« div sang form -->
 		<form id="renameForm" action="" method="POST">
 			<input type="text" id="renameInput" required>
 			<input type="hidden" id="oldName" value="">
@@ -323,3 +323,31 @@
 	<div class="loader"></div>
 </div>	
 <script src="<c:url value='/assets/js/userHomePage_main.js'/>"></script>
+<script>
+	const informationModal = document.querySelector('.folder-file-information-modal');
+	
+	document.querySelector('.close-modal').addEventListener('click', () => {
+	  informationModal.style.display = 'none';
+	});
+	
+	function showFolderFileInformation(name, uploadDate, capacityInBytes) {
+		function convertCapacity(capacityInBytes) {
+			const bytesInMB = 1024 * 1024; 
+			const bytesInGB = 1024 * 1024 * 1024; 
+
+			const capacityInMB = capacityInBytes / bytesInMB;
+
+			if (capacityInMB < 1024) {
+				return capacityInMB.toFixed(2) + " MB"; 
+			}
+
+			const capacityInGB = capacityInBytes / bytesInGB;
+			return capacityInGB.toFixed(2) + " GB"; 
+		}
+		const finalCapacity = convertCapacity(capacityInBytes);
+		document.querySelector('#folder-fileName').value = name;
+		document.querySelector('#uploadDate').value = uploadDate;
+		document.querySelector('#capacity').value = finalCapacity;
+		informationModal.style.display = 'flex';
+	}
+</script>

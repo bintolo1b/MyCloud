@@ -312,26 +312,12 @@ function updateInputFiles() {
             shareModal.style.display = "none";
         }
     };
-    
-    
-    const informationModal = document.querySelector('.folder-file-information-modal');
-    
-    function showFolderFileInformation(name, uploadDate, capacity) {
-	  document.querySelector('#folder-fileName').value = name;
-	  document.querySelector('#uploadDate').value = uploadDate;
-	  document.querySelector('#capacity').value = capacity;
-	  informationModal.style.display = 'flex';
-	}
 	
-	document.querySelector('.close-modal').addEventListener('click', () => {
-	  informationModal.style.display = 'none';
-	});
-	
-	 document.querySelectorAll('.information-btn').forEach(button => {
+	 /*document.querySelectorAll('.information-btn').forEach(button => {
 	    button.addEventListener('click', function(event) {
 			showFolderFileInformation('FolderFile','1/1/2025','5MB');
 	    });
-	});
+	});*/
 	
 	window.onclick = function(e) {
 		if(e.target == informationModal) {
