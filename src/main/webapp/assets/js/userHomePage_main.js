@@ -313,15 +313,23 @@ function updateInputFiles() {
         }
     };
     
-    const informationModal = document.querySelector('.folder-information-modal');
+    
+    const informationModal = document.querySelector('.folder-file-information-modal');
+    
+    function showFolderFileInformation(name, uploadDate, capacity) {
+	  document.querySelector('#folder-fileName').value = name;
+	  document.querySelector('#uploadDate').value = uploadDate;
+	  document.querySelector('#capacity').value = capacity;
+	  informationModal.style.display = 'flex';
+	}
 	
 	document.querySelector('.close-modal').addEventListener('click', () => {
-	  document.querySelector('.folder-information-modal').style.display = 'none';
+	  informationModal.style.display = 'none';
 	});
 	
 	 document.querySelectorAll('.information-btn').forEach(button => {
 	    button.addEventListener('click', function(event) {
-			document.querySelector('.folder-information-modal').style.display = 'flex';
+			showFolderFileInformation('FolderFile','1/1/2025','5MB');
 	    });
 	});
 	

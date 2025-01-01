@@ -1359,7 +1359,7 @@ textarea:focus + .composeLabel {
   background-color: rgba(26, 115, 232, 0.1);
 }
 
-.folder-information-modal {
+.folder-file-information-modal {
   position: fixed;
   top: 0;
   right: 0;
@@ -1374,7 +1374,7 @@ textarea:focus + .composeLabel {
   display: none;
 }
 
-.folder-information-modal-content {
+.folder-file-information-modal-content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -1383,7 +1383,7 @@ textarea:focus + .composeLabel {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.folder-information-modal-content h2 {
+.folder-file-information-modal-content h2 {
   margin-top: 5px;
   font-size: 24px;
   font-weight: 500;
@@ -1391,11 +1391,11 @@ textarea:focus + .composeLabel {
   text-align: left;
 }
 
-.folder-information-modal .form-group {
+.folder-file-information-modal .form-group {
   margin-bottom: 15px;
 }
 
-.folder-information-modal .form-group label {
+.folder-file-information-modal .form-group label {
   display: block;
   font-size: 14px;
   font-weight: 500;
@@ -1403,7 +1403,7 @@ textarea:focus + .composeLabel {
   color: #202124;
 }
 
-.folder-information-modal .form-group input {
+.folder-file-information-modal .form-group input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -1411,11 +1411,11 @@ textarea:focus + .composeLabel {
   font-size: 14px;
 }
 
-.folder-information-modal .modal-actions {
+.folder-file-information-modal .modal-actions {
   text-align: right;
 }
 
-.folder-information-modal .modal-actions .close-modal {
+.folder-file-information-modal .modal-actions .close-modal {
   background-color: #f1f1f1;
   color: #333;
   border: none;
@@ -1424,7 +1424,7 @@ textarea:focus + .composeLabel {
   cursor: pointer;
 }
 
-.folder-information-modal .modal-actions .close-modal:hover {
+.folder-file-information-modal .modal-actions .close-modal:hover {
   background-color: #e1e1e1;
 }
 

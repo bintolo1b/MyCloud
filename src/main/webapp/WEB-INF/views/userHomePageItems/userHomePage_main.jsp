@@ -119,6 +119,12 @@
 									</a>
 								</li>
 								<li class="kebab-item">
+									<a href="#" class="information-btn">
+										<i class="material-icons">info</i>
+										File information
+									</a>
+								</li>
+								<li class="kebab-item">
 									<i class="material-icons" style="margin-left:15px">delete</i>
 									<c:url value="/deletefilecontroller" var="deletefilerurl">
 										<c:param name="folderPath" value="${folderPath}"></c:param>
@@ -247,13 +253,13 @@
 	</div>
 </div>
 
-<div class="folder-information-modal">
-  <div class="folder-information-modal-content">
-    <h2>Folder Information</h2>
+<div class="folder-file-information-modal">
+  <div class="folder-file-information-modal-content">
+    <h2>Information</h2>
     <form>
       <div class="form-group">
-        <label for="folderName">Folder Name:</label>
-        <input type="text" value="Folder name" id="folderName" name="folderName" readonly>
+        <label for="folder-fileName">Name:</label>
+        <input type="text" value="Folder_File name" id="folder-fileName" name="folderName" readonly>
       </div>
       <div class="form-group">
         <label for="uploadDate">Upload Date:</label>
