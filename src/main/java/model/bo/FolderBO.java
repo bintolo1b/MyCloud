@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import constant.Server;
 import jakarta.servlet.http.Part;
 import model.bean.Folder;
@@ -282,6 +285,22 @@ public class FolderBO {
 				searchResult.add(folder);
 		}
 		return searchResult;
+	}
+	
+	public JSONArray searchFoldersToJsonArray(String username, String searchContent) {
+		ArrayList<Folder> folders = searchFolders(username, searchContent);
+		JSONArray jsonArray = new JSONArray();
+		for (Folder folder : folders) {
+			JSONObject jsonObject = new JSONObject();
+			
+			jsonObject.put("Name", folder.getName());
+			jsonObject.put("Type", "folder");
+			jsonObject.put("UploadDate", folder.getFormattedUploadedDate());
+			jsonObject.put("Path", folder.getPath());
+			
+			jsonArray.put(jsonObject);
+		}
+		return jsonArray;
 	}
 	
 	public long folderSize(File directory) {

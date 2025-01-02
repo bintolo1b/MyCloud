@@ -34,41 +34,14 @@ public class SearchAPI extends HttpServlet {
             return;
         }
 		else {
-			ArrayList<File> files = FileBO.getInstance().searchFiles(username, searchContent);
-			ArrayList<Folder> folders = FolderBO.getInstance().searchFolders(username, searchContent);
-			
+			JSONArray filesJSONarray = FileBO.getInstance().searchFilesToJsonArray(username, searchContent);
+			JSONArray foldersJSONarray = FolderBO.getInstance().searchFoldersToJsonArray(username, searchContent);
 			JSONArray jsonArray = new JSONArray();
-			
-			for (File file : files) {
-				JSONObject jsonObject = new JSONObject();
-				String fileName = file.getName();
-				String fileType = "";
-				
-				int dotIndex = fileName.lastIndexOf(".");
-				if (dotIndex == -1 || (dotIndex!=-1 && dotIndex == fileName.length() - 1)) {
-					fileType = "file";
-				} else if (dotIndex != -1 && dotIndex != fileName.length() - 1) {
-					fileType = fileName.substring(dotIndex + 1);
-				}
-				
-				String folderPath = file.getPath().substring(0, file.getPath().lastIndexOf("\\"));
-				jsonObject.put("Name", file.getName());	
-				jsonObject.put("Type", fileType);
-				jsonObject.put("UploadDate", file.getFormattedUploadedDate());
-				jsonObject.put("folderPath", folderPath);
-				
-				jsonArray.put(jsonObject);
+			for (int i = 0; i < filesJSONarray.length(); i++) {
+				jsonArray.put(filesJSONarray.get(i));
 			}
-			
-			for (Folder folder : folders) {
-				JSONObject jsonObject = new JSONObject();
-				
-				jsonObject.put("Name", folder.getName());
-				jsonObject.put("Type", "folder");
-				jsonObject.put("UploadDate", folder.getFormattedUploadedDate());
-				jsonObject.put("Path", folder.getPath());
-				
-				jsonArray.put(jsonObject);
+			for (int i = 0; i < foldersJSONarray.length(); i++) {
+				jsonArray.put(foldersJSONarray.get(i));
 			}
 			pw.write(jsonArray.toString());
 		}

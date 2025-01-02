@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import jakarta.servlet.http.Part;
 import model.bean.File;
 import model.bean.Folder;
@@ -157,5 +160,31 @@ public class FileBO {
 				searchResult.add(file);
 		}
 		return searchResult;
+	}
+	
+	public JSONArray searchFilesToJsonArray(String username, String searchContent) {
+		ArrayList<File> files = searchFiles(username, searchContent);
+		JSONArray jsonArray = new JSONArray();
+		for (File file : files) {
+			JSONObject jsonObject = new JSONObject();
+			String fileName = file.getName();
+			String fileType = "";
+			
+			int dotIndex = fileName.lastIndexOf(".");
+			if (dotIndex == -1 || (dotIndex!=-1 && dotIndex == fileName.length() - 1)) {
+				fileType = "file";
+			} else if (dotIndex != -1 && dotIndex != fileName.length() - 1) {
+				fileType = fileName.substring(dotIndex + 1);
+			}
+			
+			String folderPath = file.getPath().substring(0, file.getPath().lastIndexOf("\\"));
+			jsonObject.put("Name", file.getName());	
+			jsonObject.put("Type", fileType);
+			jsonObject.put("UploadDate", file.getFormattedUploadedDate());
+			jsonObject.put("folderPath", folderPath);
+			
+			jsonArray.put(jsonObject);
+		}
+		return jsonArray;
 	}
 }

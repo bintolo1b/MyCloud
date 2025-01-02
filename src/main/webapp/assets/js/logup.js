@@ -8,7 +8,7 @@ document.getElementById('form').addEventListener('submit', function(event){
 		verifyPassword: document.getElementById('verifyPassword').value
 	}
 	
-	fetch('/PBL4/logup',{
+	fetch('/PBL4/checkLogup',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 
 import org.json.JSONObject;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +15,8 @@ import model.bean.User;
 import model.bo.FolderBO;
 import model.bo.UserBO;
 
-@WebServlet(urlPatterns = "/logup")
-public class Logup extends HttpServlet {
+@WebServlet(urlPatterns = "/checkLogup")
+public class CheckLogup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -56,11 +55,5 @@ public class Logup extends HttpServlet {
 		}
 		pw.flush();
 		pw.close();
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/signup.jsp");
-		dispatcher.forward(req, resp);
 	}
 }
