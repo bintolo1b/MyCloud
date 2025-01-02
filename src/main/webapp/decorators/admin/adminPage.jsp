@@ -9,6 +9,7 @@
 	<title>MyCloud Admin</title>
 	<link rel="stylesheet" href="<c:url value='/assets/css/admin_menu.css'/>" />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+	<link rel="icon" href="<c:url value='/assets/img/logo cloud.png'/>" type="image/x-icon"/>
 </head>
 <body>
 	<%@include file="/common/admin/menu.jsp"%>

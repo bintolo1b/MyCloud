@@ -7,9 +7,10 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Popup Login Form Design | CodingNepal</title>
+      <title>Popup Signup Form Design | CodingNepal</title>
       <link href="<c:url value='/assets/css/login.css'/>" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="icon" href="<c:url value='/assets/img/logo cloud.png'/>" type="image/x-icon"/>
    </head>
    <body>
    <div id="toast"></div>

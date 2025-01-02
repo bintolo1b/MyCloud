@@ -31,6 +31,7 @@
       <link href="<c:url value='/assets/css/login.css'/>" rel="stylesheet">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   	  <link rel="icon" href="<c:url value='/assets/img/logo cloud.png'/>" type="image/x-icon"/>
    </head>
    <body>
    <div id="toast">
@@ -53,9 +54,6 @@
                   <label>Password</label>
                   <input id="password" type="password" name="passowrd" required class="form-control">
               	  <span class="form-message"></span>
-               </div>
-               <div class="forgot-pass">
-                  <a href="#">Forgot Password?</a>
                </div>
                <div class="btn">
                   <div class="inner"></div>

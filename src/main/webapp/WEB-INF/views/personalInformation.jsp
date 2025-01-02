@@ -5,9 +5,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Personal Information</title>
 <link rel="stylesheet"
 		href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+<link rel="icon" href="<c:url value='/assets/img/logo cloud.png'/>" type="image/x-icon"/>
 </head>
 <body>
 	<link href="<c:url value='/assets/css/personalInformation.css'/>" rel="stylesheet">
