@@ -14,8 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.bo.FolderBO;
 
-
-
 @WebServlet(urlPatterns = "/downloadfoldercontroller")
 public class DownloadFolderController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

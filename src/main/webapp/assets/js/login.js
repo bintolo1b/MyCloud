@@ -6,7 +6,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event){
 		password: document.getElementById('password').value
 	}
 	
-	fetch('/PBL4/login',{
+	fetch('/PBL4/checkLogin',{
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

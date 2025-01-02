@@ -88,7 +88,7 @@ document.querySelectorAll('.notify-item').forEach(function(item) {
         var url = this.attributes['data-url'].value;
         var id = this.attributes['data-id'].value;
         const response = await fetch('/PBL4/checkreadnotification', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -122,7 +122,7 @@ notificationWS.onmessage = function(event) {
 
     notificationItem.onclick = async function() { 
         const response = await fetch('/PBL4/checkreadnotification', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

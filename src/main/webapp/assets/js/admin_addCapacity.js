@@ -54,7 +54,7 @@ document.querySelector('.add-storage-form').addEventListener('submit', async fun
 
     try {
         const response = await fetch("/PBL4/admin/addCapacity", {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

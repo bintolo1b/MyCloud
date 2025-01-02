@@ -38,7 +38,7 @@ document.querySelector('.update-password-form').addEventListener('submit',  func
 
     if (newPassword === verifyNewPassword){
         fetch("/PBL4/admin/updateAllUserPassword",{
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },

@@ -15,7 +15,7 @@ function updateAvatar(event) {
     formData.append('avatar', file);
 
     fetch('/PBL4/updateAvatar', {
-            method: 'POST',
+            method: 'PUT',
             body: formData
         })
         .then(function(response){
@@ -59,7 +59,7 @@ document.getElementById('update-name-form').onsubmit = function(event) {
     }
     
     fetch("/PBL4/updateFullName",{
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -93,7 +93,7 @@ document.getElementById('update-password-form').onsubmit = function(event) {
     }
     
     fetch("/PBL4/updatePassword",{
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },

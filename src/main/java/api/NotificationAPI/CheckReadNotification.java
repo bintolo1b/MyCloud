@@ -18,10 +18,9 @@ public class CheckReadNotification extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("UTF-8");
-		
 		StringBuilder sb = new StringBuilder();
 		String line = "";
 		BufferedReader reader = req.getReader();

@@ -626,9 +626,10 @@ document.getElementById('renameForm').addEventListener('submit', function(event)
     else if (isFolder === 'false'){
         url = '/PBL4/renamefile';
     }
+    console.log(url);
 
     fetch(url,{
-		method: 'POST',
+		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json'
 		},
