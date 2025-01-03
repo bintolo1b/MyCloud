@@ -139,7 +139,7 @@ public class FolderBO {
 			
 			try {
 				deleteFolderOnServer(uploadFolder);
-			} catch (IOException e1) { //luc nay xay ra su bat dong bo giua database va server
+			} catch (IOException e1) {
 				e1.printStackTrace(); 
 			}
 			

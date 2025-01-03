@@ -7,12 +7,12 @@
 		<table id="out-table">
 			<tbody id="outbox-body">
 				<c:forEach items="${mails}" var="mail">
-					<c:url value="/userhomepage/mail/readmail" var="readmailurl">
+					<c:url value="/userhomepage/mail/readoutbox" var="readOutboxUrl">
 						<c:param name="mailId" value="${mail.id}"></c:param>
 					</c:url> 
 						
 					<tr>	          
-						<td class="tr_url" style="display: none">${readmailurl}</td>
+						<td class="tr_url" style="display: none">${readOutboxUrl}</td>
 						<td>${mail.receiverUsername}</td>
 						<td class="subject-cell" style="width: 900px">${mail.topic}</td>
 						<td>${mail.formattedSentDate}</td>
